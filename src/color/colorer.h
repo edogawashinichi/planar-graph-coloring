@@ -7,9 +7,6 @@
 
 namespace PlanarGraphColoring {
 
-constexpr int COLORS = 4;
-constexpr int UNDEF_COLOR = -1;
-
 class Colorer {
 public:
   virtual void run(const Graph& input, ColorResult* output) = 0;

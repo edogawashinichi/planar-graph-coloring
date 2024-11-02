@@ -28,6 +28,7 @@ src_path="./"
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
 g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${src_path}math.cxx
+
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"
 else

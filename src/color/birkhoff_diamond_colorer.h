@@ -14,7 +14,7 @@ public:
   virtual bool colorInterior(const Graph& birkhoff_diamond, ColorResult* output) override;
   bool colorInterior(const BirkhoffDiamond& birkhoff_diamond, ColorRepresentation* color);
 protected:
-  void colorBoundaryDFS(const BirkhoffDiamond& birkhoff_diamond, std::vector<int>& state, const size_t cur_index, ColorResult* output);
+  void colorBoundaryDFS(const BirkhoffDiamond& birkhoff_diamond, std::vector<size_t>& state, const size_t cur_index, ColorResult* output);
   bool colorInteriorDFS(const BirkhoffDiamond& birkhoff_diamond, const size_t cur_index, ColorRepresentation* color);
 /*
   void colorBoundaryBruteForce(const BirkhoffDiamond& bd, ColorResults* color_results);

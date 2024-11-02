@@ -33,11 +33,7 @@ void test_0() {
       std::cout << "get(" << i << ") passed!\n";
     }
   }/// for
-  if (res) {
-    PGC__SHOW_ENDL(PGC__TEST_PASS_INFO(0))
-  } else {
-    PGC__SHOW_ENDL(PGC__TEST_FAIL_INFO(0))
-  }
+  PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
@@ -67,16 +63,30 @@ void test_1() {
       std::cout << "get(" << i << ") passed!\n";
     }
   }/// for
-  if (res) {
-    PGC__SHOW_ENDL(PGC__TEST_PASS_INFO(1))
-  } else {
-    PGC__SHOW_ENDL(PGC__TEST_FAIL_INFO(1))
-  }
-    PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+  PGC__TEST_RESULT_INFO(res, 1)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
 }/// test_1
+
+void test_2() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
+  const std::vector<size_t> input = {2, 3, 4, 1, 0};
+  const std::vector<size_t> exp   = {4, 3, 0, 1, 2};
+  Transformation t(input);
+  std::vector<size_t> output = t.inverse();
+  bool res = (output == exp);
+  PGC__SHOW_ENDL("input:")
+  PGC__SHOW_VEC_WITH_INDEX(input)
+  PGC__SHOW_ENDL("output:")
+  PGC__SHOW_VEC_WITH_INDEX(output)
+  PGC__SHOW_ENDL("exp:")
+  PGC__SHOW_VEC_WITH_INDEX(exp)
+  PGC__TEST_RESULT_INFO(res, 2)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
+}/// test_2
 
 int main(int argc, char* argv[]) {
   test_0();
   test_1();
+  test_2();
   return 0;
 }

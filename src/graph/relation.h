@@ -23,12 +23,12 @@ public:
      type_1 - vertex symmetry
      type_2 - Kempe chain interchange */
   int type_;
-  std::vector<int> color_mapper_; /// for type_0 type_2
-  std::vector<int> vertex_mapper_; /// for type_1
+  std::vector<size_t> color_mapper_; /// for type_0 type_2
+  std::vector<size_t> vertex_mapper_; /// for type_1
 public:
   Operation() = default;
   Operation(const int type);
-  Operation(const int type, const std::vector<int>& mapper);
+  Operation(const int type, const std::vector<size_t>& mapper);
 };/// class Operation
 
 constexpr size_t HASH_MAX_N = 10000;
@@ -42,6 +42,8 @@ public:
   std::unordered_map<size_t, std::vector<size_t>> successors_;
   std::unordered_map<size_t, std::vector<size_t>> predecessors_;
   std::unordered_map<std::pair<size_t, size_t>, Operation, pair_hash> arcs_;
+public:
+  void add(const size_t i, const size_t j, const int type, const std::vector<size_t>& mapper, const std::vector<size_t>& imapper);
 };/// class Relation
 
 }/// namespace PlanarGraphColoring

@@ -9,7 +9,7 @@ using namespace PlanarGraphColoring;
 void test_1() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
   BirkhoffDiamond bd;
-  const std::vector<int> colors = {0,1,0,1,0,2,-1,-1,-1,-1};
+  const std::vector<size_t> colors = {0,1,0,1,0,2,UNDEF_COLOR,UNDEF_COLOR,UNDEF_COLOR,UNDEF_COLOR};
   NaiveColorRepresentation ncr(colors);
   ColorRepresentation* cr = &ncr;
   BirkhoffDiamondColorer bdc;
@@ -22,7 +22,7 @@ void test_1() {
 void test_2() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
   BirkhoffDiamond bd;
-  const std::vector<int> colors = {0,1,0,1,0,3,-1,-1,-1,-1};
+  const std::vector<size_t> colors = {0,1,0,1,0,3,UNDEF_COLOR,UNDEF_COLOR,UNDEF_COLOR,UNDEF_COLOR};
   NaiveColorRepresentation ncr(colors);
   ColorRepresentation* cr = &ncr;
   BirkhoffDiamondColorer bdc;

@@ -9,37 +9,71 @@
 namespace PlanarGraphColoring {
 
 bool BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs) {
-  PGC__SHOW_ENDL("lhs show:")
+  std::vector<size_t> mapper;
+  return isIsomorphismByVertexSymmetry(lhs, rhs, &mapper);
+}/// BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry
+
+bool BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry(const std::vector<size_t>& lhs, const std::vector<size_t>& rhs, std::vector<size_t>* mapper) {
+  const NaiveColorRepresentation ncr_lhs(lhs);
+  const NaiveColorRepresentation ncr_rhs(rhs);
+  return isIsomorphismByVertexSymmetry(ncr_lhs, ncr_rhs, mapper);
+}/// BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry
+
+bool BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs, std::vector<size_t>* mapper) {
+  /*PGC__SHOW_ENDL("start isIsomorphismByVertexSymmetry")
+  PGC__SHOW_ENDL("lhs:")
   lhs.show();
-  PGC__SHOW_ENDL("rhs show:")
-  rhs.show();
+  PGC__SHOW_ENDL("rhs:")
+  rhs.show();*/
   BirkhoffDiamond bd;
   ColorTransformer ct;
+  bool res = false;
+  mapper->clear();
   for (size_t i = 0; i < bd.getVS().size(); ++i) {
-    std::cout << i << "th:\n";
     NaiveColorRepresentation ncr;
     ct.transformByVertexSymmetry(bd.getVS().get(i), lhs, &ncr);
-    PGC__SHOW_ENDL("transform by vertex symmetry:")
-    ncr.show();
-    if (rhs.equal(ncr)) return true;
+    if (rhs.equal(ncr)) {
+      *mapper = bd.getVS().get(i);
+      res = true;
+      break;
+    }
   }
-  return false;
+  /*PGC__SHOW_ENDL("mapper:")
+  PGC__SHOW_VEC_WITH_INDEX((*mapper))
+  PGC__SHOW_VAR(res)
+  PGC__SHOW_ENDL("end isIsomorphismByVertexSymmetry")*/
+  return res;
 }/// BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry
 
 bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs) {
+  std::vector<size_t> mapper;
+  return isIsomorphismByColorSymmetry(lhs, rhs, &mapper);
+}/// BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry
+
+bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const std::vector<size_t>& lhs, const std::vector<size_t>& rhs, std::vector<size_t>* mapper) {
+  const NaiveColorRepresentation ncr_lhs(lhs);
+  const NaiveColorRepresentation ncr_rhs(rhs);
+  return isIsomorphismByColorSymmetry(ncr_lhs, ncr_rhs, mapper);
+}/// BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry
+
+bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs, std::vector<size_t>* mapper) {
   /// assuming lhs.size == rhs.size
-  PGC__SHOW_ENDL("lhs show:")
+  PGC__SHOW_ENDL("start isIsomorphismByColorSymmetry")
+  PGC__SHOW_ENDL("lhs:")
   lhs.show();
-  PGC__SHOW_ENDL("rhs show:")
+  PGC__SHOW_ENDL("rhs:")
   rhs.show();
-  std::unordered_map<int, int> f, g;
+  std::unordered_map<size_t, size_t> f, g;
+  bool res = true;
+  mapper->clear();
   for (size_t i = 0; i < lhs.size(); ++i) {
     if (f.count(lhs.get(i))) {
       if (f[lhs.get(i)] != rhs.get(i)) {
         PGC__SHOW_ENDL("false")
         std::cout << lhs.get(i) << "->" << f[lhs.get(i)] << "\n";
         std::cout << "duplicate " << lhs.get(i) << "->" << rhs.get(i) << "\n";
-        return false;
+        res = false;
+        break;
       }
     }
     if (g.count(rhs.get(i))) {
@@ -47,7 +81,8 @@ bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorReprese
         PGC__SHOW_ENDL("false")
         std::cout << g[rhs.get(i)] << "<-" << rhs.get(i) << "\n";
         std::cout << "duplicate " << lhs.get(i) << "<-" << rhs.get(i) << "\n";
-        return true;
+        res = false;
+        break;
       }
     }
     if (!f.count(lhs.get(i)) && !g.count(rhs.get(i))) {
@@ -55,9 +90,15 @@ bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorReprese
       g[rhs.get(i)] = lhs.get(i);
     }
   }
-  PGC__SHOW_ENDL("true")
-  PGC__SHOW_MII(f)
-  return true;
+  mapper->resize(f.size());
+  for (const auto& kv : f) {
+    (*mapper)[kv.first] = kv.second;
+  }
+  PGC__SHOW_ENDL("mapper:")
+  PGC__SHOW_VEC_WITH_INDEX((*mapper))
+  PGC__SHOW_VAR(res)
+  PGC__SHOW_ENDL("end isIsomorphismByColorSymmetry")
+  return res;
 }/// BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry
 
 bool BirkhoffDiamondColorJudger::isIsomorphismByKempeChainTransformation(const ColorRepresentation& lhs, const ColorRepresentation& rhs) {

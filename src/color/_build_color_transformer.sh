@@ -24,10 +24,11 @@ if [ -f ${obj_file} ]; then
 fi
 
 src_path="./"
+algebra_src_path="../algebra/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} color_transformer.cxx naive_color_representation.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} color_transformer.cxx naive_color_representation.cxx ${algebra_src_path}symmetry.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

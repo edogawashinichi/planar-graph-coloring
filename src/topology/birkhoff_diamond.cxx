@@ -8,7 +8,7 @@ namespace PlanarGraphColoring {
 BirkhoffDiamond::BirkhoffDiamond() {
   k_ = 6; /// boundary size
   n_ = 6 + 4; /// total
-  const std::vector<std::vector<int>> edges = {
+  const std::vector<std::vector<size_t>> edges = {
     {0, 1}, {0, 5}, {0, 6},
     {1, 2}, {1, 6}, {1, 7},
     {2, 3}, {2, 7}, {2, 8},
@@ -38,7 +38,7 @@ BirkhoffDiamond::BirkhoffDiamond() {
     }
   }
 
-  std::vector<std::vector<int>> mappers = {
+  std::vector<std::vector<size_t>> mappers = {
     {0, 5, 4, 3, 2, 1}, /* vertical flip */
     {3, 2, 1, 0, 5, 4}, /* horizontal flip */
     {3, 4, 5, 0, 1, 2}, /* (counter)clockwise 180 degrees rotation */

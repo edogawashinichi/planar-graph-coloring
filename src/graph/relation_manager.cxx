@@ -21,4 +21,8 @@ void RelationManager::showMapper() const {
   mapper_->show(20);
 }/// RelationManager::showMapper
 
+void RelationManager::addRelation(const size_t i, const size_t j, const int type, const std::vector<size_t>& mapper, const std::vector<size_t>& imapper) {
+  relation_->add(i, j, type, mapper, imapper);
+}/// RelationManager::addRelation
+
 }/// namespace PlanarGraphColoring

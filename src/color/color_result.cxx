@@ -19,12 +19,18 @@ ColorResult::~ColorResult() {
   colors_.clear();
 }/// ColorResult::~ColorResult
 
-std::vector<int> ColorResult::getInfo(const size_t index) const {
+std::vector<size_t> ColorResult::getInfo(const size_t index) const {
   /// no safety check
   return colors_[index]->getVector();
 }/// ColorResult::getInfo
 
-void ColorResult::append(const std::vector<int>& color) {
+std::vector<size_t> ColorResult::getInfo(const size_t index, const size_t length) const {
+  /// no safety check
+  const auto& whole = colors_[index]->getVector();
+  return std::vector<size_t>(whole.begin(), whole.begin() + length);
+}/// ColorResult::getInfo
+
+void ColorResult::append(const std::vector<size_t>& color) {
   /// currently realized by NaiveColorRepresention
   ColorRepresentation* p = new NaiveColorRepresentation();
   colors_.emplace_back(p);

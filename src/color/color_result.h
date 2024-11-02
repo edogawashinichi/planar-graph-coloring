@@ -12,11 +12,15 @@ protected:
   std::vector<ColorRepresentation*> colors_;
 public:
   ColorResult();
-  void append(const std::vector<int>& color);
+  void append(const std::vector<size_t>& color);
   inline size_t size() const {
     return colors_.size();
   }
-  std::vector<int> getInfo(const size_t index) const;
+  inline size_t n() const {
+    return colors_.front()->size();
+  }
+  std::vector<size_t> getInfo(const size_t index) const;
+  std::vector<size_t> getInfo(const size_t index, const size_t length) const;
   inline ColorRepresentation* get(const size_t index) {
     return colors_[index];
   }

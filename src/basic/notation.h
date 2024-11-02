@@ -8,13 +8,25 @@
 
 namespace PlanarGraphColoring {
 
-#define PGC__SHOW_VEC__(vec) \
+#define PGC__STR(s) \
+std::string(#s)
+
+#define PGC__SHOW_VAR(var) \
+std::cout << PGC__STR(var) << "=" << (var) << "\n";
+
+#define PGC__SHOW_2VAR(var, war) \
+std::cout << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (war) << "\n";
+
+#define PGC__SHOW_3VAR(uar, var, war) \
+std::cout << PGC__STR(uar) << "=" << (uar) << "," << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (war) << "\n";
+
+#define PGC__SHOW_VEC(vec) \
 for (const auto& a : vec) {\
   std::cout << a << " ";\
 }\
 std::cout << "\n";
 
-#define PGC__SHOW_VEC_WITH_INDEX__(vec) \
+#define PGC__SHOW_VEC_WITH_INDEX(vec) \
 for (size_t i = 0; i < vec.size(); ++i) {\
   std::cout << i << "th:" << vec[i] << " ";\
 }\
@@ -56,11 +68,8 @@ std::cout << "\n";
 #define PGC__SHOW_MIVI__(map) \
 for (const auto& kv : map) {\
   std::cout << kv.first << ": ";\
-  PGC__SHOW_VEC__(kv.second) \
+  PGC__SHOW_VEC(kv.second) \
 }
-
-#define PGC__STR(s) \
-std::string(#s)
 
 #define PGC__STR_RED(s) \
 std::string("\033[31m") + std::string(s) + std::string("\033[0m")

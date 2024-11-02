@@ -16,21 +16,21 @@ public:
   inline const VertexSymmetry& getVS() const {
     return vertex_symmetry_;
   }
-  inline std::vector<int> getVS(const int index) const {
+  inline std::vector<size_t> getVS(const size_t index) const {
     return vertex_symmetry_.get(index);
   }
-  inline std::vector<int> getBBN(const int vertex) const {
-    return boundary_backward_neighbors_.count(vertex) ? boundary_backward_neighbors_.at(vertex) : std::vector<int>();
+  inline std::vector<size_t> getBBN(const size_t vertex) const {
+    return boundary_backward_neighbors_.count(vertex) ? boundary_backward_neighbors_.at(vertex) : std::vector<size_t>();
   }
-  inline std::vector<int> getIBN(const int vertex) const {
-    return interior_backward_neighbors_.count(vertex) ? interior_backward_neighbors_.at(vertex) : std::vector<int>();
+  inline std::vector<size_t> getIBN(const size_t vertex) const {
+    return interior_backward_neighbors_.count(vertex) ? interior_backward_neighbors_.at(vertex) : std::vector<size_t>();
   }
   virtual void show() const override;
 
 protected:
   VertexSymmetry vertex_symmetry_;
-  std::unordered_map<int, std::vector<int>> boundary_backward_neighbors_;
-  std::unordered_map<int, std::vector<int>> interior_backward_neighbors_;
+  std::unordered_map<size_t, std::vector<size_t>> boundary_backward_neighbors_;
+  std::unordered_map<size_t, std::vector<size_t>> interior_backward_neighbors_;
 };/// class BirkhoffDiamond
 
 }/// namespace PlanarGraphColoring

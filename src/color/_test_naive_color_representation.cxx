@@ -10,7 +10,7 @@ using namespace PlanarGraphColoring;
 void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
   NaiveColorRepresentation ncr;
-  std::vector<int> data = {
+  std::vector<size_t> data = {
     1, 0, 1, 2, 1, 3
   };
   for (size_t i = 0; i < data.size(); ++i) {

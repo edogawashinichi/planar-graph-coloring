@@ -26,9 +26,9 @@ void test_0() {
     std::sort(neis.begin(), neis.end());
     if (neis != neighbors[i]) {
       std::cout << "neis:\n";
-      PGC__SHOW_VEC__(neis)
+      PGC__SHOW_VEC(neis)
       std::cout << "neighbors[i]:\n";
-      PGC__SHOW_VEC__(neighbors[i])
+      PGC__SHOW_VEC(neighbors[i])
       std::cout << "getNeighbors(" << i << ") failed!\n";
       res = false;
       break;
