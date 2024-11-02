@@ -19,23 +19,31 @@ void BirkhoffDiamondRelationBuilder::run(const Graph& birkhoff_diamond, const Co
   const size_t n = color_result.n();
   const size_t k = derived.boundarySize();
   PGC__SHOW_2VAR(size, n)
-  size_t cnt = 0;
+  size_t cnt_vertex = 0;
+  size_t cnt_color = 0;
   for (size_t i = 0; i < color_result.size(); ++i) {
     PGC__SHOW_VAR(i)
     for (size_t j = i + 1; j < color_result.size(); ++j) {
       //PGC__SHOW_2VAR(i, j)
-      int type = 0;
+      int type = -1;
       std::vector<size_t> mapper(k);
       std::vector<size_t> imapper(k);
       if (bdcj.isIsomorphismByVertexSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &mapper)) {
-        ++cnt;
-        PGC__SHOW_3VAR(i, j, cnt)
+        ++cnt_vertex;
+        PGC__SHOW_3VAR(i, j, cnt_vertex)
+        type = 1;
         ct.inverseVertexSymmetry(mapper, &imapper);
+        relation_manager->addRelation(i, j, type, mapper, imapper);
+      } else if (bdcj.isIsomorphismByColorSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &mapper)) {
+        ++cnt_color;
+        PGC__SHOW_3VAR(i, j, cnt_color)
+        type = 0;
+        ct.inverseColorSymmetry(mapper, &imapper);
         relation_manager->addRelation(i, j, type, mapper, imapper);
       }
     }
   }
-  PGC__SHOW_VAR(cnt)
+  PGC__SHOW_2VAR(cnt_vertex, cnt_color)
   PGC__SHOW_ENDL("end BirkhoffDiamondRelationBuilder")
 }/// BirkhoffDiamondRelationBuilder::run
 
