@@ -9,14 +9,14 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
   BirkhoffDiamond bd;
   bd.show();
-  const std::unordered_map<int, std::vector<int>> boundary_backward_neighbors = {
+  const std::unordered_map<size_t, std::vector<size_t>> boundary_backward_neighbors = {
     {1, {0}},
     {2, {1}},
     {3, {2}},
     {4, {3}},
     {5, {0, 4}}
   };
-  const std::unordered_map<int, std::vector<int>> interior_backward_neighbors = {
+  const std::unordered_map<size_t, std::vector<size_t>> interior_backward_neighbors = {
     {6, {0, 1, 5}},
     {7, {1, 2, 6}},
     {8, {2, 3, 4, 7}},
@@ -25,9 +25,9 @@ void test_0() {
   bool res = true;
   for (size_t vertex = 0; vertex < 10; ++vertex) {
   //for (const auto& kv : boundary_backward_neighbors) {
-    //const int vertex = kv.first;
+    //const size_t vertex = kv.first;
     if (!boundary_backward_neighbors.count(vertex)) {
-      if (bd.getBBN(vertex) != std::vector<int>()) {
+      if (bd.getBBN(vertex) != std::vector<size_t>()) {
         std::cout << "vertex " << vertex << " getBoundaryBackwardNeighbors failed!\n";
         res = false;
         break;
@@ -46,9 +46,9 @@ void test_0() {
   }
   for (size_t vertex = 0; vertex < 10; ++vertex) {
   //for (const auto& kv : interior_backward_neighbors) {
-    //const int vertex = kv.first;
+    //const size_t vertex = kv.first;
     if (!interior_backward_neighbors.count(vertex)) {
-      if (bd.getIBN(vertex) != std::vector<int>()) {
+      if (bd.getIBN(vertex) != std::vector<size_t>()) {
         std::cout << "vertex " << vertex << " getInteriorBackwardNeighbors failed!\n";
         res = false;
         break;
@@ -65,7 +65,7 @@ void test_0() {
       std::cout << "vertex " << vertex << " getInteriorBackwardNeighbors passed!\n";
     }
   }
-  std::vector<std::vector<int>> mappers = {
+  std::vector<std::vector<size_t>> mappers = {
     {0, 5, 4, 3, 2, 1}, /* vertical reflection */
     {3, 2, 1, 0, 5, 4}, /* horizontal reflection */
     {3, 4, 5, 0, 1, 2}, /* (counter)clockwise 180 degrees rotation */

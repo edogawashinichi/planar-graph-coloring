@@ -10,7 +10,7 @@ using namespace PlanarGraphColoring;
 
 void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-  const std::vector<std::vector<int>> mappers = {
+  const std::vector<std::vector<size_t>> mappers = {
     {0, 1, 2, 3}, /// identity
     {3, 0, 1, 2}, /// rotate 90 degrees counterclockwise (or 270 degrees clockwise)
     {2, 3, 0, 1}, /// rotate 180 degrees
@@ -24,7 +24,7 @@ void test_0() {
   vs.show();
   bool res = true;
   for (size_t i = 0; i < vs.size(); ++i) {
-    std::vector<int> mapper = vs.get(i);
+    std::vector<size_t> mapper = vs.get(i);
     if (mapper != mappers[i]) {
       std::cout << "get(" << i << ") failed!\n";
       res = false;
@@ -39,7 +39,7 @@ void test_0() {
 
 void test_1() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
-  const std::vector<std::vector<int>> mappers = {
+  const std::vector<std::vector<size_t>> mappers = {
     {0, 1, 2, 3}, /// identity
     {3, 0, 1, 2}, /// rotate 90 degrees counterclockwise (or 270 degrees clockwise)
     {2, 3, 0, 1}, /// rotate 180 degrees
@@ -54,7 +54,7 @@ void test_1() {
   vs.show();
   bool res = true;
   for (size_t i = 0; i < vs.size(); ++i) {
-    std::vector<int> mapper = vs.get(i);
+    std::vector<size_t> mapper = vs.get(i);
     if (mapper != mappers[i]) {
       std::cout << "get(" << i << ") failed!\n";
       res = false;

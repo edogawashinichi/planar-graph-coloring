@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../topology/graph.h"
+#include "../basic/graph.h"
 #include "../color/color_result.h"
 #include "relation_manager.h"
 

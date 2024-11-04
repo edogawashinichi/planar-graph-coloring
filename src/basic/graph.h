@@ -1,5 +1,6 @@
 /// graph.h
-// undirected simple graph for coloring
+
+/// undirected simple graph for coloring
 
 #pragma once
 

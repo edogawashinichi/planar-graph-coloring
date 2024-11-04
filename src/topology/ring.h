@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "graph.h"
+#include "../basic/graph.h"
 
 namespace PlanarGraphColoring {
 

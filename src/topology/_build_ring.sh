@@ -24,10 +24,11 @@ if [ -f ${obj_file} ]; then
 fi
 
 src_path="./"
+basic_src_path="../basic/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${src_path}graph.cxx ${src_path}ring.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${basic_src_path}graph.cxx ${src_path}ring.cxx
 echo "${obj_file} generated!"
 
 ./${obj_file}

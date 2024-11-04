@@ -93,7 +93,7 @@ PGC__STR_BLUE(PGC__STR(test_##i)) + " " + PGC__STR_RED("FAILED") + "!"
 PGC__STR_BLUE(PGC__STR(test_##i)) + " " + PGC__STR_GREEN("PASSED") + "!"
 
 #define PGC__TEST_SEPAR(i) \
-PGC__STR_YELLOW(std::string(32, '-')) + PGC__STR_BLUE(PGC__STR(test_##i)) + PGC__STR_YELLOW(std::string(32, '-'))
+PGC__STR_YELLOW(std::string(26, '-')) + PGC__STR_BLUE(PGC__STR(test_##i)) + PGC__STR_YELLOW(std::string(26, '-'))
 
 #define PGC__SHOW_ENDL(s) \
 std::cout << (s) << "\n";

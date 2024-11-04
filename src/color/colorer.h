@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../topology/graph.h"
+#include "../basic/graph.h"
 #include "color_result.h"
 
 namespace PlanarGraphColoring {
