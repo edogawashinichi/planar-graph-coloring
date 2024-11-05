@@ -10,19 +10,19 @@ using namespace PlanarGraphColoring;
 
 void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-  const int k = 4; /// boundary size
-  const int n = 5; /// total
-  const std::vector<std::vector<int>> edges = {
+  const size_t k = 4; /// boundary size
+  const size_t n = 5; /// total
+  const std::vector<std::vector<size_t>> edges = {
     {0, 1}, {1, 2}, {2, 3}, {3, 0}, {4, 1}, {4, 3}
   };
   Ring ring(k, n, edges);
   ring.show();
   bool res = true;
-  const std::vector<std::vector<int>> neighbors = {
+  const std::vector<std::vector<size_t>> neighbors = {
     {1, 3}, {0, 2, 4}, {1, 3}, {0, 2, 4}, {1, 3}
   };
-  for (int i = 0; i < n; ++i) {
-    std::vector<int> neis = ring.getNeighbors(i);
+  for (size_t i = 0; i < n; ++i) {
+    std::vector<size_t> neis = ring.getNeighbors(i);
     std::sort(neis.begin(), neis.end());
     if (neis != neighbors[i]) {
       std::cout << "neis:\n";

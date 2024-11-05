@@ -13,7 +13,7 @@ protected:
   size_t k_; /// size of the boundary 
 public:
   Ring() = default;
-  Ring(const size_t k, const size_t n, const std::vector<std::vector<int>>& edges);
+  Ring(const size_t k, const size_t n, const std::vector<std::vector<size_t>>& edges);
   inline size_t boundarySize() const {
     return k_;
   }

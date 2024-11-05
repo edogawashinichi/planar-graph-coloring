@@ -12,11 +12,11 @@ if (neighbors_.count(u)) {\
 
 namespace PlanarGraphColoring {
 
-Graph::Graph(const size_t n, const std::vector<std::vector<int>>& edges) {
+Graph::Graph(const size_t n, const std::vector<std::vector<size_t>>& edges) {
   n_ = n;
   for (const auto& edge : edges) {
-    const int u = edge[0];
-    const int v = edge[1];
+    const size_t u = edge[0];
+    const size_t v = edge[1];
     __INSERT(u, v)
     __INSERT(v, u)
   }
@@ -34,9 +34,8 @@ void Graph::show() const {
   }
 }/// Graph::show
 
-std::vector<int> Graph::getNeighbors(const int vertex) const{
-  /// no safety check
-  return neighbors_.at(vertex);
+std::vector<size_t> Graph::getNeighbors(const size_t vertex) const{
+  return neighbors_.count(vertex) ? neighbors_.at(vertex) : std::vector<size_t>();
 }/// Graph::getNeighbors
 
 }/// namespace PlanarGraphColoring

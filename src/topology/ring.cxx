@@ -5,7 +5,7 @@
 
 namespace PlanarGraphColoring {
 
-Ring::Ring(const size_t k, const size_t n, const std::vector<std::vector<int>>& edges) :
+Ring::Ring(const size_t k, const size_t n, const std::vector<std::vector<size_t>>& edges) :
   Graph(n, edges), k_(k) {
 }/// Ring::Ring
 
