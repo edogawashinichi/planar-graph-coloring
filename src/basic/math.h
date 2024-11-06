@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "notation.h"
 #include <vector>
 #include <functional>
 

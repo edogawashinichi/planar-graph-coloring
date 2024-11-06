@@ -6,6 +6,7 @@
 namespace PlanarGraphColoring {
 
 void Mapper::show(const size_t n) const {
+  if (!PGC__DEBUG_MODE) return;
   size_t i = 0;
   for (const auto& kv : index2coloring_) {
     if (i++ >= n) break;

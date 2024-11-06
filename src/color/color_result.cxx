@@ -2,7 +2,7 @@
 
 #include "color_result.h"
 #include "naive_color_representation.h"
-#include <iostream>
+#include "../basic/notation.h"
 
 namespace PlanarGraphColoring {
 
@@ -40,6 +40,7 @@ void ColorResult::append(const std::vector<size_t>& color) {
 }/// ColorResult::append
 
 void ColorResult::show() const {
+  if (!PGC__DEBUG_MODE) return;
   for (size_t i = 0; i < colors_.size(); ++i) {
     std::cout << i << "th: ";
     colors_[i]->show();
@@ -47,6 +48,7 @@ void ColorResult::show() const {
 }/// ColorResult::show
 
 void ColorResult::show(const size_t n) const {
+  if (!PGC__DEBUG_MODE) return;
   std::cout << "size: " << n << "/" << colors_.size() << "\n";
   size_t k = 0;
   for (size_t i = 0; i < colors_.size(); ++i) {

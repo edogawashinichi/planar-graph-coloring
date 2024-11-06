@@ -13,7 +13,9 @@ void BirkhoffDiamondColorer::run(const Graph& birkhoff_diamond, ColorResult* out
 }/// BirkhoffDiamondColorer::run
 
 bool BirkhoffDiamondColorer::colorInterior(const Graph& birkhoff_diamond, ColorResult* output) {
-  PGC__SHOW_ENDL("start colorInterior")
+  if (PGC__DEBUG_MODE) {
+    PGC__SHOW_ENDL("start colorInterior")
+  }
   const BirkhoffDiamond& derived = dynamic_cast<const BirkhoffDiamond&>(birkhoff_diamond);
   bool res = false;
   for (size_t i = 0; i < output->size(); ++i) {
@@ -22,8 +24,10 @@ bool BirkhoffDiamondColorer::colorInterior(const Graph& birkhoff_diamond, ColorR
     res = res || tmp;
     //res = res || colorInterior(derived, color);/// logic operation shortcut
   }
-  output->show(20);
-  PGC__SHOW_ENDL("end colorInterior")
+  if (PGC__DEBUG_MODE) {
+    output->show(20);
+    PGC__SHOW_ENDL("end colorInterior")
+  }
   return res;
 }/// BirkhoffDiamondColorer::colorInterior
 
@@ -49,17 +53,21 @@ bool BirkhoffDiamondColorer::colorInteriorDFS(const BirkhoffDiamond& birkhoff_di
 }/// Colorer::colorInteriorDFS
 
 void BirkhoffDiamondColorer::colorBoundary(const Graph& birkhoff_diamond, ColorResult* output) {
-  PGC__SHOW_ENDL("start colorBoundary")
+  if (PGC__DEBUG_MODE) {
+    PGC__SHOW_ENDL("start colorBoundary")
+  }
   const BirkhoffDiamond& derived = dynamic_cast<const BirkhoffDiamond&>(birkhoff_diamond);
   std::vector<size_t> state(derived.size(), UNDEF_COLOR);
   colorBoundaryDFS(derived, state, 0, output);
-  PGC__SHOW_ENDL("output:")
-  output->show(20);
-  PGC__SHOW_ENDL("end colorBoundary")
+  if (PGC__DEBUG_MODE) {
+    PGC__SHOW_ENDL("output:")
+    output->show(20);
+    PGC__SHOW_ENDL("end colorBoundary")
+  }
 }/// BirkhoffDiamondColorer::colorBoundary
 
 void BirkhoffDiamondColorer::colorBoundaryDFS(const BirkhoffDiamond& birkhoff_diamond, std::vector<size_t>& state, const size_t cur_index, ColorResult* output) {
-  //std::cout << "colorBoundaryDFS cur_index: " << cur_index << "\n";
+  DEBUG << "colorBoundaryDFS cur_index: " << cur_index << "\n";
   if (cur_index == birkhoff_diamond.boundarySize()) {
     output->append(state);
     return;

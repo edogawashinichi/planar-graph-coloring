@@ -26,11 +26,11 @@ void test_0() {
   for (size_t i = 0; i < vs.size(); ++i) {
     std::vector<size_t> mapper = vs.get(i);
     if (mapper != mappers[i]) {
-      std::cout << "get(" << i << ") failed!\n";
+      DEBUG << "get(" << i << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "get(" << i << ") passed!\n";
+      DEBUG << "get(" << i << ") passed!\n";
     }
   }/// for
   PGC__TEST_RESULT_INFO(res, 0)
@@ -56,11 +56,11 @@ void test_1() {
   for (size_t i = 0; i < vs.size(); ++i) {
     std::vector<size_t> mapper = vs.get(i);
     if (mapper != mappers[i]) {
-      std::cout << "get(" << i << ") failed!\n";
+      DEBUG << "get(" << i << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "get(" << i << ") passed!\n";
+      DEBUG << "get(" << i << ") passed!\n";
     }
   }/// for
   PGC__TEST_RESULT_INFO(res, 1)
@@ -74,19 +74,20 @@ void test_2() {
   Transformation t(input);
   std::vector<size_t> output = t.inverse();
   bool res = (output == exp);
-  PGC__SHOW_ENDL("input:")
-  PGC__SHOW_VEC_WITH_INDEX(input)
-  PGC__SHOW_ENDL("output:")
-  PGC__SHOW_VEC_WITH_INDEX(output)
-  PGC__SHOW_ENDL("exp:")
-  PGC__SHOW_VEC_WITH_INDEX(exp)
+  if (PGC__DEBUG_MODE) {
+    PGC__SHOW_ENDL("input:")
+    PGC__SHOW_VEC_WITH_INDEX(input)
+    PGC__SHOW_ENDL("output:")
+    PGC__SHOW_VEC_WITH_INDEX(output)
+    PGC__SHOW_ENDL("exp:")
+    PGC__SHOW_VEC_WITH_INDEX(exp)
+  }
   PGC__TEST_RESULT_INFO(res, 2)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
 }/// test_2
 
-int main(int argc, char* argv[]) {
+PGC__MAIN_START
   test_0();
   test_1();
   test_2();
-  return 0;
-}
+PGC__MAIN_END

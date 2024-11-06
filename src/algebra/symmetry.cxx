@@ -32,6 +32,7 @@ std::vector<size_t> VertexSymmetry::get(const size_t index) const {
 }/// VertexSymmetry::get
 
 void VertexSymmetry::show() const {
+  if (!PGC__DEBUG_MODE) return;
   for (size_t i = 0; i < mappers_.size(); ++i) {
     const auto& mapper = mappers_[i];
     std::cout << i << "th:  ";

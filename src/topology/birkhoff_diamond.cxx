@@ -47,6 +47,7 @@ BirkhoffDiamond::BirkhoffDiamond() {
 }/// BirkhoffDiamond::BirkhoffDiamond
 
 void BirkhoffDiamond::show() const {
+  if (!PGC__DEBUG_MODE) return;
   PGC__SHOW_ENDL("boundary backward neighbors:")
   PGC__SHOW_MIVI__(boundary_backward_neighbors_)
   PGC__SHOW_ENDL("interior backward neighbors:")

@@ -1,7 +1,7 @@
 /// graph.cxx
 
 #include "graph.h"
-#include <iostream>
+#include "notation.h"
 
 #define __INSERT(u, v) \
 if (neighbors_.count(u)) {\
@@ -23,6 +23,7 @@ Graph::Graph(const size_t n, const std::vector<std::vector<size_t>>& edges) {
 }/// Graph::Graph
 
 void Graph::show() const {
+  if (!PGC__DEBUG_MODE) return;
   std::cout << "number of vertices: " << n_ << "\n";
   std::cout << "neighbors:\n";
   for (const auto& kv : neighbors_) {

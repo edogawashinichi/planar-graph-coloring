@@ -4,9 +4,14 @@
 
 #pragma once
 
+#include "global.h"
 #include <iostream>
 
 namespace PlanarGraphColoring {
+
+#define DEBUG \
+if (PGC__DEBUG_MODE) \
+  std::cout
 
 #define PGC__STR(s) \
 std::string(#s)
@@ -103,6 +108,36 @@ if (res) { \
   PGC__SHOW_ENDL(PGC__TEST_PASS_INFO(i)) \
 } else { \
   PGC__SHOW_ENDL(PGC__TEST_FAIL_INFO(i)) \
+}
+
+#define PGC__MAIN_START \
+int main(int argc, char* argv[]) { \
+  const std::vector<std::string> debugs = { \
+    "debug", "DEBUG", "d", "D", "Debug" \
+  }; \
+  if (argc > 1) { \
+    for (const auto& debug : debugs) { \
+      if (debug == std::string(argv[1])) { \
+        PGC__DEBUG_MODE = true; \
+        break; \
+      } \
+    } \
+    if (!PGC__DEBUG_MODE) { \
+      std::cout << "valid debug parameter:\n"; \
+      for (const auto& debug : debugs) { \
+        std::cout << RED << debug << RESET << " "; \
+      } \
+      std::cout << "\n"; \
+    } else { \
+      std::cout << GREEN << "in debug mode" << RESET << "!\n"; \
+    } \
+  } else { \
+    std::cout << "debug mode usage:\n"; \
+    std::cout << RED << "./_build_xx.sh debug" << RESET << "\n"; \
+  }
+
+#define PGC__MAIN_END \
+  return 0; \
 }
 
 }/// namespace PlanarGraphColoring

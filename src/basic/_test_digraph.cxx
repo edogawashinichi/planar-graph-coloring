@@ -25,27 +25,26 @@ void test_0() {
     std::vector<size_t> preds = digraph.getPredecessors(i);
     std::sort(preds.begin(), preds.end());
     if (preds != predecessors[i]) {
-      std::cout << "getPredecessors(" << i << ") failed!\n";
+      DEBUG << "getPredecessors(" << i << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "getPredecessors(" << i << ") passed!\n";
+      DEBUG << "getPredecessors(" << i << ") passed!\n";
     }
     std::vector<size_t> succs = digraph.getSuccessors(i);
     std::sort(succs.begin(), succs.end());
     if (succs != successors[i]) {
-      std::cout << "getSuccessors(" << i << ") failed!\n";
+      DEBUG << "getSuccessors(" << i << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "getSuccessors(" << i << ") passed!\n";
+      DEBUG << "getSuccessors(" << i << ") passed!\n";
     }
   }/// for
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
-int main(int argc, char* argv[]) {
+PGC__MAIN_START
   test_0();
-  return 0;
-}
+PGC__MAIN_END

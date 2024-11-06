@@ -21,11 +21,11 @@ void test_0() {
   bool res = true;
   for (size_t i = 0; i < N; ++i) {
     if (cr.getInfo(i) != data) {
-      std::cout << "getInfo(" << i << ") failed!\n";
+      DEBUG << "getInfo(" << i << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "getInfo(" << i << ") passed!\n";
+      DEBUG << "getInfo(" << i << ") passed!\n";
     }
   }
   PGC__TEST_RESULT_INFO(res, 0)
@@ -48,19 +48,18 @@ void test_1() {
   bool res = true;
   for (size_t i = 0; i < N; ++i) {
     if (cr.getInfo(i, L) != sub) {
-      std::cout << "getInfo(" << i << "," << L << ") failed!\n";
+      DEBUG << "getInfo(" << i << "," << L << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "getInfo(" << i << "," << L << ") passed!\n";
+      DEBUG << "getInfo(" << i << "," << L << ") passed!\n";
     }
   }
   PGC__TEST_RESULT_INFO(res, 1)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
 }/// test_1
 
-int main(int argc, char* argv[]) {
+PGC__MAIN_START
   test_0();
   test_1();
-  return 0;
-}
+PGC__MAIN_END

@@ -28,20 +28,20 @@ void test_0() {
     //const size_t vertex = kv.first;
     if (!boundary_backward_neighbors.count(vertex)) {
       if (bd.getBBN(vertex) != std::vector<size_t>()) {
-        std::cout << "vertex " << vertex << " getBoundaryBackwardNeighbors failed!\n";
+        DEBUG << "vertex " << vertex << " getBoundaryBackwardNeighbors failed!\n";
         res = false;
         break;
       } else {
-        std::cout << "vertex " << vertex << " getBoundaryBackwardNeighbors passed!\n";
+        DEBUG << "vertex " << vertex << " getBoundaryBackwardNeighbors passed!\n";
       }
       continue;
     }
     if (boundary_backward_neighbors.at(vertex) != bd.getBBN(vertex)) {
-      std::cout << "vertex " << vertex << " getBoundaryBackwardNeighbors failed!\n";
+      DEBUG << "vertex " << vertex << " getBoundaryBackwardNeighbors failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "vertex " << vertex << " getBoundaryBackwardNeighbors passed!\n";
+      DEBUG << "vertex " << vertex << " getBoundaryBackwardNeighbors passed!\n";
     }
   }
   for (size_t vertex = 0; vertex < 10; ++vertex) {
@@ -49,20 +49,20 @@ void test_0() {
     //const size_t vertex = kv.first;
     if (!interior_backward_neighbors.count(vertex)) {
       if (bd.getIBN(vertex) != std::vector<size_t>()) {
-        std::cout << "vertex " << vertex << " getInteriorBackwardNeighbors failed!\n";
+        DEBUG << "vertex " << vertex << " getInteriorBackwardNeighbors failed!\n";
         res = false;
         break;
       } else {
-        std::cout << "vertex " << vertex << " getInteriorBackwardNeighbors passed!\n";
+        DEBUG << "vertex " << vertex << " getInteriorBackwardNeighbors passed!\n";
       }
       continue;
     }
     if (interior_backward_neighbors.at(vertex) != bd.getIBN(vertex)) {
-      std::cout << "vertex " << vertex << " getInteriorBackwardNeighbors failed!\n";
+      DEBUG << "vertex " << vertex << " getInteriorBackwardNeighbors failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "vertex " << vertex << " getInteriorBackwardNeighbors passed!\n";
+      DEBUG << "vertex " << vertex << " getInteriorBackwardNeighbors passed!\n";
     }
   }
   std::vector<std::vector<size_t>> mappers = {
@@ -72,18 +72,17 @@ void test_0() {
   };
   for (size_t i = 0; i < mappers.size(); ++i) {
     if (mappers[i] != bd.getVS(i)) {
-      std::cout << i << "th getVertexSymmetry failed!\n";
+      DEBUG << i << "th getVertexSymmetry failed!\n";
       res = false;
       break;
     } else {
-      std::cout << i << "th getVertexSymmetry passed!\n";
+      DEBUG << i << "th getVertexSymmetry passed!\n";
     }
   }
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
-int main(int argc, char* argv[]) {
+PGC__MAIN_START
   test_0();
-  return 0;
-}
+PGC__MAIN_END

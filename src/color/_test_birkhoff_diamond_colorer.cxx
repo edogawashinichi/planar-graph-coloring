@@ -43,9 +43,8 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
-int main(int argc, char* argv[]) {
+PGC__MAIN_START
   test_0();
-  //test_1();
-  //test_2();
-  return 0;
-}
+  test_1();
+  test_2();
+PGC__MAIN_END

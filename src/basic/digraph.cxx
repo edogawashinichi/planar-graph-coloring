@@ -1,7 +1,7 @@
 /// digraph.cxx
 
 #include "digraph.h"
-#include <iostream>
+#include "notation.h"
 
 #define __INSERT(some, u, v) \
 if (some##_.count(u)) {\
@@ -23,6 +23,7 @@ Digraph::Digraph(const size_t n, const std::vector<std::vector<size_t>>& edges) 
 }/// Digraph::Digraph
 
 void Digraph::show() const {
+  if (!PGC__DEBUG_MODE) return;
   std::cout << "number of vertices: " << n_ << "\n";
   std::cout << "predecessors:\n";
   for (const auto& kv : predecessors_) {

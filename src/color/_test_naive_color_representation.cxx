@@ -20,18 +20,18 @@ void test_0() {
   bool res = true;
   for (size_t i = 0; i < data.size(); ++i) {
     if (ncr.get(i) != data[i]) {
-      std::cout << "get(" << i << ") failed!\n";
+      DEBUG << "get(" << i << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "get(" << i << ") passed!\n";
+      DEBUG << "get(" << i << ") passed!\n";
     }
   }/// for
   if (ncr.getVector() != data) {
-    std::cout << "getVector failed!\n";
+    DEBUG << "getVector failed!\n";
     res = false;
   } else {
-    std::cout << "getVector passed!\n";
+    DEBUG << "getVector passed!\n";
   }
   if (res) {
     PGC__SHOW_ENDL(PGC__TEST_PASS_INFO(0))
@@ -41,7 +41,6 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
-int main(int argc, char* argv[]) {
+PGC__MAIN_START
   test_0();
-  return 0;
-}
+PGC__MAIN_END

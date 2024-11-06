@@ -25,26 +25,21 @@ void test_0() {
     std::vector<size_t> neis = ring.getNeighbors(i);
     std::sort(neis.begin(), neis.end());
     if (neis != neighbors[i]) {
-      std::cout << "neis:\n";
+      DEBUG << "neis:\n";
       PGC__SHOW_VEC(neis)
-      std::cout << "neighbors[i]:\n";
+      DEBUG << "neighbors[i]:\n";
       PGC__SHOW_VEC(neighbors[i])
-      std::cout << "getNeighbors(" << i << ") failed!\n";
+      DEBUG << "getNeighbors(" << i << ") failed!\n";
       res = false;
       break;
     } else {
-      std::cout << "getNeighbors(" << i << ") passed!\n";
+      DEBUG << "getNeighbors(" << i << ") passed!\n";
     }
   }/// for
-  if (res) {
-    PGC__SHOW_ENDL(PGC__TEST_PASS_INFO(0))
-  } else {
-    PGC__SHOW_ENDL(PGC__TEST_FAIL_INFO(0))
-  }
+  PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
-int main(int argc, char* argv[]) {
+PGC__MAIN_START
   test_0();
-  return 0;
-}
+PGC__MAIN_END
