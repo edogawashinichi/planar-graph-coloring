@@ -5,6 +5,7 @@
 #include "relation_result.h"
 #include "mapper.h"
 #include "../color/color_result.h"
+#include "digraph_result.h"
 #include <memory>
 
 namespace PlanarGraphColoring {
@@ -16,13 +17,18 @@ public:
   void showColorResult() const;
   void showRelationResult() const;
   void showMapper() const;
+  void showDigraphResult() const;
+  const ColorResult* constColorResult() const;
   ColorResult* getColorResult();
   RelationResult* getRelationResult();
   Mapper* getMapper();
+  DigraphResult* getDigraphResult();
+  const DigraphResult* getDigraphResultConst() const;
 protected:
   std::unique_ptr<ColorResult> color_result_;
   std::unique_ptr<RelationResult> relation_result_;
   std::unique_ptr<Mapper> mapper_;
+  std::unique_ptr<DigraphResult> digraph_result_;
 };/// class RelationManager
 
 }/// namespace PlanarGraphColoring

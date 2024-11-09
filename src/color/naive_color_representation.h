@@ -15,6 +15,7 @@ protected:
   std::unordered_map<size_t, size_t> index2color_;
 public:
   NaiveColorRepresentation();
+  NaiveColorRepresentation(const NaiveColorRepresentation& rhs);
   NaiveColorRepresentation(const std::vector<size_t>& colors);
 
   virtual size_t size() const override;

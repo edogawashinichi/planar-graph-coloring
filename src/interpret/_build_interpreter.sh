@@ -8,7 +8,7 @@ if [ ! -d ${obj_path} ]; then
   mkdir ${obj_path}
 fi
 
-test_file="_test_birkhoff_diamond_relation_builder.cxx"
+test_file="_test_interpreter.cxx"
 parameter=""
 if [ $# -ge 1 ]; then
   parameter=$1
@@ -29,10 +29,12 @@ topology_src_path="../topology/"
 algebra_src_path="../algebra/"
 color_src_path="../color/"
 basic_src_path="../basic/"
+relation_src_path="../relation/"
+operator_src_path="../operator/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} birkhoff_diamond_relation_builder.cxx relation_manager.cxx relation_result.cxx relation.cxx mapper.cxx digraph_result.cxx ${topology_src_path}birkhoff_diamond.cxx ${topology_src_path}ring.cxx ${basic_src_path}graph.cxx ${algebra_src_path}symmetry.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${color_src_path}birkhoff_diamond_colorer.cxx ${basic_src_path}math.cxx ${color_src_path}birkhoff_diamond_color_judger.cxx ${color_src_path}color_transformer.cxx ${basic_src_path}global.cxx ${basic_src_path}digraph.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} interpreter.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}global.cxx 
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

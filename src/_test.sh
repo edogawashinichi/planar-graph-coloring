@@ -5,7 +5,8 @@ for path in $(ls); do
     continue
   fi
   echo "path: ${path}"
-  chmod +X -R ${path}
+  sudo chmod +x -R ${path}
+  echo "chmod result: $?"
   cd ${path}
   for file in $(ls *.sh); do
     echo "file: ${file}"

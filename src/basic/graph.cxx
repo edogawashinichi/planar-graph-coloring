@@ -35,6 +35,21 @@ void Graph::show() const {
   }
 }/// Graph::show
 
+void Graph::show(const size_t n) const {
+  if (!PGC__DEBUG_MODE) return;
+  std::cout << "number of vertices: " << n_ << "\n";
+  std::cout << "neighbors:\n";
+  size_t i = 0;
+  for (const auto& kv : neighbors_) {
+    if (i++ >= n) break;
+    std::cout << kv.first << ": { ";
+    for (const auto v : kv.second) {
+      std::cout << v << " ";
+    }
+    std::cout << "}\n";
+  }
+}/// Graph::show
+
 std::vector<size_t> Graph::getNeighbors(const size_t vertex) const{
   return neighbors_.count(vertex) ? neighbors_.at(vertex) : std::vector<size_t>();
 }/// Graph::getNeighbors

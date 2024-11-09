@@ -13,6 +13,7 @@ void test_0() {
   bool res = (manager.getColorResult()->size() == 732);
   res = res && (manager.getRelationResult()->size() == 18180);
   res = res && (manager.getMapper()->size() == 18180);
+  res = res && (manager.getDigraphResult()->getVertexColor()->size() == 732);
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
@@ -36,18 +37,21 @@ void test_2() {
   color_result.show(20);
   RelationResult relation_result;
   Mapper mapper;
-  builder.run(color_result, &relation_result, &mapper);
+  DigraphResult digraph_result;
+  builder.run(color_result, &relation_result, &mapper, &digraph_result);
   relation_result.show(20);
   mapper.show(20);
+  digraph_result.show();
   bool res = (color_result.size() == 732);
   res = res && (relation_result.size() == 18180);
   res = res && (mapper.size() == 18180);
+  res = res && (digraph_result.getVertexColor()->size() == 732);
   PGC__TEST_RESULT_INFO(res, 2)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
 }/// test_2
 
 PGC__MAIN_START
   test_0();
-  //test_1();
-  //test_2();
+  test_1();
+  test_2();
 PGC__MAIN_END

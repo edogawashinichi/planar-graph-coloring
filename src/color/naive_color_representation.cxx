@@ -11,6 +11,10 @@ NaiveColorRepresentation::NaiveColorRepresentation() {
   index2color_.clear();
 }/// NaiveColorRepresentation::NaiveColorRepresentation
 
+NaiveColorRepresentation::NaiveColorRepresentation(const NaiveColorRepresentation& rhs) {
+  this->index2color_ = rhs.index2color_;
+}/// NaiveColorRepresentation::NaiveColorRepresentation
+
 NaiveColorRepresentation::NaiveColorRepresentation(const std::vector<size_t>& colors) {
   for (size_t i = 0; i < colors.size(); ++i) {
     index2color_[i] = colors[i];
@@ -48,7 +52,7 @@ void NaiveColorRepresentation::reset(const size_t index) {
 }/// NaiveColorRepresentation::reset
 
 void NaiveColorRepresentation::show() const {
-  if (!PGC__DEBUG_MODE) return;
+  if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
   std::vector<std::pair<size_t, size_t>> colors;
   for (const auto& kv : index2color_) {
     //std::cout << kv.first << ":" << kv.second << " ";

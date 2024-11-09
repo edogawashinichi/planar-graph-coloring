@@ -10,7 +10,7 @@ class BirkhoffDiamondRelationBuilder : public RelationBuilder {
 public:
   virtual void run(RelationManager* relation_manager) override;
   virtual void run(ColorResult* color_result) override;
-  virtual void run(const ColorResult& color_result, RelationResult* relation_result, Mapper* mapper) override;
+  virtual void run(const ColorResult& color_result, RelationResult* relation_result, Mapper* mapper, DigraphResult* digraph_result) override;
 };/// class BirkhoffDiamondRelationBuilder
 
 }/// namespace PlanarGraphColoring

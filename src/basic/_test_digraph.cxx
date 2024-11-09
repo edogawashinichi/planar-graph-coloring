@@ -1,4 +1,4 @@
-/// test_digraph.cxx
+/// _test_digraph.cxx
 
 #include "digraph.h"
 #include "../basic/notation.h"

@@ -12,6 +12,8 @@ protected:
   std::vector<ColorRepresentation*> colors_;
 public:
   ColorResult();
+  ColorResult(const ColorResult& rhs);
+  ColorResult(ColorResult&& rhs);
   void append(const std::vector<size_t>& color);
   inline size_t size() const {
     return colors_.size();

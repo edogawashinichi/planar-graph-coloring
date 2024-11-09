@@ -10,12 +10,70 @@
 
 namespace PlanarGraphColoring {
 
+#define RESET "\033[0m"
+#define BLACK "\033[30m"  /* Black */
+#define RED "\033[31m"    /* Red */
+#define GREEN "\033[32m"  /* Green */
+#define YELLOW "\033[33m" /* Yellow */
+#define BLUE "\033[34m"   /* Blue */
+#define PURPLE "\033[35m" /* Purple */
+#define CYAN "\033[36m"   /* Cyan */
+#define WHITE "\033[37m"  /* White */
+
+#define CUR_COLOR \
+(PGC__START_END_COLOR == 0 ? RED : (PGC__START_END_COLOR == 1 ? GREEN : (PGC__START_END_COLOR == 2 ? BLUE : YELLOW)))
+
+#define CHANGE_COLOR \
+PGC__START_END_COLOR = (PGC__START_END_COLOR + 1) % 4;
+
 #define DEBUG \
 if (PGC__DEBUG_MODE) \
   std::cout
 
+#define INFO \
+if (PGC__INFO_MODE) \
+  std::cout
+
 #define PGC__STR(s) \
 std::string(#s)
+
+#define DEBUG_START(s) \
+if (PGC__DEBUG_MODE) { \
+  std::cout << CUR_COLOR << "start " << RESET << PGC__STR(s) << "\n"; \
+}
+
+#define DEBUG_END(s) \
+if (PGC__DEBUG_MODE) { \
+  std::cout << CUR_COLOR << "end " << RESET << PGC__STR(s) << "\n"; \
+  CHANGE_COLOR \
+}
+
+#define TEST_DEBUG \
+if (!PGC__DEBUG_MODE) return;
+
+#define TEST_INFO \
+if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
+
+#define INFO_START(s) \
+if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  std::cout << CUR_COLOR << "start " << RESET << PGC__STR(s) << "\n"; \
+}
+
+#define INFO_END(s) \
+if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  std::cout << CUR_COLOR << "end " << RESET << PGC__STR(s) << "\n"; \
+  CHANGE_COLOR \
+}
+
+#define INFO_VAR(var) \
+if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  std::cout << PGC__STR(var) << "=" << (var) << "\n"; \
+}
+
+#define INFO_2VAR(var, war) \
+if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
+}
 
 #define PGC__SHOW_VAR(var) \
 std::cout << PGC__STR(var) << "=" << (var) << "\n";
@@ -37,16 +95,6 @@ for (size_t i = 0; i < vec.size(); ++i) {\
   std::cout << i << "th:" << vec[i] << " ";\
 }\
 std::cout << "\n";
-
-#define RESET "\033[0m"
-#define BLACK "\033[30m"  /* Black */
-#define RED "\033[31m"    /* Red */
-#define GREEN "\033[32m"  /* Green */
-#define YELLOW "\033[33m" /* Yellow */
-#define BLUE "\033[34m"   /* Blue */
-#define PURPLE "\033[35m" /* Purple */
-#define CYAN "\033[36m"   /* Cyan */
-#define WHITE "\033[37m"  /* White */
 
 #define PGC__SHOW_VII_WITH_COLOR(vii, COLOR) \
 for (const auto& kv : vii) { \
@@ -70,6 +118,12 @@ for (const auto& kv : map) { \
   std::cout << kv.first << ":" << kv.second << " "; \
 } \
 std::cout << "\n";
+
+#define PGC__SHOW_VVI_WITH_INDEX(vvi) \
+for (size_t i = 0; i < vvi.size(); ++i) { \
+  std::cout << i << "th: "; \
+  PGC__SHOW_VEC(vvi[i]) \
+}
 
 #define PGC__SHOW_MIVI__(map) \
 for (const auto& kv : map) {\
