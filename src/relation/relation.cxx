@@ -3,44 +3,29 @@
 #include "relation.h"
 #include "../basic/notation.h"
 
-namespace PlanarGraphColoring {
+namespace PlanarGraphColoring{
 
-void Mapper::show(const size_t n) const {
+Relation::Relation(const size_t from, const size_t to, const size_t type, const std::vector<size_t>& mapper) {
+  from_ = from;
+  to_ = to;
+  type_ = type;
+  mapper_ = mapper;
+}/// Relation::Relation
+
+void Relation::show() const {
   if (!PGC__DEBUG_MODE) return;
-  size_t i = 0;
-  for (const auto& kv : index2coloring_) {
-    if (i++ >= n) break;
-    std::cout << kv.first << "th: ";
-    (kv.second)->show();
+  std::cout << from_ << "->" << to_ << " ";
+  switch (type_) {
+    case 0:
+      std::cout << "vertex ";
+      break;
+    case 1:
+      std::cout << "color ";
+      break;
+    default:
+      std::cout << "kempe ";
   }
-}/// Mapper::show
-
-Operation::Operation(const int type) {
-  type_ = type;
-}/// Operation::Operation
-
-Operation::Operation(const int type, const std::vector<size_t>& mapper) {
-  type_ = type;
-  if (0 == type || 2 == type) {
-    color_mapper_ = mapper;
-  } else if (1 == type) {
-    vertex_mapper_ = mapper;
-  }
-}/// Operation::Operation
-
-void Relation::add(const size_t i, const size_t j, const int type, const std::vector<size_t>& mapper, const std::vector<size_t>& imapper) {
-  if (successors_.count(i)) {
-    successors_[i].emplace_back(j);
-  } else {
-    successors_[i] = std::vector<size_t>({j});
-  }
-  if (predecessors_.count(j)) {
-    predecessors_[j].emplace_back(i);
-  } else {
-    predecessors_[j] = std::vector<size_t>({i});
-  }
-  arcs_[std::pair<size_t, size_t>({i, j})] = Operation(type, mapper);
-  arcs_[std::pair<size_t, size_t>({j, i})] = Operation(type, imapper);
-}/// RelationManager::add
+  PGC__SHOW_VEC_WITH_INDEX(mapper_);
+}/// Relation::show
 
 }/// namespace PlanarGraphColoring

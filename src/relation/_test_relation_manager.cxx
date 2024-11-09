@@ -8,6 +8,7 @@ using namespace PlanarGraphColoring;
 void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
   RelationManager rm;
+  rm.show();
   bool res = true;
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))

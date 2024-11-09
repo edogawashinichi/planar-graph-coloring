@@ -8,7 +8,9 @@ namespace PlanarGraphColoring {
 
 class BirkhoffDiamondRelationBuilder : public RelationBuilder {
 public:
-  virtual void run(const Graph& birkhoff_diamond, const ColorResult& color_result, RelationManager* relation_manager) override;
+  virtual void run(RelationManager* relation_manager) override;
+  virtual void run(ColorResult* color_result) override;
+  virtual void run(const ColorResult& color_result, RelationResult* relation_result, Mapper* mapper) override;
 };/// class BirkhoffDiamondRelationBuilder
 
 }/// namespace PlanarGraphColoring

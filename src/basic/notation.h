@@ -6,6 +6,7 @@
 
 #include "global.h"
 #include <iostream>
+#include <vector>
 
 namespace PlanarGraphColoring {
 
@@ -115,10 +116,19 @@ int main(int argc, char* argv[]) { \
   const std::vector<std::string> debugs = { \
     "debug", "DEBUG", "d", "D", "Debug" \
   }; \
+  const std::vector<std::string> infos = { \
+    "info", "INFO", "i", "I", "Info" \
+  }; \
   if (argc > 1) { \
     for (const auto& debug : debugs) { \
       if (debug == std::string(argv[1])) { \
         PGC__DEBUG_MODE = true; \
+        break; \
+      } \
+    } \
+    for (const auto& info : infos) { \
+      if (info == std::string(argv[1])) { \
+        PGC__INFO_MODE = true; \
         break; \
       } \
     } \

@@ -1,6 +1,7 @@
 /// birkhoff_diamond_relation_builder.cxx
 
 #include "birkhoff_diamond_relation_builder.h"
+#include "../color/birkhoff_diamond_colorer.h"
 #include "../topology/birkhoff_diamond.h"
 #include "../color/birkhoff_diamond_color_judger.h"
 #include "../color/color_transformer.h"
@@ -8,43 +9,81 @@
 
 namespace PlanarGraphColoring {
 
-void BirkhoffDiamondRelationBuilder::run(const Graph& birkhoff_diamond, const ColorResult& color_result, RelationManager* relation_manager) {
-  PGC__SHOW_ENDL("start BirkhoffDiamondRelationBuilder")
-  const BirkhoffDiamond& derived = dynamic_cast<const BirkhoffDiamond&>(birkhoff_diamond);
-  relation_manager->setMapper(color_result);  
-  relation_manager->showMapper();
-  BirkhoffDiamondColorJudger bdcj;
-  ColorTransformer ct;
-  const size_t size = color_result.size();
-  const size_t n = color_result.n();
-  const size_t k = derived.boundarySize();
-  PGC__SHOW_2VAR(size, n)
+void BirkhoffDiamondRelationBuilder::run(RelationManager* relation_manager) {
+  if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+    PGC__SHOW_ENDL("start BirkhoffDiamondRelationBuilder::run RelationManager")
+  }
+  run(relation_manager->getColorResult());
+  run(*(relation_manager->getColorResult()), relation_manager->getRelationResult(), relation_manager->getMapper());
+  if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+    PGC__SHOW_ENDL("end BirkhoffDiamondRelationBuilder::run RelationManager")
+  }
+}/// BirkhoffDiamondRelationBuilder::run
+
+void BirkhoffDiamondRelationBuilder::run(ColorResult* color_result) {
+  if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+    PGC__SHOW_ENDL("start BirkhoffDiamondRelationBuilder::run ColorResult")
+  }
+  const BirkhoffDiamond birkhoff_diamond;
+  BirkhoffDiamondColorer colorer;
+  colorer.run(birkhoff_diamond, color_result);
+  if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+    const size_t size = color_result->size();
+    PGC__SHOW_VAR(size)
+    PGC__SHOW_ENDL("end BirkhoffDiamondRelationBuilder::run ColorResult")
+  }
+}/// BirkhoffDiamondRelationBuilder::run
+
+void BirkhoffDiamondRelationBuilder::run(const ColorResult& color_result, RelationResult* relation_result, Mapper* mapper) {
+  if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+    PGC__SHOW_ENDL("start BirkhoffDiamondRelationBuilder RelationResult Mapper")
+  }
+  const BirkhoffDiamond birkhoff_diamond;
+  BirkhoffDiamondColorJudger judger;
+  ColorTransformer transformer;
+  const size_t k = birkhoff_diamond.boundarySize();
   size_t cnt_vertex = 0;
   size_t cnt_color = 0;
   for (size_t i = 0; i < color_result.size(); ++i) {
-    PGC__SHOW_VAR(i)
+    if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+      PGC__SHOW_VAR(i)
+    }
     for (size_t j = i + 1; j < color_result.size(); ++j) {
-      //PGC__SHOW_2VAR(i, j)
-      int type = -1;
-      std::vector<size_t> mapper(k);
-      std::vector<size_t> imapper(k);
-      if (bdcj.isIsomorphismByVertexSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &mapper)) {
+      size_t type = 0;
+      std::vector<size_t> transform(k);
+      std::vector<size_t> itransform(k);
+      if (judger.isIsomorphismByVertexSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &transform)) {
         ++cnt_vertex;
-        PGC__SHOW_3VAR(i, j, cnt_vertex)
+        if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+          PGC__SHOW_3VAR(i, j, cnt_vertex)
+        }
         type = 1;
-        ct.inverseVertexSymmetry(mapper, &imapper);
-        relation_manager->addRelation(i, j, type, mapper, imapper);
-      } else if (bdcj.isIsomorphismByColorSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &mapper)) {
+        transformer.inverseVertexSymmetry(transform, &itransform);
+        mapper->insert(relation_result->size(), i, j);
+        relation_result->append(Relation(i, j, type, transform));
+        mapper->insert(relation_result->size(), j, i);
+        relation_result->append(Relation(j, i, type, itransform));
+      } else if (judger.isIsomorphismByColorSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &transform)) {
         ++cnt_color;
-        PGC__SHOW_3VAR(i, j, cnt_color)
+        if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+          PGC__SHOW_3VAR(i, j, cnt_color)
+        }
         type = 0;
-        ct.inverseColorSymmetry(mapper, &imapper);
-        relation_manager->addRelation(i, j, type, mapper, imapper);
+        transformer.inverseColorSymmetry(transform, &itransform);
+        mapper->insert(relation_result->size(), i, j);
+        relation_result->append(Relation(i, j, type, transform));
+        mapper->insert(relation_result->size(), j, i);
+        relation_result->append(Relation(j, i, type, itransform));
       }
     }
   }
-  PGC__SHOW_2VAR(cnt_vertex, cnt_color)
-  PGC__SHOW_ENDL("end BirkhoffDiamondRelationBuilder")
+  if (PGC__DEBUG_MODE || PGC__INFO_MODE) {
+    PGC__SHOW_2VAR(cnt_vertex, cnt_color)
+    const size_t relation_result_size = relation_result->size();
+    const size_t mapper_size = mapper->size();
+    PGC__SHOW_2VAR(relation_result_size, mapper_size)
+    PGC__SHOW_ENDL("end BirkhoffDiamondRelationBuilder::run RelationResult Mapper")
+  }
 }/// BirkhoffDiamondRelationBuilder::run
 
 }/// namespace PlanarGraphColoring

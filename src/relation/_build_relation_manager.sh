@@ -26,10 +26,11 @@ fi
 
 src_path="./"
 basic_src_path="../basic/"
+color_src_path="../color/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} relation_manager.cxx relation.cxx ${basic_src_path}global.cxx 
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} relation_manager.cxx relation_result.cxx relation.cxx mapper.cxx ${basic_src_path}global.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"
