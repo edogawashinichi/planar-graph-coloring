@@ -27,7 +27,7 @@ public:
   inline size_t size() const {
     return n_;
   }
-  size_t arcs() const;
+  size_t arcs() const;/* number of arcs */
   void append(const size_t i, const size_t j);
   inline void setSize(const size_t n) {
     n_ = n;

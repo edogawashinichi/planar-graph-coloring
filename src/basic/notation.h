@@ -31,7 +31,7 @@ if (PGC__DEBUG_MODE) \
   std::cout
 
 #define INFO \
-if (PGC__INFO_MODE) \
+if (PGC__DEBUG_MODE || PGC__INFO_MODE) \
   std::cout
 
 #define PGC__STR(s) \

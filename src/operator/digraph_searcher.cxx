@@ -1,12 +1,13 @@
 /// digraph_searcher.cxx
 
 #include "digraph_searcher.h"
+#include "dijktra/dijkstra.h"
 
 namespace PlanarGraphColoring {
 
 void DigraphSearcher::dfs(const Structure& structure, SearcherResult* searcher_result) {
-  const Digraph& digraph = dynamic_cast<const Digraph&>(structure);
-  DigraphSearcherResult* digraph_searcher_result = dynamic_cast<DigraphSearcherResult*>(searcher_result);
+  auto digraph = dynamic_cast<const Digraph&>(structure);
+  auto digraph_searcher_result = dynamic_cast<DigraphSearcherResult*>(searcher_result);
   const size_t n = digraph.size();
   std::vector<int> visited(n, 0);
   for (size_t vertex = 0; vertex < n; ++vertex) {
@@ -42,6 +43,10 @@ void DigraphSearcher::greedy(const Structure& structure, SearcherResult* searche
 
 void DigraphSearcher::dijkstra(const Structure& structure, SearcherResult* searcher_result) {
   /// TODO
+  auto digraph = dynamic_cast<const Digraph&>(structure);
+  auto digraph_searcher_result = dynamic_cast<DigraphSearcherResult*>(searcher_result);
+  Dijktra dijkstra;
+  dijkstra.run(digraph, digraph_searcher_result);
 }/// DigraphSearcher::dijkstra
 
 }/// namespace PlanarGraphColoring

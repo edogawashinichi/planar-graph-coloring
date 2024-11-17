@@ -4,6 +4,7 @@
 
 #include "searcher_result.h"
 #include "weak_component.h"
+#include "directed_path.h"
 
 namespace PlanarGraphColoring {
 
@@ -17,6 +18,7 @@ public:
   size_t getWeakComponent(const size_t i, const size_t j) const;
 protected:
   WeakComponent weak_component_;
+  DirectedPath directed_path;
 };/// class SearcherResult
 
 }/// namespace PlanarGraphColoring

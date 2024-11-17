@@ -11,6 +11,10 @@ ClassificationInterpreter::ClassificationInterpreter() {
   color_class_.clear();
 }/// ClassificationInterpreter::ClassificationInterpreter
 
+std::vector<size_t> ClassificationInterpreter::representative(const std::vector<size_t>& color) const {
+  /// TODO
+}/// ClassificationInterpreter::representative
+
 void ClassificationInterpreter::set(const RelationManager& relation_manager, DigraphSearcherResult& digraph_searcher_result) {
   DEBUG_START(ClassificationInterpreter::set)
   const auto& color_result = *(relation_manager.constColorResult());
