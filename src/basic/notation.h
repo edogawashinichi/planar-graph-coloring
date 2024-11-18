@@ -21,10 +21,14 @@ namespace PlanarGraphColoring {
 #define WHITE "\033[37m"  /* White */
 
 #define CUR_COLOR \
-(PGC__START_END_COLOR == 0 ? RED : (PGC__START_END_COLOR == 1 ? GREEN : (PGC__START_END_COLOR == 2 ? BLUE : YELLOW)))
+(PGC__COLOR_STACK.top() == 0 ? RED : (PGC__COLOR_STACK.top() == 1 ? GREEN : (PGC__COLOR_STACK.top() == 2 ? BLUE : YELLOW)))
 
-#define CHANGE_COLOR \
-PGC__START_END_COLOR = (PGC__START_END_COLOR + 1) % 4;
+#define PUSH_COLOR \
+PGC__COLOR_STACK.push(PGC__PERIODIC_COLOR); \
+PGC__PERIODIC_COLOR = (PGC__PERIODIC_COLOR + 1) % 4;
+
+#define POP_COLOR \
+PGC__COLOR_STACK.pop();
 
 #define DEBUG \
 if (PGC__DEBUG_MODE) \
@@ -39,13 +43,14 @@ std::string(#s)
 
 #define DEBUG_START(s) \
 if (PGC__DEBUG_MODE) { \
+  PUSH_COLOR \
   std::cout << CUR_COLOR << "start " << RESET << PGC__STR(s) << "\n"; \
 }
 
 #define DEBUG_END(s) \
 if (PGC__DEBUG_MODE) { \
   std::cout << CUR_COLOR << "end " << RESET << PGC__STR(s) << "\n"; \
-  CHANGE_COLOR \
+  POP_COLOR \
 }
 
 #define TEST_DEBUG \
@@ -56,13 +61,14 @@ if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
 
 #define INFO_START(s) \
 if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  PUSH_COLOR \
   std::cout << CUR_COLOR << "start " << RESET << PGC__STR(s) << "\n"; \
 }
 
 #define INFO_END(s) \
 if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   std::cout << CUR_COLOR << "end " << RESET << PGC__STR(s) << "\n"; \
-  CHANGE_COLOR \
+  POP_COLOR \
 }
 
 #define INFO_VAR(var) \

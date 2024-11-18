@@ -1,6 +1,6 @@
-/// _test_interpreter.cxx
+/// _test_classification_interpreter.cxx
 
-#include "interpreter.h"
+#include "classification_interpreter.h"
 #include "../basic/notation.h"
 
 using namespace PlanarGraphColoring;
@@ -22,7 +22,7 @@ void test_0() {
   }
   INFO << "table.show:\n";
   table.show();
-  Interpreter interpreter;
+  ClassificationInterpreter interpreter;
   const std::vector<size_t> heads = {0, 2, 4};
   for (const auto vertex : heads) {
     DEBUG << "before interpreter append\n";

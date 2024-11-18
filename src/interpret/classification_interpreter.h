@@ -23,7 +23,7 @@ public:
   }
   void show() const;
   void show(const size_t index) const;
-  void representative(const std::vector<size_t>& color) const;
+  std::vector<size_t> representative(const std::vector<size_t>& color) const;
 protected:
   std::vector<ColorResult> color_class_;
 };/// class ClassificationInterpreter

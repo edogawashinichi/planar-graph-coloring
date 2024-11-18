@@ -5,5 +5,6 @@
 namespace PlanarGraphColoring {
   bool PGC__DEBUG_MODE = false;
   bool PGC__INFO_MODE = false;
-  unsigned short PGC__START_END_COLOR = 0;
+  int PGC__PERIODIC_COLOR = 0;
+  std::stack<int> PGC__COLOR_STACK;
 }/// namespace PlanarGraphColoring

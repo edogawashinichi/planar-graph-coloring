@@ -11,7 +11,7 @@ namespace PlanarGraphColoring {
 
 class Dijkstra {
 public:
-  void run(const size_t start, const size_t end, const Digraph& digraph, DirectedPath* path);
+  bool run(const size_t start, const size_t end, const Digraph& digraph, DirectedPath* path);
 protected:
   void retrieve(const std::list<DijkstraNode>& list, DirectedPath* path);
 };/// class Dijkstra  

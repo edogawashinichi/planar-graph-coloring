@@ -13,6 +13,7 @@ ClassificationInterpreter::ClassificationInterpreter() {
 
 std::vector<size_t> ClassificationInterpreter::representative(const std::vector<size_t>& color) const {
   /// TODO
+  return std::vector<size_t>();
 }/// ClassificationInterpreter::representative
 
 void ClassificationInterpreter::set(const RelationManager& relation_manager, DigraphSearcherResult& digraph_searcher_result) {

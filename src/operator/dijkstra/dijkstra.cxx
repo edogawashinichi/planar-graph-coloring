@@ -6,13 +6,14 @@
 
 namespace PlanarGraphColoring {
 
-void Dijkstra::run(const size_t start, const size_t end, const Digraph& digraph, DirectedPath* path) {
+bool Dijkstra::run(const size_t start, const size_t end, const Digraph& digraph, DirectedPath* path) {
   DEBUG_START(Dijkstra::run)
   INFO_2VAR(start, end)
   /// 0. init environment
   std::list<DijkstraNode> list;
   std::priority_queue<DijkstraNode*, std::vector<DijkstraNode*>, DijkstraComparer> queue;
   std::vector<DijkstraNode*> visited(digraph.size(), nullptr);
+  bool res = false;
   /// 1. init first node
   list.push_back(DijkstraNode(start));
   queue.push(&(list.back()));
@@ -29,6 +30,7 @@ void Dijkstra::run(const size_t start, const size_t end, const Digraph& digraph,
     /// 2.2 find end node
     if (top->index_ == end) {
       DEBUG << "break\n";
+      res = true;
       break;
     }
     /// 2.3 all successors of top node
@@ -61,8 +63,10 @@ void Dijkstra::run(const size_t start, const size_t end, const Digraph& digraph,
     }/// for
   }/// while
   /// 3. get the best path
-  this->retrieve(list, path);
+  path->clear();
+  if (res) this->retrieve(list, path);
   DEBUG_END(Dijkstra::run)
+  return res;
 }/// Dijkstra::run
 
 void Dijkstra::retrieve(const std::list<DijkstraNode>& list, DirectedPath* path) {
