@@ -12,5 +12,6 @@ for path in $(ls); do
     echo "file: ${file}"
     bash ${file}
   done
+  # TODO: if folder
   cd ..
 done

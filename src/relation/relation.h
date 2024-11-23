@@ -8,7 +8,8 @@ namespace PlanarGraphColoring {
 
 class Relation {
 public:
-  Relation()=default;
+  Relation() = default;
+  Relation(const Relation& rhs);
   Relation(const size_t from, const size_t to, const size_t type, const std::vector<size_t>& mapper);
   void show() const;
 protected:

@@ -20,6 +20,8 @@ namespace PlanarGraphColoring {
 #define CYAN "\033[36m"   /* Cyan */
 #define WHITE "\033[37m"  /* White */
 
+#define TAB "  "
+
 #define CUR_COLOR \
 (PGC__COLOR_STACK.top() == 0 ? RED : (PGC__COLOR_STACK.top() == 1 ? GREEN : (PGC__COLOR_STACK.top() == 2 ? BLUE : YELLOW)))
 
@@ -76,8 +78,18 @@ if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << "\n"; \
 }
 
+#define DEBUG_VAR(var) \
+if (PGC__DEBUG_MODE) { \
+  std::cout << PGC__STR(var) << "=" << (var) << "\n"; \
+} 
+
 #define INFO_2VAR(var, war) \
 if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
+}
+
+#define DEBUG_2VAR(var, war) \
+if (PGC__DEBUG_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
 }
 
@@ -96,10 +108,24 @@ for (const auto& a : vec) {\
 }\
 std::cout << "\n";
 
+#define PGC__SHOW_VEC_WITH_ARROW(vec) \
+if (!(vec).empty()) { \
+for (size_t macro_i = 0; macro_i < (vec).size() - 1; ++macro_i) { \
+  std::cout << (vec)[macro_i] << "->"; \
+} \
+std::cout << (vec).back() << "\n"; \
+}
+
 #define PGC__SHOW_VEC_WITH_INDEX(vec) \
 for (size_t i = 0; i < vec.size(); ++i) {\
   std::cout << i << "th:" << vec[i] << " ";\
 }\
+std::cout << "\n";
+
+#define PGC__SHOW_VII(vii) \
+for (const auto& kv : vii) { \
+  std::cout << kv.first << "," << kv.second << " "; \
+} \
 std::cout << "\n";
 
 #define PGC__SHOW_VII_WITH_COLOR(vii, COLOR) \
@@ -114,7 +140,11 @@ for (size_t i = 0; i < vii.size(); ++i) { \
   if (i < k) { \
     std::cout << kv.first << ":" << C0 << kv.second << RESET << " "; \
   } else { \
-    std::cout << kv.first << ":" << C1 << kv.second << RESET << " "; \
+    if (kv.second == UNDEF_COLOR) { \
+      std::cout << kv.first << ":" << RED << kv.second << RESET << " "; \
+    } else { \
+      std::cout << kv.first << ":" << C1 << kv.second << RESET << " "; \
+    } \
   } \
 } \
 std::cout << "\n";
@@ -171,42 +201,63 @@ if (res) { \
   PGC__SHOW_ENDL(PGC__TEST_FAIL_INFO(i)) \
 }
 
+#define CHECK_DEBUG_MODE \
+const std::vector<std::string> debugs = { \
+  "debug", "d", "DEBUG", "D", "Debug" \
+}; \
+if (argc > 1) { \
+  for (const auto& debug : debugs) { \
+    if (debug == std::string(argv[1])) { \
+      PGC__DEBUG_MODE = true; \
+      break; \
+    } \
+  } \
+  if (PGC__DEBUG_MODE) { \
+    std::cout << "mode: " << GREEN << "debug" << RESET << "\n"; \
+  } else { \
+    std::cout << "debug mode parameter: "; \
+    for (const auto& debug : debugs) { \
+      std::cout << RED << debug << RESET << " "; \
+    } \
+    std::cout << "\n"; \
+  } \
+} else { \
+  std::cout << "debug mode usage:\n"; \
+  std::cout << RED << "./_build_xx.sh debug" << RESET << "\n"; \
+}
+
+#define CHECK_INFO_MODE \
+const std::vector<std::string> infos = { \
+  "info", "i", "INFO", "I", "Info" \
+}; \
+if (argc > 1) { \
+  for (const auto& info : infos) { \
+    if (info == std::string(argv[1])) { \
+      PGC__INFO_MODE = true; \
+      break; \
+    } \
+  } \
+  if (PGC__INFO_MODE) { \
+    std::cout << "mode: " << GREEN << "info" << RESET << "\n"; \
+  } else { \
+    std::cout << "info mode parameter: "; \
+    for (const auto& info : infos) { \
+      std::cout << RED << info << RESET << " "; \
+    } \
+    std::cout << "\n"; \
+  } \
+} else { \
+  std::cout << "info mode usage:\n"; \
+  std::cout << RED << "./_build_xx.sh info" << RESET << "\n"; \
+}
+
 #define PGC__MAIN_START \
 int main(int argc, char* argv[]) { \
-  const std::vector<std::string> debugs = { \
-    "debug", "DEBUG", "d", "D", "Debug" \
-  }; \
-  const std::vector<std::string> infos = { \
-    "info", "INFO", "i", "I", "Info" \
-  }; \
-  if (argc > 1) { \
-    for (const auto& debug : debugs) { \
-      if (debug == std::string(argv[1])) { \
-        PGC__DEBUG_MODE = true; \
-        break; \
-      } \
-    } \
-    for (const auto& info : infos) { \
-      if (info == std::string(argv[1])) { \
-        PGC__INFO_MODE = true; \
-        break; \
-      } \
-    } \
-    if (!PGC__DEBUG_MODE) { \
-      std::cout << "valid debug parameter:\n"; \
-      for (const auto& debug : debugs) { \
-        std::cout << RED << debug << RESET << " "; \
-      } \
-      std::cout << "\n"; \
-    } else { \
-      std::cout << GREEN << "in debug mode" << RESET << "!\n"; \
-    } \
-  } else { \
-    std::cout << "debug mode usage:\n"; \
-    std::cout << RED << "./_build_xx.sh debug" << RESET << "\n"; \
-  }
+  CHECK_DEBUG_MODE \
+  CHECK_INFO_MODE \
 
 #define PGC__MAIN_END \
+  DEBUG << GREEN << "return from main!\n" << RESET; \
   return 0; \
 }
 

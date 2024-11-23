@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "../basic/graph.h"
+#include "planar_graph.h"
 
 namespace PlanarGraphColoring {
 
-class Ring : public Graph {
+class Ring : public PlanarGraph {
 protected:
   size_t k_; /// size of the boundary 
 public:

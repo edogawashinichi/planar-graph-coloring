@@ -12,13 +12,34 @@ ClassificationInterpreter::ClassificationInterpreter() {
 }/// ClassificationInterpreter::ClassificationInterpreter
 
 std::vector<size_t> ClassificationInterpreter::representative(const std::vector<size_t>& color) const {
-  /// TODO
-  return std::vector<size_t>();
+  std::vector<size_t> res;
+  for (const auto& color_result : color_class_) {
+    for (size_t i = 0; i < color_result.size(); ++i) {
+      if (color == color_result.getInfo(i)) {
+        res = color_result.getInfo(0);
+        break;
+      }/// if
+    }/// for
+  }/// for
+  return res;
 }/// ClassificationInterpreter::representative
+
+size_t ClassificationInterpreter::getClass(const std::vector<size_t>& color) const {
+  size_t res = 0;
+  for (size_t i = 0; i < color_class_.size(); ++i) {
+    for (size_t j = 0; j < color_class_[i].size(); ++j) {
+      if (color == color_class_[i].getInfo(j)) {
+        res = i;
+        break;
+      }/// if
+    }/// for
+  }/// for
+  return res;
+}/// ClassificationInterpreter::getClass
 
 void ClassificationInterpreter::set(const RelationManager& relation_manager, DigraphSearcherResult& digraph_searcher_result) {
   DEBUG_START(ClassificationInterpreter::set)
-  const auto& color_result = *(relation_manager.constColorResult());
+  const auto& color_result = *(relation_manager.getColorResultConst());
   const size_t weak_component_size = digraph_searcher_result.weakComponentSize();
   for (size_t i = 0; i < weak_component_size; ++i) {
     append(color_result, digraph_searcher_result.getWeakComponent(i, 0));
@@ -52,18 +73,22 @@ void ClassificationInterpreter::show() const {
   INFO_START(ClassificationInterpreter::show)
   for (size_t i = 0; i < color_class_.size(); ++i) {
     std::cout << i << "th class (total " << color_class_[i].size() << "):\n";
-    color_class_[i].show(N);
+    this->showWithRepresentative(i, N);
   }
   INFO_END(ClassificationInterpreter::show)
 }/// ClassificationInterpreter::show
 
+void ClassificationInterpreter::showWithRepresentative(const size_t i, const size_t n) const {
+  color_class_[i].showWith("representative", n);
+}/// ClassificationInterpreter::showWithRepresentative
+
 void ClassificationInterpreter::show(const size_t index) const {
   TEST_INFO
   /// assuming: 0 <= index < size
-  INFO_START(ClassificationInterpreter::show)
+  DEBUG_START(ClassificationInterpreter::show)
   std::cout << index << "th class (total " << color_class_[index].size() << "):\n";
-  color_class_[index].show(N);
-  INFO_END(ClassificationInterpreter::show)
+  this->showWithRepresentative(index, N);
+  DEBUG_END(ClassificationInterpreter::show)
 }/// ClassificationInterpreter::show
 
 }/// namespace PlanarGraphColoring

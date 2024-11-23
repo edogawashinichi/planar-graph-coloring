@@ -18,10 +18,12 @@ public:
   void showRelationResult() const;
   void showMapper() const;
   void showDigraphResult() const;
-  const ColorResult* constColorResult() const;
+  const ColorResult* getColorResultConst() const;
   ColorResult* getColorResult();
   RelationResult* getRelationResult();
+  const RelationResult* getRelationResultConst() const;
   Mapper* getMapper();
+  const Mapper* getMapperConst() const;
   DigraphResult* getDigraphResult();
   const DigraphResult* getDigraphResultConst() const;
 protected:

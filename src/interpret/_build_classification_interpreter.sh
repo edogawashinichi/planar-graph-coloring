@@ -34,7 +34,7 @@ operator_src_path="../operator/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} classification_interpreter.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}global.cxx ${operator_src_path}digraph_searcher_result.cxx ${relation_src_path}relation_manager.cxx ${relation_src_path}digraph_result.cxx ${basic_src_path}digraph.cxx ${relation_src_path}mapper.cxx ${relation_src_path}relation_result.cxx ${relation_src_path}relation.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} classification_interpreter.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}global.cxx ${operator_src_path}digraph_searcher_result.cxx ${relation_src_path}relation_manager.cxx ${relation_src_path}digraph_result.cxx ${basic_src_path}digraph.cxx ${relation_src_path}mapper.cxx ${relation_src_path}relation_result.cxx ${relation_src_path}relation.cxx ${operator_src_path}directed_path_result.cxx ${operator_src_path}directed_path.cxx ${operator_src_path}path.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

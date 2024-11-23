@@ -31,7 +31,7 @@ basic_src_path="../basic/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${src_path}birkhoff_diamond.cxx ${src_path}ring.cxx ${basic_src_path}graph.cxx ${algebra_src_path}symmetry.cxx ${basic_src_path}global.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} planar_graph.cxx ${src_path}birkhoff_diamond.cxx ${src_path}ring.cxx ${basic_src_path}graph.cxx ${algebra_src_path}symmetry.cxx ${basic_src_path}global.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

@@ -19,6 +19,7 @@ protected:
 public:
   Digraph() = default;
   Digraph(const size_t n); 
+  Digraph(const std::vector<std::vector<size_t>>& edges);
   Digraph(const size_t n, const std::vector<std::vector<size_t>>& edges);
   virtual void show() const override;
   virtual void show(const size_t n) const override;
@@ -31,6 +32,9 @@ public:
   void append(const size_t i, const size_t j);
   inline void setSize(const size_t n) {
     n_ = n;
+  }
+  inline float weight() const {
+    return 1.0f;
   }
 };/// class Digraph
 

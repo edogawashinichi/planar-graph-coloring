@@ -17,10 +17,12 @@ void test_0() {
   res = res && (manager.getRelationResult()->size() == 18180);
   res = res && (manager.getMapper()->size() == 18180);
   res = res && (manager.getDigraphResult()->getVertexColor()->size() == 732);
+  /*
   ClassificationInterpreter vertex_interpreter;
   analyst.reasonByVertex(manager, &vertex_interpreter);
   ClassificationInterpreter color_interpreter;
   analyst.reasonByColor(manager, &color_interpreter);
+  */
   ClassificationInterpreter vertex_color_interpreter;
   analyst.reasonByVertexColor(manager, &vertex_color_interpreter);
   PGC__TEST_RESULT_INFO(res, 0)

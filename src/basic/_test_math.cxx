@@ -36,8 +36,43 @@ void test_2() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
 }/// test_2
 
+void test_3() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(3))
+  std::vector<std::vector<size_t>> data = {
+    {1, 2, 3},
+    {1, 2, 3, 4},
+    {1, 1},
+    {1, 2, 3},
+    {1, 3},
+    {1, 2, 2}
+  };
+  dict_sort(data);
+  const std::vector<std::vector<size_t>> exp_ascend = {
+    {1, 1},
+    {1, 2, 2},
+    {1, 2, 3},
+    {1, 2, 3},
+    {1, 2, 3, 4},
+    {1, 3}
+  };
+  bool res = (exp_ascend == data);
+  const std::vector<std::vector<size_t>> exp_descend = {
+    {1, 3},
+    {1, 2, 3, 4},
+    {1, 2, 3},
+    {1, 2, 3},
+    {1, 2, 2},
+    {1, 1}
+  };
+  dict_sort(data, false);
+  res = res && (exp_descend == data);
+  PGC__TEST_RESULT_INFO(res, 3)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(3))
+}/// test_3
+
 PGC__MAIN_START
   test_0();
   test_1();
   test_2();
+  test_3();
 PGC__MAIN_END

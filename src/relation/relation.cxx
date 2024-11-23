@@ -5,6 +5,13 @@
 
 namespace PlanarGraphColoring{
 
+Relation::Relation(const Relation& rhs) {
+  from_ = rhs.from_;
+  to_ = rhs.to_;
+  type_ = rhs.type_;
+  mapper_ = rhs.mapper_;
+}/// Relation::Relation
+
 Relation::Relation(const size_t from, const size_t to, const size_t type, const std::vector<size_t>& mapper) {
   from_ = from;
   to_ = to;
@@ -13,7 +20,7 @@ Relation::Relation(const size_t from, const size_t to, const size_t type, const 
 }/// Relation::Relation
 
 void Relation::show() const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   std::cout << from_ << "->" << to_ << " ";
   switch (type_) {
     case 0:

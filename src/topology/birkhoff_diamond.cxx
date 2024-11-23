@@ -2,8 +2,24 @@
 
 #include "birkhoff_diamond.h"
 #include "../basic/notation.h"
+#include "../basic/hash.h"
 
 namespace PlanarGraphColoring {
+
+std::vector<std::pair<size_t, size_t>> BirkhoffDiamond::getBoundaryCutVertices(const size_t u, const size_t v) const {
+  const std::unordered_map<std::pair<size_t, size_t>, std::vector<std::pair<size_t, size_t>>, pair_hash> data = {
+    {{0, 2}, {{1, 3}, {1, 4}, {1, 5}}},
+    {{0, 3}, {{1, 4}, {1, 5}, {2, 4}, {2, 5}}},
+    {{0, 4}, {{1, 5}, {2, 5}, {3, 5}}},
+    {{1, 3}, {{0, 2}, {2, 4}, {2, 5}}},
+    {{1, 4}, {{0, 2}, {0, 3}, {2, 5}, {3, 5}}},
+    {{1, 5}, {{0, 2}, {0, 3}, {0, 4}}},
+    {{2, 4}, {{0, 3}, {1, 3}, {3, 5}}},
+    {{2, 5}, {{0, 3}, {0, 4}, {1, 3}, {1, 4}}},
+    {{3, 5}, {{0, 4}, {1, 4}, {2, 4}}}
+  };
+  return data.at(std::pair<size_t, size_t>({u, v}));
+}/// BirkhoffDiamond::getBoundaryCutVertices
 
 BirkhoffDiamond::BirkhoffDiamond() {
   k_ = 6; /// boundary size
@@ -37,6 +53,13 @@ BirkhoffDiamond::BirkhoffDiamond() {
       interior_backward_neighbors_[v].emplace_back(u);
     }
   }
+  
+  boundary_nonadjacent_vertices_ = {
+    {0, 2}, {0, 3}, {0, 4},
+    {1, 3}, {1, 4}, {1, 5},
+    {2, 4}, {2, 5},
+    {3, 5}
+  };
 
   std::vector<std::vector<size_t>> mappers = {
     {0, 5, 4, 3, 2, 1}, /* vertical flip */
@@ -47,21 +70,16 @@ BirkhoffDiamond::BirkhoffDiamond() {
 }/// BirkhoffDiamond::BirkhoffDiamond
 
 void BirkhoffDiamond::show() const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   PGC__SHOW_ENDL("boundary backward neighbors:")
   PGC__SHOW_MIVI__(boundary_backward_neighbors_)
   PGC__SHOW_ENDL("interior backward neighbors:")
   PGC__SHOW_MIVI__(interior_backward_neighbors_)
+  PGC__SHOW_ENDL("boundary nonadjacent vertices:")
+  PGC__SHOW_VII(boundary_nonadjacent_vertices_)
   PGC__SHOW_ENDL("vertex symmetry:")
   vertex_symmetry_.show();
   Ring::show();
 }/// BirkhoffDiamond::show
-
-/*
-/// TODO: this function shall be owened to class Judger
-bool BirkhoffDiamond::isomorphismColoring(const ColorResult& lhs, const ColorResult& rhs) const {
-  return true;
-}/// BirkhoffDiamond::isomorphismColoring
-*/
 
 }/// namespace PlanarGraphColoring

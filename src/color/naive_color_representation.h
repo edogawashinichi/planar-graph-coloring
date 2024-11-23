@@ -20,6 +20,7 @@ public:
 
   virtual size_t size() const override;
   virtual size_t get(const size_t index) const override; 
+  virtual bool empty() const override;
   virtual std::vector<size_t> getVector() const override;
   virtual void set(const size_t index, const size_t color) override;
   virtual void reset(const size_t index) override;

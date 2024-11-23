@@ -5,8 +5,13 @@
 
 namespace PlanarGraphColoring {
 
+size_t Mapper::get(const size_t i, const size_t j) const {
+  /// assuming: contains
+  return plane2line_.at(std::pair<size_t, size_t>({i, j}));
+}/// Mapper::get
+
 void Mapper::insert(const size_t i, const size_t j, const size_t k) {
-  insert(i, std::pair<size_t, size_t>({j, k}));
+  this->insert(i, std::pair<size_t, size_t>({j, k}));
 }/// Mapper::insert
 
 void Mapper::insert(const size_t i, const std::pair<size_t, size_t>& p) {

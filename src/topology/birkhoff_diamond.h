@@ -25,12 +25,17 @@ public:
   inline std::vector<size_t> getIBN(const size_t vertex) const {
     return interior_backward_neighbors_.count(vertex) ? interior_backward_neighbors_.at(vertex) : std::vector<size_t>();
   }
+  inline const std::vector<std::pair<size_t, size_t>>& getBNV() const {
+    return boundary_nonadjacent_vertices_;
+  }
+  std::vector<std::pair<size_t, size_t>> getBoundaryCutVertices(const size_t u, const size_t v) const;
   virtual void show() const override;
 
 protected:
   VertexSymmetry vertex_symmetry_;
   std::unordered_map<size_t, std::vector<size_t>> boundary_backward_neighbors_;
   std::unordered_map<size_t, std::vector<size_t>> interior_backward_neighbors_;
+  std::vector<std::pair<size_t, size_t>> boundary_nonadjacent_vertices_;
 };/// class BirkhoffDiamond
 
 }/// namespace PlanarGraphColoring

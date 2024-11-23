@@ -2,6 +2,7 @@
 
 #include "digraph.h"
 #include "notation.h"
+#include "math.h"
 
 #define INSERT(some, u, v) \
 if (some##_.count(u)) {\
@@ -19,6 +20,17 @@ void Digraph::append(const size_t i, const size_t j) {
 
 Digraph::Digraph(const size_t n) {
   n_ = n;
+}/// Digraph::Digraph
+
+Digraph::Digraph(const std::vector<std::vector<size_t>>& edges) {
+  n_ = 0;
+  for (const auto& edge : edges) {
+    const size_t u = edge[0];
+    const size_t v = edge[1];
+    n_ = max(n_, u + 1, v + 1);
+    INSERT(successors, u, v)
+    INSERT(predecessors, v, u)
+  }
 }/// Digraph::Digraph
 
 Digraph::Digraph(const size_t n, const std::vector<std::vector<size_t>>& edges) {

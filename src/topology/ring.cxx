@@ -6,14 +6,14 @@
 namespace PlanarGraphColoring {
 
 Ring::Ring(const size_t k, const size_t n, const std::vector<std::vector<size_t>>& edges) :
-  Graph(n, edges), k_(k) {
+  PlanarGraph(n, edges), k_(k) {
 }/// Ring::Ring
 
 void Ring::show() const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   std::cout << "boundary size: " << k_ << "\n";
   std::cout << "interior size: " << interiorSize() << "\n";
-  Graph::show();
+  PlanarGraph::show();
 }/// Ring::show
 
 }/// PlanarGraphColoring

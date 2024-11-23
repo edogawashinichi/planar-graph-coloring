@@ -2,6 +2,7 @@
 
 #include "birkhoff_diamond.h"
 #include "../basic/notation.h"
+#include "../basic/math.h"
 
 using namespace PlanarGraphColoring;
 
@@ -79,6 +80,10 @@ void test_0() {
       DEBUG << i << "th getVertexSymmetry passed!\n";
     }
   }
+  std::vector<std::pair<size_t, size_t>> cuts = bd.getBoundaryCutVertices(1, 3);
+  dict_sort<size_t>(cuts);
+  const std::vector<std::pair<size_t, size_t>> exp_cuts = {{0, 2}, {2, 4}, {2, 5}};
+  res = res && (cuts == exp_cuts);
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0

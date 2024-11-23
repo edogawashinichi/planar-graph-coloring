@@ -1,7 +1,7 @@
 /// digraph_searcher.cxx
 
 #include "digraph_searcher.h"
-#include "dijktra/dijkstra.h"
+#include "dijkstra/dijkstra.h"
 
 namespace PlanarGraphColoring {
 
@@ -42,11 +42,12 @@ void DigraphSearcher::greedy(const Structure& structure, SearcherResult* searche
 }/// DigraphSearcher::greedy
 
 void DigraphSearcher::dijkstra(const Structure& structure, SearcherResult* searcher_result) {
-  /// TODO
   auto digraph = dynamic_cast<const Digraph&>(structure);
   auto digraph_searcher_result = dynamic_cast<DigraphSearcherResult*>(searcher_result);
-  Dijktra dijkstra;
-  dijkstra.run(digraph, digraph_searcher_result);
+  Dijkstra dijkstra;
+  for (size_t i = 0; i < digraph.size(); ++i) {
+    dijkstra.run(i, digraph, digraph_searcher_result->getDirectedPathResult());
+  }
 }/// DigraphSearcher::dijkstra
 
 }/// namespace PlanarGraphColoring

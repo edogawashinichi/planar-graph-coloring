@@ -5,6 +5,9 @@
 #include "../operator/digraph_searcher.h"
 #include "../basic/notation.h"
 
+/// TODO: Interpreter* routing_interpreter
+/// for each class, find route from representative to the rest
+
 #define FUNC(reasonBySome, getSomeConst) \
 void BirkhoffDiamondAnalyst::reasonBySome(const RelationManager& relation_manager, Interpreter* classification_interpreter) { \
   INFO_START(BirkhoffDiamondAnalyst::reasonBySome) \
@@ -16,15 +19,10 @@ void BirkhoffDiamondAnalyst::reasonBySome(const RelationManager& relation_manage
   INFO_VAR(weak_component_size) \
   interpreter->set(relation_manager, result); \
   INFO << "interpreter size: " << interpreter->size() << "\n"; \
-  size_t cnt = 15; \
-  for (size_t i = 0; i < interpreter->size(); ++i) { \
-    /*INFO << i << "th size: " << interpreter->size(i) << "\n";*/ \
-    if (interpreter->size(i) > 1) { \
-      interpreter->show(i); \
-      if (--cnt == 0) { \
-        break; \
-      } \
-    } \
+  const size_t cnt = 15; \
+  for (size_t i = 0; i < interpreter->size() && i < cnt; ++i) { \
+    DEBUG << i << "th size: " << interpreter->size(i) << "\n"; \
+    interpreter->show(i); \
   } \
   INFO_END(BirkhoffDiamondAnalyst::reasonBySome) \
 }/// BirkhoffDiamondAnalyst::reasonBySome

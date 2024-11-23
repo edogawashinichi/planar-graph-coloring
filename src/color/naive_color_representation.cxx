@@ -30,6 +30,10 @@ size_t NaiveColorRepresentation::get(const size_t index) const {
   return index2color_.count(index) ? index2color_.at(index) : -1;
 }/// NaiveColorRepresentation::get
 
+bool NaiveColorRepresentation::empty() const {
+  return index2color_.empty();
+}/// NaiveColorRepresentation::empty
+
 std::vector<size_t> NaiveColorRepresentation::getVector() const {
   size_t max = 0;
   for (const auto& kv : index2color_) {

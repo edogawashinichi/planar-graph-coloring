@@ -4,6 +4,7 @@
 
 #include "color_representation.h"
 #include <vector>
+#include <string>
 
 namespace PlanarGraphColoring {
 
@@ -17,6 +18,9 @@ public:
   void append(const std::vector<size_t>& color);
   inline size_t size() const {
     return colors_.size();
+  }
+  inline bool empty() const {
+    return colors_.empty();
   }
   inline size_t n() const {
     return colors_.front()->size();
@@ -34,6 +38,7 @@ public:
   }
   void show() const;
   void show(const size_t n) const;
+  void showWith(const std::string& s, const size_t n) const;
   ~ColorResult();
 };/// class ColorResult
 

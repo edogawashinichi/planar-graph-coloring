@@ -5,16 +5,15 @@
 
 #pragma once
 
+#include "../basic/global.h"
 #include <vector>
 
 namespace PlanarGraphColoring {
 
-constexpr size_t COLORS = 4;
-constexpr size_t UNDEF_COLOR = 9;
-
 class ColorRepresentation {
 public:
   virtual size_t size() const = 0;
+  virtual bool empty() const = 0;
   virtual size_t get(const size_t index) const = 0;
   virtual std::vector<size_t> getVector() const = 0;
   virtual void set(const size_t index, const size_t color) = 0;

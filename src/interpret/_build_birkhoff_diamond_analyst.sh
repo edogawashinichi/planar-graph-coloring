@@ -31,10 +31,11 @@ color_src_path="../color/"
 basic_src_path="../basic/"
 relation_src_path="../relation/"
 operator_src_path="../operator/"
+dijkstra_src_path="../operator/dijkstra/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} birkhoff_diamond_analyst.cxx classification_interpreter.cxx ${relation_src_path}birkhoff_diamond_relation_builder.cxx ${relation_src_path}relation_manager.cxx ${relation_src_path}relation_result.cxx ${relation_src_path}relation.cxx ${relation_src_path}mapper.cxx ${relation_src_path}digraph_result.cxx ${topology_src_path}birkhoff_diamond.cxx ${topology_src_path}ring.cxx ${basic_src_path}graph.cxx ${algebra_src_path}symmetry.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${color_src_path}birkhoff_diamond_colorer.cxx ${basic_src_path}math.cxx ${color_src_path}birkhoff_diamond_color_judger.cxx ${color_src_path}color_transformer.cxx ${basic_src_path}global.cxx ${basic_src_path}digraph.cxx ${operator_src_path}digraph_searcher.cxx ${operator_src_path}digraph_searcher_result.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} birkhoff_diamond_analyst.cxx classification_interpreter.cxx ${relation_src_path}birkhoff_diamond_relation_builder.cxx ${relation_src_path}relation_manager.cxx ${relation_src_path}relation_result.cxx ${relation_src_path}relation.cxx ${relation_src_path}mapper.cxx ${relation_src_path}digraph_result.cxx ${topology_src_path}birkhoff_diamond.cxx ${topology_src_path}ring.cxx ${basic_src_path}graph.cxx ${algebra_src_path}symmetry.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${color_src_path}birkhoff_diamond_colorer.cxx ${basic_src_path}math.cxx ${color_src_path}birkhoff_diamond_color_judger.cxx ${color_src_path}color_transformer.cxx ${basic_src_path}global.cxx ${basic_src_path}digraph.cxx ${operator_src_path}digraph_searcher.cxx ${operator_src_path}digraph_searcher_result.cxx ${operator_src_path}directed_path_result.cxx ${operator_src_path}directed_path.cxx ${operator_src_path}path.cxx ${dijkstra_src_path}dijkstra.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

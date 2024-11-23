@@ -64,8 +64,7 @@ std::vector<size_t> ColorResult::getInfo(const size_t index, const size_t length
 
 void ColorResult::append(const std::vector<size_t>& color) {
   /// currently realized by NaiveColorRepresention
-  /// TODO
-  /// memory leak risk
+  /// WARNING: memory leak risk
   ColorRepresentation* p = new NaiveColorRepresentation();
   colors_.emplace_back(p);
   for (size_t i = 0; i < color.size(); ++i) {
@@ -83,7 +82,7 @@ void ColorResult::show() const {
 
 void ColorResult::show(const size_t n) const {
   if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
-  std::cout << "size: " << n << "/" << colors_.size() << "\n";
+  DEBUG << "size: " << n << "/" << colors_.size() << "\n";
   size_t k = 0;
   for (size_t i = 0; i < colors_.size(); ++i) {
     if (!colors_[i]->valid()) continue;
@@ -92,5 +91,20 @@ void ColorResult::show(const size_t n) const {
     colors_[i]->show();
   }
 }/// ColorResult::show
+
+void ColorResult::showWith(const std::string& s, const size_t n) const {
+  TEST_INFO
+  DEBUG << "size: " << n << "/" << colors_.size() << "\n";
+  size_t k = 0;
+  for (size_t i = 0; i < colors_.size(); ++i) {
+    if (!colors_[i]->valid()) continue;
+    if (k >= n) break;
+    if (0 == k) std::cout << i << "th(" << s << "): ";
+    else std::cout << i << "th: ";
+    colors_[i]->show();
+    if (s == "representative") break;
+    ++k;
+  }
+}/// ColorResult::showWith
 
 }/// PlanarGraphColoring

@@ -8,7 +8,7 @@ if [ ! -d ${obj_path} ]; then
   mkdir ${obj_path}
 fi
 
-test_file="_test_ring.cxx"
+test_file="_test_routing_interpreter.cxx"
 parameter=""
 if [ $# -ge 1 ]; then
   parameter=$1
@@ -25,11 +25,16 @@ if [ -f ${obj_file} ]; then
 fi
 
 src_path="./"
+topology_src_path="../topology/"
+algebra_src_path="../algebra/"
+color_src_path="../color/"
 basic_src_path="../basic/"
+relation_src_path="../relation/"
+operator_src_path="../operator/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} planar_graph.cxx ${basic_src_path}graph.cxx ${src_path}ring.cxx ${basic_src_path}global.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} routing_interpreter.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}global.cxx ${operator_src_path}digraph_searcher_result.cxx ${relation_src_path}relation_manager.cxx ${relation_src_path}digraph_result.cxx ${basic_src_path}digraph.cxx ${relation_src_path}mapper.cxx ${relation_src_path}relation_result.cxx ${relation_src_path}relation.cxx ${operator_src_path}directed_path_result.cxx ${operator_src_path}directed_path.cxx ${operator_src_path}path.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

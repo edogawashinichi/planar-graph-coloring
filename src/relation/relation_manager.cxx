@@ -12,17 +12,25 @@ RelationManager::RelationManager() {
   digraph_result_ = std::make_unique<DigraphResult>();
 }/// RelationManager::RelationManager
 
-const ColorResult* RelationManager::constColorResult() const {
+const ColorResult* RelationManager::getColorResultConst() const {
   return color_result_.get();
-}/// RelationManager::constColorResult
+}/// RelationManager::getColorResultConst
 
 ColorResult* RelationManager::getColorResult() {
   return color_result_.get();
 }/// RelationManager::getColorResult
 
+const RelationResult* RelationManager::getRelationResultConst() const {
+  return relation_result_.get();
+}/// RelationManager::getRelationResultConst
+
 RelationResult* RelationManager::getRelationResult() {
   return relation_result_.get();
 }/// RelationManager::getRelationResult
+
+const Mapper* RelationManager::getMapperConst() const {
+  return mapper_.get();
+}/// RelationManager::getMapperConst
 
 Mapper* RelationManager::getMapper() {
   return mapper_.get();

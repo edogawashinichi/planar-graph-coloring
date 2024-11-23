@@ -1,0 +1,7 @@
+start building...
+test file: _test_routing_interpreter.cxx
+obj file: ../../obj/_test_routing_interpreter.o
+remove ../../obj/_test_routing_interpreter.o
+../../obj/_test_routing_interpreter.o generated!
+./_build_routing_interpreter.sh: line 45: 18039 Segmentation fault      ./${obj_file} ${parameter}
+end running...
