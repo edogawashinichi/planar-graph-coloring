@@ -108,6 +108,11 @@ for (const auto& a : vec) {\
 }\
 std::cout << "\n";
 
+#define PGC__DEBUG_VEC(vec) \
+if (PGC__DEBUG_MODE) { \
+  PGC__SHOW_VEC(vec) \
+}
+
 #define PGC__SHOW_VEC_WITH_ARROW(vec) \
 if (!(vec).empty()) { \
 for (size_t macro_i = 0; macro_i < (vec).size() - 1; ++macro_i) { \
@@ -159,6 +164,18 @@ std::cout << "\n";
 for (size_t i = 0; i < vvi.size(); ++i) { \
   std::cout << i << "th: "; \
   PGC__SHOW_VEC(vvi[i]) \
+}
+
+#define PGC__DEBUG_VVI(vvi) \
+if (PGC__DEBUG_MODE) { \
+  for (const auto& vi : vvi) { \
+    std::cout << "{ "; \
+    for (const auto& i : vi) { \
+      std::cout << i << " "; \
+    } \
+    std::cout << "} "; \
+  } \
+  std::cout << "\n"; \
 }
 
 #define PGC__SHOW_MIVI__(map) \

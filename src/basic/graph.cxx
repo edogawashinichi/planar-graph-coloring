@@ -2,8 +2,9 @@
 
 #include "graph.h"
 #include "notation.h"
+#include "math.h"
 
-#define __INSERT(u, v) \
+#define INSERT(u, v) \
 if (neighbors_.count(u)) {\
   neighbors_[u].push_back(v);\
 } else {\
@@ -12,23 +13,76 @@ if (neighbors_.count(u)) {\
 
 namespace PlanarGraphColoring {
 
-Graph::Graph(const size_t n, const std::vector<std::vector<size_t>>& edges) {
-  n_ = n;
+std::vector<std::vector<size_t>> Graph::getNeighborsInfo() const {
+  DEBUG_START(Graph::getNeighborsInfo)
+  std::vector<std::vector<size_t>> res(n_, std::vector<size_t>());
+  for (const auto& kv : neighbors_) {
+    std::vector<size_t> vec(kv.second);
+    std::sort(vec.begin(), vec.end());
+    res[kv.first] = vec;
+  }/// for
+  //dict_sort(res); /* WARNING: radix sort */
+  DEBUG_END(Graph::getNeighborsInfo)
+  return res;
+}/// Graph::getNeighborsInfo
+
+std::vector<std::vector<size_t>> Graph::getEdges() const {
+  std::vector<std::vector<size_t>> res;
+  for (const auto& kv : neighbors_) {
+    const size_t u = kv.first;
+    for (const auto& v : kv.second) {
+      if (u >= v) continue;
+      res.emplace_back(std::vector<size_t>({u, v}));
+    }/// v
+  }/// for kv
+  return res;
+}/// Graph::getEdges
+
+void Graph::clear() {
+  n_ = 0;
+  neighbors_.clear();
+}/// Graph::clear
+
+void Graph::insert(const size_t u, const size_t v) {
+  if (neighbors_.count(u)) {
+    neighbors_[u].emplace_back(v);
+  } else {
+    neighbors_[u] = std::vector<size_t>({v});
+  }
+}/// Graph::insert
+
+Graph::Graph(const std::vector<std::vector<size_t>>& edges) {
+  n_ = 0;
+  neighbors_.clear();
   for (const auto& edge : edges) {
     const size_t u = edge[0];
     const size_t v = edge[1];
-    __INSERT(u, v)
-    __INSERT(v, u)
+    n_ = max(n_, u + 1, v + 1);
+    INSERT(u, v)
+    INSERT(v, u)
+  }
+}/// Graph::Graph
+
+Graph::Graph(const size_t n, const std::vector<std::vector<size_t>>& edges) {
+  n_ = n;
+  neighbors_.clear();
+  for (const auto& edge : edges) {
+    const size_t u = edge[0];
+    const size_t v = edge[1];
+    INSERT(u, v)
+    INSERT(v, u)
   }
 }/// Graph::Graph
 
 void Graph::show() const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   std::cout << "number of vertices: " << n_ << "\n";
   std::cout << "neighbors:\n";
-  for (const auto& kv : neighbors_) {
-    std::cout << kv.first << ": { ";
-    for (const auto v : kv.second) {
+  const std::vector<std::vector<size_t>> neighbors(this->getNeighborsInfo());
+  for (size_t i = 0; i < neighbors.size(); ++i) {
+    const auto& vec = neighbors[i];
+    std::cout << i << ": { ";
+    for (const auto v : vec) {
       std::cout << v << " ";
     }
     std::cout << "}\n";
@@ -36,7 +90,7 @@ void Graph::show() const {
 }/// Graph::show
 
 void Graph::show(const size_t n) const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   std::cout << "number of vertices: " << n_ << "\n";
   std::cout << "neighbors:\n";
   size_t i = 0;

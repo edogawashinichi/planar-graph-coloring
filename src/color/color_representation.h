@@ -12,6 +12,22 @@ namespace PlanarGraphColoring {
 
 class ColorRepresentation {
 public:
+  inline std::vector<size_t> getVertices(const std::vector<size_t>& colors) const {
+    std::vector<size_t> res;
+    for (size_t v = 0; v < this->size(); ++v) {
+      bool find = false;
+      for (const auto& color : colors) {
+        if (this->get(v) == color) {
+          find = true;
+          break;
+        }/// if
+      }/// for color
+      if (find) {
+        res.emplace_back(v);
+      }/// if find
+    }/// for v
+    return res;
+  }/// getVertices
   virtual size_t size() const = 0;
   virtual bool empty() const = 0;
   virtual size_t get(const size_t index) const = 0;
