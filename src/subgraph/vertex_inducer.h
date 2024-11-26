@@ -1,17 +1,15 @@
 /// vertex_inducer.h
 
-/// TODO
-/// graph --vertex_inducer--> graph
-
 #pragma once
 
-#include "../basic/graph.h"
+#include "edge_inducer.h"
+#include "../basic/notation.h"
 
 namespace PlanarGraphColoring {
 
-class VertexInducer {
+class VertexInducer : public EdgeInducer {
 public:
-  void run(const Graph& lhs, const std::vector<size_t>& vertices, Graph* rhs);
+  void run(const Graph& lhs, const VI& vertices, Graph* rhs);
 };/// class VertexInducer
 
 }/// namespace PlanarGraphColoring

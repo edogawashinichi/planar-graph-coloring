@@ -26,13 +26,13 @@ std::vector<std::vector<size_t>> Graph::getNeighborsInfo() const {
   return res;
 }/// Graph::getNeighborsInfo
 
-std::vector<std::vector<size_t>> Graph::getEdges() const {
-  std::vector<std::vector<size_t>> res;
+VII Graph::getEdges() const {
+  VII res;
   for (const auto& kv : neighbors_) {
     const size_t u = kv.first;
     for (const auto& v : kv.second) {
       if (u >= v) continue;
-      res.emplace_back(std::vector<size_t>({u, v}));
+      res.emplace_back(std::pair<size_t, size_t>({u, v}));
     }/// v
   }/// for kv
   return res;
@@ -42,6 +42,18 @@ void Graph::clear() {
   n_ = 0;
   neighbors_.clear();
 }/// Graph::clear
+
+bool Graph::contain(const size_t u, const size_t v) const {
+  bool res = false;
+  if (neighbors_.count(u)) {
+    for (const auto& w : neighbors_.at(u)) {
+      if (w != v) continue;
+      res = true;
+      break;
+    }
+  }
+  return res;
+}/// Graph::contain
 
 void Graph::insert(const size_t u, const size_t v) {
   if (neighbors_.count(u)) {

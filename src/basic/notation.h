@@ -102,6 +102,9 @@ std::cout << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (wa
 #define PGC__SHOW_3VAR(uar, var, war) \
 std::cout << PGC__STR(uar) << "=" << (uar) << "," << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (war) << "\n";
 
+#define VI std::vector<size_t>
+#define VII std::vector<std::pair<size_t, size_t>>
+
 #define PGC__SHOW_VEC(vec) \
 for (const auto& a : vec) {\
   std::cout << a << " ";\
@@ -132,6 +135,11 @@ for (const auto& kv : vii) { \
   std::cout << kv.first << "," << kv.second << " "; \
 } \
 std::cout << "\n";
+
+#define PGC__DEBUG_VII(vii) \
+if (PGC__DEBUG_MODE) { \
+  PGC__SHOW_VII(vii) \
+}
 
 #define PGC__SHOW_VII_WITH_COLOR(vii, COLOR) \
 for (const auto& kv : vii) { \

@@ -6,7 +6,7 @@
 #pragma once
 
 #include "structure.h"
-#include <vector>
+#include "notation.h"
 #include <unordered_map>
 
 namespace PlanarGraphColoring {
@@ -27,12 +27,13 @@ public:
     n_ = n;
   }
   void insert(const size_t u, const size_t v);
+  bool contain(const size_t u, const size_t v) const;
   std::vector<size_t> getNeighbors(const size_t vertex) const;
   inline size_t size() const {
     return n_;
   }
   std::vector<std::vector<size_t>> getNeighborsInfo() const;
-  std::vector<std::vector<size_t>> getEdges() const;
+  VII getEdges() const;
 };/// class Graph
 
 }/// namespace PlanarGraphColoring
