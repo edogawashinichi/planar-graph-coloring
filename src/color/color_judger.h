@@ -3,11 +3,13 @@
 #pragma once
 
 #include "color_representation.h"
+#include "../topology/ring.h"
 
 namespace PlanarGraphColoring {
 
 class ColorJudger {
 public:
+  virtual bool isBoundaryColoringValid(const Ring& ring, const ColorRepresentation& coloring) = 0;
   virtual bool isIsomorphismByVertexSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs) = 0;
   virtual bool isIsomorphismByVertexSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs, std::vector<size_t>* mapper) = 0;
   virtual bool isIsomorphismByVertexSymmetry(const std::vector<size_t>& lhs, const std::vector<size_t>& rhs, std::vector<size_t>* mapper) = 0;

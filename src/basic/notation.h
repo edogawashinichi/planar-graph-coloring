@@ -32,64 +32,108 @@ PGC__PERIODIC_COLOR = (PGC__PERIODIC_COLOR + 1) % 4;
 #define POP_COLOR \
 PGC__COLOR_STACK.pop();
 
-#define DEBUG \
-if (PGC__DEBUG_MODE) \
+#define VERBOSE \
+if (PGC__VERBOSE_MODE) \
   std::cout
 
-#define INFO \
-if (PGC__DEBUG_MODE || PGC__INFO_MODE) \
+#define DEBUG \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) \
   std::cout
+
+#define VERBOSE_OBJ(obj) \
+if (PGC__VERBOSE_MODE) { \
+  (obj).show(); \
+}
+
+#define DEBUG_OBJ(obj) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  (obj).show(); \
+}
+
+#define INFO \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) \
+  std::cout
+
+#define INFO_OBJ(obj) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  (obj).show(); \
+}
 
 #define PGC__STR(s) \
 std::string(#s)
 
-#define DEBUG_START(s) \
-if (PGC__DEBUG_MODE) { \
+#define VERBOSE_START(s) \
+if (PGC__VERBOSE_MODE) { \
   PUSH_COLOR \
   std::cout << CUR_COLOR << "start " << RESET << PGC__STR(s) << "\n"; \
 }
 
-#define DEBUG_END(s) \
-if (PGC__DEBUG_MODE) { \
+#define DEBUG_START(s) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  PUSH_COLOR \
+  std::cout << CUR_COLOR << "start " << RESET << PGC__STR(s) << "\n"; \
+}
+
+#define VERBOSE_END(s) \
+if (PGC__VERBOSE_MODE) { \
   std::cout << CUR_COLOR << "end " << RESET << PGC__STR(s) << "\n"; \
   POP_COLOR \
 }
 
+#define DEBUG_END(s) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  std::cout << CUR_COLOR << "end " << RESET << PGC__STR(s) << "\n"; \
+  POP_COLOR \
+}
+
+#define TEST_VERBOSE \
+if (!PGC__VERBOSE_MODE) return;
+
 #define TEST_DEBUG \
-if (!PGC__DEBUG_MODE) return;
+if (!PGC__VERBOSE_MODE && !PGC__DEBUG_MODE) return;
 
 #define TEST_INFO \
-if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
+if (!PGC__VERBOSE_MODE && !PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
 
 #define INFO_START(s) \
-if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   PUSH_COLOR \
   std::cout << CUR_COLOR << "start " << RESET << PGC__STR(s) << "\n"; \
 }
 
 #define INFO_END(s) \
-if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   std::cout << CUR_COLOR << "end " << RESET << PGC__STR(s) << "\n"; \
   POP_COLOR \
 }
 
 #define INFO_VAR(var) \
-if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << "\n"; \
 }
 
 #define DEBUG_VAR(var) \
-if (PGC__DEBUG_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  std::cout << PGC__STR(var) << "=" << (var) << "\n"; \
+} 
+
+#define VERBOSE_VAR(var) \
+if (PGC__VERBOSE_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << "\n"; \
 } 
 
 #define INFO_2VAR(var, war) \
-if (PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
 }
 
 #define DEBUG_2VAR(var, war) \
-if (PGC__DEBUG_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
+}
+
+#define VERBOSE_2VAR(var, war) \
+if (PGC__VERBOSE_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
 }
 
@@ -102,6 +146,7 @@ std::cout << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (wa
 #define PGC__SHOW_3VAR(uar, var, war) \
 std::cout << PGC__STR(uar) << "=" << (uar) << "," << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (war) << "\n";
 
+#define II std::pair<size_t, size_t>
 #define VI std::vector<size_t>
 #define VII std::vector<std::pair<size_t, size_t>>
 
@@ -226,6 +271,31 @@ if (res) { \
   PGC__SHOW_ENDL(PGC__TEST_FAIL_INFO(i)) \
 }
 
+#define CHECK_VERBOSE_MODE \
+const std::vector<std::string> verboses = { \
+  "verbose", "v", "VERBOSE", "V", "Verbose" \
+}; \
+if (argc > 1) { \
+  for (const auto& verbose : verboses) { \
+    if (verbose == std::string(argv[1])) { \
+      PGC__VERBOSE_MODE = true; \
+      break; \
+    } \
+  } \
+  if (PGC__VERBOSE_MODE) { \
+    std::cout << "mode: " << GREEN << "verbose" << RESET << "\n"; \
+  } else { \
+    std::cout << "verbose mode parameter: "; \
+    for (const auto& verbose : verboses) { \
+      std::cout << RED << verbose << RESET << " "; \
+    } \
+    std::cout << "\n"; \
+  } \
+} else { \
+  std::cout << "verbose mode usage:\n"; \
+  std::cout << RED << "./_build_xx.sh verbose" << RESET << "\n"; \
+}
+
 #define CHECK_DEBUG_MODE \
 const std::vector<std::string> debugs = { \
   "debug", "d", "DEBUG", "D", "Debug" \
@@ -278,6 +348,7 @@ if (argc > 1) { \
 
 #define PGC__MAIN_START \
 int main(int argc, char* argv[]) { \
+  CHECK_VERBOSE_MODE \
   CHECK_DEBUG_MODE \
   CHECK_INFO_MODE \
 

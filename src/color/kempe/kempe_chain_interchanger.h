@@ -2,16 +2,17 @@
 
 #pragma once
 
-#include "../color_representative.h"
+#include "../color_representation.h"
 #include "../color_result.h"
-#include "../topology/planar_graph.h"
+#include "../../topology/ring.h"
 
 namespace PlanarGraphColoring {
 
 class KempeChainInterchanger {
 public:
-  virtual bool run(const PlanarGraph& graph, const ColorRepresentative& lhs, ColorReuslt* rhs) = 0;
-protected:
+  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, ColorResult* colorings) = 0;
+  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, ColorResult* colorings) = 0;
+  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& kempe_vertex_pair, const II& separated_vertex_pair, ColorResult* colorings) = 0;
 };/// class KempeChainInterchanger
 
 }/// namespace PlanarGraphColoring

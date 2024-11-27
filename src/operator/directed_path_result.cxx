@@ -48,6 +48,7 @@ std::vector<DirectedPath> DirectedPathResult::getPaths(const size_t vertex) cons
   for (const auto& kv : paths_) {
     if (kv.first.first != vertex) continue;
     res.emplace_back(kv.second);
+    /// WARNING:
     /// vec.emplace_back(obj):
     //    0. obj --deepcopy--> anonym
     //    1. anonym --movecopy--> vec.back

@@ -4,10 +4,6 @@
 
 #include "analyst.h"
 
-/// TODO
-// this is a classifer
-// we also need a shortest path router
-
 namespace PlanarGraphColoring {
 
 class BirkhoffDiamondAnalyst : public Analyst {

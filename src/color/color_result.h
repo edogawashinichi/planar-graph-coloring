@@ -16,6 +16,7 @@ public:
   ColorResult(const ColorResult& rhs);
   ColorResult(ColorResult&& rhs);
   void append(const std::vector<size_t>& color);
+  void append(const ColorRepresentation& color);
   inline size_t size() const {
     return colors_.size();
   }

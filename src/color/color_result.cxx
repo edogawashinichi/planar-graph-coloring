@@ -8,7 +8,7 @@ namespace PlanarGraphColoring {
 
 ColorResult::ColorResult() {
   colors_.clear();
-  DEBUG << "ColorResult constructor\n";
+  VERBOSE << "ColorResult constructor\n";
 }/// ColorResult::ColorResult 
 
 ColorResult::ColorResult(const ColorResult& rhs) {
@@ -37,18 +37,18 @@ ColorResult::ColorResult(ColorResult&& rhs) {
 }/// ColorResult::ColorResult
 
 ColorResult::~ColorResult() {
-  DEBUG << "start ColorResult destructor\n";
+  VERBOSE << "start ColorResult destructor\n";
   for (size_t i = 0; i < colors_.size(); ++i) {
-    DEBUG << i << "th:\n";
+    VERBOSE << i << "th:\n";
     if (nullptr == colors_[i]) continue;
-    DEBUG << "  not nullptr\n";
-    DEBUG << " address: " << colors_[i] << "\n";
+    VERBOSE << "  not nullptr\n";
+    VERBOSE << " address: " << colors_[i] << "\n";
     delete colors_[i];
-    DEBUG << "  delete success!\n";
+    VERBOSE << "  delete success!\n";
     colors_[i] = nullptr;
   }
   colors_.clear();
-  DEBUG << "end ColorResult destructor\n";
+  VERBOSE << "end ColorResult destructor\n";
 }/// ColorResult::~ColorResult
 
 std::vector<size_t> ColorResult::getInfo(const size_t index) const {
@@ -65,10 +65,21 @@ std::vector<size_t> ColorResult::getInfo(const size_t index, const size_t length
 void ColorResult::append(const std::vector<size_t>& color) {
   /// currently realized by NaiveColorRepresention
   /// WARNING: memory leak risk
+  /// TODO: pure virtual function allocateMemory()=0
+  //        NaiveColorRepresentation::allocateMemory()
   ColorRepresentation* p = new NaiveColorRepresentation();
   colors_.emplace_back(p);
   for (size_t i = 0; i < color.size(); ++i) {
     colors_.back()->set(i, color[i]);
+  }
+}/// ColorResult::append
+
+void ColorResult::append(const ColorRepresentation& color) {
+  /// TODO: get rid of naive
+  ColorRepresentation* p = new NaiveColorRepresentation();
+  colors_.emplace_back(p);
+  for (size_t i = 0; i < color.size(); ++i) {
+    colors_.back()->set(i, color.get(i));
   }
 }/// ColorResult::append
 

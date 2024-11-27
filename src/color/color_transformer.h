@@ -3,6 +3,7 @@
 #pragma once
 
 #include "color_representation.h"
+#include "color_result.h"
 
 namespace PlanarGraphColoring {
 

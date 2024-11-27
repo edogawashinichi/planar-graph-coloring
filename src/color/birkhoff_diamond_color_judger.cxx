@@ -9,6 +9,19 @@
 
 namespace PlanarGraphColoring {
 
+bool BirkhoffDiamondColorJudger::isBoundaryColoringValid(const Ring& ring, const ColorRepresentation& coloring) {
+  auto birkhoff_diamond = dynamic_cast<const BirkhoffDiamond&>(ring);
+  const int k = birkhoff_diamond.boundarySize();
+  bool res = true;
+  for (int i = 0; i < k; ++i) {
+    if (coloring.get(i % k) == coloring.get((i + 1) % k)) {
+      res = false;
+      break;
+    }
+  }
+  return res;
+}/// BirkhoffDiamondColorJudger::isBoundaryColoringValid
+
 bool BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs) {
   std::vector<size_t> mapper;
   return isIsomorphismByVertexSymmetry(lhs, rhs, &mapper);
