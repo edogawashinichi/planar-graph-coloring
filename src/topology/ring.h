@@ -20,6 +20,7 @@ public:
   inline size_t interiorSize() const {
     return n_ - k_;
   }
+  virtual const VII getBoundarySeparatedPairs(const size_t i, const size_t j) const;
   virtual void show() const override;
 };/// class Ring
 

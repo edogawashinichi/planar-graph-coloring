@@ -21,6 +21,11 @@ std::vector<std::pair<size_t, size_t>> BirkhoffDiamond::getBoundaryCutVertices(c
   return data.at(std::pair<size_t, size_t>({u, v}));
 }/// BirkhoffDiamond::getBoundaryCutVertices
 
+const VII BirkhoffDiamond::getBoundarySeparatedPairs(const size_t i, const size_t j) const {
+  /// TODO: delete getBoundaryCutVertices?
+  return Ring::getBoundarySeparatedPairs(i, j);
+}/// BirkhoffDiamond::getBoundarySeparatedPairs
+
 BirkhoffDiamond::BirkhoffDiamond() {
   k_ = 6; /// boundary size
   n_ = 6 + 4; /// total

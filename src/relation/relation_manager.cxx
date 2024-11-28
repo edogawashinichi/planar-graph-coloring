@@ -45,6 +45,7 @@ const DigraphResult* RelationManager::getDigraphResultConst() const {
 }/// RelationManager::getDigraphResultConst
 
 void RelationManager::show() const {
+  TEST_INFO
   std::cout << "color result:\n";
   showColorResult();
   std::cout << "relation result:\n";

@@ -10,6 +10,7 @@ namespace PlanarGraphColoring {
 class BirkhoffDiamond: public Ring {
 public:
   BirkhoffDiamond();
+  virtual const VII getBoundarySeparatedPairs(const size_t i, const size_t j) const override;
   inline bool isBoundary(const size_t vertex) const {
     return vertex < k_;
   }

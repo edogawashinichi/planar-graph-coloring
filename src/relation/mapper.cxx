@@ -20,7 +20,7 @@ void Mapper::insert(const size_t i, const std::pair<size_t, size_t>& p) {
 }/// Mapper::insert
 
 void Mapper::show(const size_t n) const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   std::cout << "size: " << n << "/" << line2plane_.size() << "\n";
   size_t i = 0;
   for (const auto& kv : line2plane_) {

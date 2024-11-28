@@ -12,32 +12,32 @@ ColorResult::ColorResult() {
 }/// ColorResult::ColorResult 
 
 ColorResult::ColorResult(const ColorResult& rhs) {
-  DEBUG << "start ColorResult deepcopy\n";
+  DEBUG_START(ColorResult deepcopy)
   DEBUG << "rhs:\n";
-  if (PGC__DEBUG_MODE) rhs.show();
+  DEBUG_OBJ(rhs)
   for (size_t i = 0; i < rhs.colors_.size(); ++i) {
     DEBUG << i << "th:\n";
     NaiveColorRepresentation* ptr = dynamic_cast<NaiveColorRepresentation*>(rhs.colors_[i]);
     ColorRepresentation* p = new NaiveColorRepresentation(*ptr);
     this->colors_.emplace_back(p);
-    if (PGC__DEBUG_MODE) PGC__SHOW_2VAR(ptr, p);
+    DEBUG_2VAR(ptr, p)
   }
-  DEBUG << "end ColorResult deepcopy\n";
+  DEBUG_END(ColorResult deepcopy)
 }/// ColorResult::ColorResult
 
 ColorResult::ColorResult(ColorResult&& rhs) {
-  DEBUG << "start ColorResult movecopy\n";
+  DEBUG_START(ColorResult movecopy)
   for (size_t i = 0; i < rhs.colors_.size(); ++i) {
     DEBUG << i << "th:\n";
     ColorRepresentation* ptr = rhs.colors_[i];
     rhs.colors_[i] = nullptr;
     this->colors_.emplace_back(ptr);
   }
-  DEBUG << "end ColorResult movecopy\n";
+  DEBUG_END(ColorResult movecopy)
 }/// ColorResult::ColorResult
 
 ColorResult::~ColorResult() {
-  VERBOSE << "start ColorResult destructor\n";
+  VERBOSE_START(ColorResult destructor)
   for (size_t i = 0; i < colors_.size(); ++i) {
     VERBOSE << i << "th:\n";
     if (nullptr == colors_[i]) continue;
@@ -48,7 +48,7 @@ ColorResult::~ColorResult() {
     colors_[i] = nullptr;
   }
   colors_.clear();
-  VERBOSE << "end ColorResult destructor\n";
+  VERBOSE_END(ColorResult destructor)
 }/// ColorResult::~ColorResult
 
 std::vector<size_t> ColorResult::getInfo(const size_t index) const {
@@ -84,7 +84,7 @@ void ColorResult::append(const ColorRepresentation& color) {
 }/// ColorResult::append
 
 void ColorResult::show() const {
-  if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
+  TEST_INFO
   for (size_t i = 0; i < colors_.size(); ++i) {
     std::cout << i << "th: ";
     colors_[i]->show();
@@ -92,8 +92,8 @@ void ColorResult::show() const {
 }/// ColorResult::show
 
 void ColorResult::show(const size_t n) const {
-  if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
-  DEBUG << "size: " << n << "/" << colors_.size() << "\n";
+  TEST_INFO
+  INFO << "size: " << n << "/" << colors_.size() << "\n";
   size_t k = 0;
   for (size_t i = 0; i < colors_.size(); ++i) {
     if (!colors_[i]->valid()) continue;
@@ -105,7 +105,7 @@ void ColorResult::show(const size_t n) const {
 
 void ColorResult::showWith(const std::string& s, const size_t n) const {
   TEST_INFO
-  DEBUG << "size: " << n << "/" << colors_.size() << "\n";
+  INFO << "size: " << n << "/" << colors_.size() << "\n";
   size_t k = 0;
   for (size_t i = 0; i < colors_.size(); ++i) {
     if (!colors_[i]->valid()) continue;

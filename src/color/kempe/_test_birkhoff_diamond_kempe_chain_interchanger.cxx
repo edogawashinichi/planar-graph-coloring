@@ -20,11 +20,28 @@ void test_0() {
   interchanger.run(diamond, coloring, kempe_vertices, separated_vertices, &result);
   INFO << "RESULT:\n";
   result.show();
-  bool res = true;
+  bool res = (result.size() == 1);
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
+void test_1() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+  BirkhoffDiamond diamond;
+  NaiveColorRepresentation coloring({0, 1, 2, 1, 0, 2, 9, 9, 9, 9});
+  DEBUG_OBJ(coloring)
+  const II kempe_vertices = {1, 5};
+  ColorResult result;
+  BirkhoffDiamondKempeChainInterchanger interchanger;
+  interchanger.run(diamond, coloring, kempe_vertices, &result);
+  INFO << "RESULT:\n";
+  result.show();
+  bool res = (result.size() == 1);
+  PGC__TEST_RESULT_INFO(res, 1)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+}/// test_1
+
 PGC__MAIN_START
   test_0();
+  test_1();
 PGC__MAIN_END

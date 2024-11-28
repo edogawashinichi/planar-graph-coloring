@@ -36,6 +36,10 @@ void test_0() {
       DEBUG << "getNeighbors(" << i << ") passed!\n";
     }
   }/// for
+  const auto& pairs = ring.getBoundarySeparatedPairs(0, 2);
+  DEBUG_VAR(pairs.size())
+  res = res && (pairs.size() == 1);
+  res = res && (pairs[0] == std::pair<size_t, size_t>({1, 3}));
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0

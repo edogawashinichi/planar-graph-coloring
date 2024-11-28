@@ -52,7 +52,7 @@ size_t Digraph::arcs() const {
 }/// Digraph::arcs
 
 void Digraph::show() const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   std::cout << "number of vertices: " << n_ << "\n";
   std::cout << "predecessors:\n";
   for (const auto& kv : predecessors_) {
@@ -73,7 +73,7 @@ void Digraph::show() const {
 }/// Digraph::show
 
 void Digraph::show(const size_t n) const {
-  if (!PGC__DEBUG_MODE) return;
+  TEST_INFO
   std::cout << "number of vertices: " << n_ << "\n";
   std::cout << "predecessors:\n";
   size_t i = 0;

@@ -32,6 +32,12 @@ PGC__PERIODIC_COLOR = (PGC__PERIODIC_COLOR + 1) % 4;
 #define POP_COLOR \
 PGC__COLOR_STACK.pop();
 
+/*
+ * VERBOSE: print all messages
+ * DEBUG :  print all key messages
+ * INFO :   print all messages of output
+*/
+
 #define VERBOSE \
 if (PGC__VERBOSE_MODE) \
   std::cout

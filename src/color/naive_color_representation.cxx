@@ -56,7 +56,7 @@ void NaiveColorRepresentation::reset(const size_t index) {
 }/// NaiveColorRepresentation::reset
 
 void NaiveColorRepresentation::show() const {
-  if (!PGC__DEBUG_MODE && !PGC__INFO_MODE) return;
+  TEST_INFO
   std::vector<std::pair<size_t, size_t>> colors;
   for (const auto& kv : index2color_) {
     //std::cout << kv.first << ":" << kv.second << " ";

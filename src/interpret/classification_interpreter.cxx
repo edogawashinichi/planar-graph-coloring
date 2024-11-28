@@ -70,12 +70,12 @@ void ClassificationInterpreter::extend(const ColorResult& table, const size_t in
 
 void ClassificationInterpreter::show() const {
   TEST_INFO
-  INFO_START(ClassificationInterpreter::show)
+  DEBUG_START(ClassificationInterpreter::show)
   for (size_t i = 0; i < color_class_.size(); ++i) {
     std::cout << i << "th class (total " << color_class_[i].size() << "):\n";
     this->showWithRepresentative(i, N);
   }
-  INFO_END(ClassificationInterpreter::show)
+  DEBUG_END(ClassificationInterpreter::show)
 }/// ClassificationInterpreter::show
 
 void ClassificationInterpreter::showWithRepresentative(const size_t i, const size_t n) const {

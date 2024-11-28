@@ -16,6 +16,7 @@ void RelationResult::show(const size_t n) const {
   for (size_t i = 0; i < n && i < relations_.size(); ++i) {
     std::cout << i << "th: ";
     relations_[i].show();
+    VERBOSE << " after relation i show\n";
   }
 }/// RelationResult::show
 

@@ -10,6 +10,8 @@ namespace PlanarGraphColoring {
 
 bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const II& kempe_vertex_pair, const II& separated_vertex_pair, ColorResult* colorings) {
   DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring kempe_vertex_pair separated_vertex_pair colorings)
+  DEBUG_2VAR(kempe_vertex_pair.first, kempe_vertex_pair.second)
+  DEBUG_2VAR(separate_vertex_pair.first, separated_vertex_pair.second)
   auto birkhoff_diamond = dynamic_cast<const BirkhoffDiamond&>(ring);
   auto naive = dynamic_cast<const NaiveColorRepresentation&>(coloring);
   BirkhoffDiamondColorJudger judger;
@@ -44,6 +46,14 @@ bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRep
 }/// BirkhoffDiamondKempeChainInterchanger::run
 
 bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, ColorResult* colorings) {
+  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair colorings)
+  const auto& separated_vertices = ring.getBoundarySeparatedPairs(vertex_pair);
+  /// TODO: separated_chain 0 1 2 1 0 2 of {1, 5} is 121,2
+  //        the rest two intervals around the ring form separated vertices
+  for (const auto separated_vertex_pair : separated_vertices) {
+    this->run(ring, coloring, vertex_pair, separated_vertex_pair, colorings);
+  }
+  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair colorings)
   return !colorings->empty();
 }/// BirkhoffDiamondKempeChainInterchanger::run
 

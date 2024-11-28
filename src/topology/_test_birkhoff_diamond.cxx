@@ -84,6 +84,14 @@ void test_0() {
   dict_sort<size_t>(cuts);
   const std::vector<std::pair<size_t, size_t>> exp_cuts = {{0, 2}, {2, 4}, {2, 5}};
   res = res && (cuts == exp_cuts);
+  const auto& pairs = bd.getBoundarySeparatedPairs(0, 4);
+  DEBUG_VAR(pairs.size())
+  res = res && (pairs.size() == 3);
+  PGC__DEBUG_VII(pairs)
+  const auto& qairs = bd.getBoundarySeparatedPairs(1, 4);
+  DEBUG_VAR(qairs.size())
+  res = res && (qairs.size() == 4);
+  PGC__DEBUG_VII(qairs)
   PGC__TEST_RESULT_INFO(res, 0)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0

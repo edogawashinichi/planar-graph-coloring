@@ -5,6 +5,11 @@
 
 namespace PlanarGraphColoring {
 
+void ColorInducer::run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, KempeChain* chain) {
+  /// TODO
+
+}/// ColorInducer::run
+
 void ColorInducer::run(const Graph& lhs, const ColorRepresentation& coloring, const std::vector<size_t>& colors, Graph* rhs) {
   const std::vector<size_t> vertices(coloring.getVertices(colors));
   VertexInducer::run(lhs, vertices, rhs);

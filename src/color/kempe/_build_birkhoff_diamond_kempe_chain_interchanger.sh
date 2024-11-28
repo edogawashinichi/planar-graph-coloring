@@ -2,7 +2,7 @@
 
 echo "start building..."
 
-obj_path="../../obj/"
+obj_path="../../../obj/"
 if [ ! -d ${obj_path} ]; then
   echo "mkdir ${obj_path}"
   mkdir ${obj_path}

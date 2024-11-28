@@ -58,7 +58,7 @@ const Digraph* DigraphResult::getVertexColorKempeConst() const {
 
 void DigraphResult::show() const {
   TEST_INFO
-  INFO_START(DigraphResult::show)
+  DEBUG_START(DigraphResult::show)
   const size_t vertex_size = vertex_->size();
   const size_t vertex_arcs = vertex_->arcs();
   INFO_2VAR(vertex_size, vertex_arcs)
@@ -74,7 +74,7 @@ void DigraphResult::show() const {
   const size_t vertex_color_kempe_size = vertex_color_kempe_->size();
   const size_t vertex_color_kempe_arcs = vertex_color_kempe_->arcs();
   INFO_2VAR(vertex_color_kempe_size, vertex_color_kempe_arcs)
-  INFO_END(DigraphResult::show)
+  DEBUG_END(DigraphResult::show)
 }/// DigraphResult::show
 
 }/// namespace PlanarGraphColoring

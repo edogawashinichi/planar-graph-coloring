@@ -30,7 +30,7 @@ basic_src_path="../basic/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} digraph_searcher_result.cxx ${basic_src_path}global.cxx 
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} digraph_searcher_result.cxx directed_path_result.cxx directed_path.cxx path.cxx ${basic_src_path}global.cxx 
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"
