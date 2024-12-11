@@ -9,8 +9,10 @@ namespace PlanarGraphColoring {
 
 class BirkhoffDiamond: public Ring {
 public:
+  Ring shrinkToRing() const;
+public:
   BirkhoffDiamond();
-  virtual const VII getBoundarySeparatedPairs(const size_t i, const size_t j) const override;
+  virtual const VII getBoundarySeparatedVertexPairs(const size_t i, const size_t j) const override;
   inline bool isBoundary(const size_t vertex) const {
     return vertex < k_;
   }
@@ -33,6 +35,9 @@ public:
   virtual void show() const override;
 
 protected:
+  /// TODO: shunt to BirkhoffDiamondCalculator
+  /// TODO: so much data make this class complicated
+  /// TODO: to ease constructor
   VertexSymmetry vertex_symmetry_;
   std::unordered_map<size_t, std::vector<size_t>> boundary_backward_neighbors_;
   std::unordered_map<size_t, std::vector<size_t>> interior_backward_neighbors_;

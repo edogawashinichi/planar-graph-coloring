@@ -8,11 +8,12 @@ if [ ! -d ${obj_path} ]; then
   mkdir ${obj_path}
 fi
 
-test_file="_test_color_inducer.cxx"
+test_file="_test_component.cxx"
 parameter=""
 if [ $# -ge 1 ]; then
   parameter=$1
 fi
+
 obj_suf=".o"
 obj_file=${obj_path}${test_file:0:-4}${obj_suf}
 
@@ -26,15 +27,10 @@ fi
 
 src_path="./"
 basic_src_path="../basic/"
-topology_src_path="../topology/"
-algebra_src_path="../algebra/"
-color_src_path="../color/"
-kempe_src_path="../color/kempe/"
-operator_src_path="../operator/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} color_inducer.cxx vertex_inducer.cxx ${basic_src_path}graph.cxx ${basic_src_path}global.cxx ${topology_src_path}birkhoff_diamond.cxx ${topology_src_path}planar_graph.cxx ${topology_src_path}ring.cxx ${algebra_src_path}symmetry.cxx ${color_src_path}naive_color_representation.cxx ${operator_src_path}graph_searcher_result.cxx ${operator_src_path}graph_searcher.cxx ${basic_src_path}random.cxx ${kempe_src_path}kempe_chain.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${basic_src_path}global.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

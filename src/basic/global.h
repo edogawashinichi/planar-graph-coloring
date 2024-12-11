@@ -5,9 +5,13 @@
 #include <stack>
 
 namespace PlanarGraphColoring {
-  /* coloring const */
+  /* const */
   extern const size_t COLORS;
   extern const size_t UNDEF_COLOR;
+  extern const size_t UNDEF_VERTEX;
+
+  /* random */
+  extern unsigned int PGC__HISTORY_SEED;
 
   /* show in terminal */
   extern bool PGC__VERBOSE_MODE;

@@ -5,7 +5,14 @@
 
 namespace PlanarGraphColoring {
 
-const VII Ring::getBoundarySeparatedPairs(const size_t i, const size_t j) const {
+const VII Ring::getBoundarySeparatedVertexPairs(const II& vertex_pair) const {
+  size_t x = vertex_pair.first;
+  size_t y = vertex_pair.second;
+  if (x > y) std::swap(x, y);
+  return this->getBoundarySeparatedVertexPairs(x, y);
+}/// Ring::getBoundarySeparatedVertexPairs
+
+const VII Ring::getBoundarySeparatedVertexPairs(const size_t i, const size_t j) const {
   /// assuming: 0 <= i,j < k_
   VII res;
   for (size_t inter = (i + 1) % k_; inter != j; inter = (inter + 1) % k_) {
@@ -14,7 +21,19 @@ const VII Ring::getBoundarySeparatedPairs(const size_t i, const size_t j) const 
     }/// for jnter
   }/// for inter
   return res;
-}/// Ring::getBoundarySeparatedPairs
+}/// Ring::getBoundarySeparatedVertexPairs
+
+Ring& Ring::operator=(const Ring& rhs) {
+  /// TODO: this==&rhs
+  PlanarGraph::operator=(rhs);
+  k_ = rhs.k_;
+  return *this;
+}/// assignment deepcopy
+Ring& Ring::operator=(Ring&& rhs) {
+  PlanarGraph::operator=(std::move(rhs));
+  std::swap(k_, rhs.k_);
+  return *this;
+}/// assignment movecopy
 
 Ring::Ring(const size_t k, const size_t n, const std::vector<std::vector<size_t>>& edges) :
   PlanarGraph(n, edges), k_(k) {

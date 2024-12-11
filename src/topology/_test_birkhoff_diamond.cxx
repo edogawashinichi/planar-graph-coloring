@@ -80,15 +80,20 @@ void test_0() {
       DEBUG << i << "th getVertexSymmetry passed!\n";
     }
   }
-  std::vector<std::pair<size_t, size_t>> cuts = bd.getBoundaryCutVertices(1, 3);
+  std::vector<std::pair<size_t, size_t>> cuts = bd.getBoundarySeparatedVertexPairs(1, 3);
   dict_sort<size_t>(cuts);
-  const std::vector<std::pair<size_t, size_t>> exp_cuts = {{0, 2}, {2, 4}, {2, 5}};
+  const std::vector<std::pair<size_t, size_t>> exp_cuts = {{2, 0}, {2, 4}, {2, 5}};
+  INFO_VII(cuts)
+  INFO_VII(exp_cuts)
+  if (cuts != exp_cuts) {
+    INFO << "cuts != exp_cuts\n";
+  }
   res = res && (cuts == exp_cuts);
-  const auto& pairs = bd.getBoundarySeparatedPairs(0, 4);
+  const auto& pairs = bd.getBoundarySeparatedVertexPairs(0, 4);
   DEBUG_VAR(pairs.size())
   res = res && (pairs.size() == 3);
   PGC__DEBUG_VII(pairs)
-  const auto& qairs = bd.getBoundarySeparatedPairs(1, 4);
+  const auto& qairs = bd.getBoundarySeparatedVertexPairs(1, 4);
   DEBUG_VAR(qairs.size())
   res = res && (qairs.size() == 4);
   PGC__DEBUG_VII(qairs)
@@ -96,6 +101,20 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
+void test_1() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+  BirkhoffDiamond diamond;
+  DEBUG << "diamond:\n";
+  DEBUG_OBJ(diamond);
+  auto ring = diamond.shrinkToRing();
+  INFO << "RESULT:\n";
+  INFO_OBJ(ring)
+  bool res = (ring.size() == 6);
+  PGC__TEST_RESULT_INFO(res, 1)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+}/// test_1
+
 PGC__MAIN_START
   test_0();
+  test_1();
 PGC__MAIN_END

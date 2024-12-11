@@ -30,6 +30,30 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
+void test_1() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+  BirkhoffDiamond diamond;
+  DEBUG << "birkhoff diamond:\n";
+  DEBUG_OBJ(diamond)
+  const std::vector<size_t> coloring_data = {0, 1, 2, 3, 2, 0, 1, 0, 1, 2};
+  NaiveColorRepresentation coloring(coloring_data);
+  DEBUG << "coloring:\n";
+  DEBUG_OBJ(coloring)
+  const II vertices = {1, 4};
+  DEBUG << "induce vertices:\n";
+  DEBUG_2VAR(vertices.first, vertices.second)
+  ColorInducer inducer;
+  KempeChain result;
+  inducer.run(diamond, coloring, vertices, &result);
+  result.sort();
+  INFO << "RESULT: \n";
+  INFO_OBJ(result)
+  bool res = true;
+  PGC__TEST_RESULT_INFO(res, 1)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+}/// test_1
+
 PGC__MAIN_START
   test_0();
+  test_1();
 PGC__MAIN_END

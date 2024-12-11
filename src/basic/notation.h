@@ -133,10 +133,16 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
 }
 
+#define INFO_PAIR(pair) \
+INFO_2VAR((pair).first, (pair).second)
+
 #define DEBUG_2VAR(var, war) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
 }
+
+#define DEBUG_PAIR(pair) \
+DEBUG_2VAR((pair).first, (pair).second)
 
 #define VERBOSE_2VAR(var, war) \
 if (PGC__VERBOSE_MODE) { \
@@ -155,6 +161,7 @@ std::cout << PGC__STR(uar) << "=" << (uar) << "," << PGC__STR(var) << "=" << (va
 #define II std::pair<size_t, size_t>
 #define VI std::vector<size_t>
 #define VII std::vector<std::pair<size_t, size_t>>
+#define VVI std::vector<std::vector<size_t>>
 
 #define PGC__SHOW_VEC(vec) \
 for (const auto& a : vec) {\
@@ -188,7 +195,15 @@ for (const auto& kv : vii) { \
 std::cout << "\n";
 
 #define PGC__DEBUG_VII(vii) \
-if (PGC__DEBUG_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  PGC__SHOW_VII(vii) \
+}
+
+#define DEBUG_VII(vii) \
+PGC__DEBUG_VII(vii)
+
+#define INFO_VII(vii) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   PGC__SHOW_VII(vii) \
 }
 
@@ -219,10 +234,30 @@ for (const auto& kv : map) { \
 } \
 std::cout << "\n";
 
+#define PGC__SHOW_VVI(vvi) \
+for (const auto& vi :(vvi)) { \
+  PGC__SHOW_VEC(vi) \
+}
+
 #define PGC__SHOW_VVI_WITH_INDEX(vvi) \
 for (size_t i = 0; i < vvi.size(); ++i) { \
   std::cout << i << "th: "; \
   PGC__SHOW_VEC(vvi[i]) \
+}
+
+#define INFO_VVI_WITH_INDEX(vvi) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  PGC__SHOW_VVI_WITH_INDEX(vvi) \
+}
+
+#define DEBUG_VVI_WITH_INDEX(vvi) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  PGC__SHOW_VVI_WITH_INDEX(vvi) \
+}
+
+#define VERBOSE_VVI_WITH_INDEX(vvi) \
+if (PGC__VERBOSE_MODE) { \
+  PGC__SHOW_VVI_WITH_INDEX(vvi) \
 }
 
 #define PGC__DEBUG_VVI(vvi) \

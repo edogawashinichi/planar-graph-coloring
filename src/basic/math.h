@@ -68,6 +68,50 @@ void dict_sort(std::vector<std::vector<T>>& vv, const bool ascend = true) {
 }/// dict_sort
 
 template<typename T>
+void cycle_sort(std::vector<T>& v, const size_t cycle, const bool ascend = true) {
+  /// assuming: v is continuous around the cycle
+  if (v.empty()) return;
+  if (ascend) {
+    std::sort(v.begin(), v.end());
+  } else {
+    std::sort(v.begin(), v.end(), std::greater<T>());
+  }/// else
+  bool gap = false;
+  size_t i = 0;
+  for (; i < v.size() - 1; ++i) {
+    if (1 == v[i] - v[i+1] || 1 == v[i+1] - v[i]) continue;
+    gap = true;
+    break;
+  }/// for
+  if (gap) {
+    std::vector<T> temp;
+    for (size_t j = i + 1; j < v.size(); ++j) {
+      temp.emplace_back(v[j]);
+    }/// for
+    for (size_t j = 0; j <= i; ++j) {
+      temp.emplace_back(v[j]);
+    }/// for
+    v.swap(temp);
+  }/// if gap
+}/// cycle_sort
+
+template<typename T>
+void cycle_sort(std::vector<std::vector<T>>& vv, const size_t cycle, const bool ascend = true) {
+  /// assuming: each v in vv is continuous around the cycle
+  ///           any distinct u,v in vv don't overlap
+  for (auto& v : vv) {
+    cycle_sort<T>(v, cycle, ascend);
+  }
+  auto cmp = [&](const std::vector<T>& lhs, const std::vector<T>& rhs) -> bool {
+    if (lhs.empty() || rhs.empty()) {
+      return lhs.empty() == ascend;
+    }
+    return ascend ? lhs.back() < rhs.back() : lhs.front() > rhs.front();
+  };
+  std::sort(vv.begin(), vv.end(), cmp);
+}/// cycle_sort
+
+template<typename T>
 T max(const T& a, const T& b, const T& c) {
   return a > b ? (a > c ? a : c) : (b > c ? b : c);
 }

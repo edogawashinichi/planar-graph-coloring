@@ -70,9 +70,42 @@ void test_3() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(3))
 }/// test_3
 
+void test_4() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(4))
+  VVI data = {
+    {1, 2,},
+    {4, 5, 6},
+    {},
+    {8, 9, 0}
+  };
+  cycle_sort(data, 10);
+  INFO << "after ascend cycle sort:\n";
+  INFO_VVI_WITH_INDEX(data)
+  const VVI exp_ascend = {
+    {},
+    {8, 9, 0},
+       {1, 2},
+    {4, 5, 6},
+  };
+  bool res = (exp_ascend == data);
+  cycle_sort(data, 10, false);
+  INFO << "after descend cycle sort:\n";
+  INFO_VVI_WITH_INDEX(data)
+  const VVI exp_descend = {
+    {6, 5, 4},
+    {2, 1},
+    {0, 9, 8},
+    {}
+  };
+  res = res && (exp_descend == data);
+  PGC__TEST_RESULT_INFO(res, 4)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(4))
+}/// test_4
+
 PGC__MAIN_START
   test_0();
   test_1();
   test_2();
   test_3();
+  test_4();
 PGC__MAIN_END

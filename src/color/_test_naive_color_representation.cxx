@@ -41,6 +41,17 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
+void test_1() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+  NaiveColorRepresentation coloring({0,1,2,3,1,2});
+  coloring.inverse({1,2,3,4,5}, {1,2});
+  coloring.show();
+  bool res = (coloring.getVector() == std::vector<size_t>({0,2,1,3,2,1}));
+  PGC__TEST_RESULT_INFO(res, 1)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+}/// test_1
+
 PGC__MAIN_START
   test_0();
+  test_1();
 PGC__MAIN_END

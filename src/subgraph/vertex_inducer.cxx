@@ -19,7 +19,7 @@ void VertexInducer::run(const Graph& lhs, const std::vector<size_t>& vertices, G
     rhs->insert(u, v);
     rhs->insert(v, u);
   }/// for
-  rhs->setSize(n);
+  rhs->setSize(n); /// DETAIL: default way
 }/// VertexInducer::run
 
 }/// namespace PlanarGraphColoring

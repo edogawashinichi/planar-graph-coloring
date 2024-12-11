@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../basic/global.h"
+#include "../basic/notation.h"
 #include <vector>
 
 namespace PlanarGraphColoring {
@@ -13,6 +14,7 @@ namespace PlanarGraphColoring {
 class ColorRepresentation {
 public:
   inline std::vector<size_t> getVertices(const std::vector<size_t>& colors) const {
+    /// no matter colors  contain duplicate
     std::vector<size_t> res;
     for (size_t v = 0; v < this->size(); ++v) {
       bool find = false;
@@ -38,8 +40,16 @@ public:
   virtual bool valid() const = 0;
   inline virtual bool equal(const ColorRepresentation& rhs) const {
     return this->getVector() == rhs.getVector();
-  }
-
+  }/// equal
+  inline void inverse(const VI& vertices, const II& colors) {
+    for (const auto& vertex : vertices) {
+      if (this->get(vertex) == colors.first) {
+        this->set(vertex, colors.second);
+      } else if (this->get(vertex) == colors.second) {
+        this->set(vertex, colors.first);
+      }
+    }/// for
+  }/// inverse
   virtual ~ColorRepresentation() = default;
 };/// class ColorRepresentation
 

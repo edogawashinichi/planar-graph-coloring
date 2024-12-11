@@ -6,25 +6,21 @@
 
 namespace PlanarGraphColoring {
 
-std::vector<std::pair<size_t, size_t>> BirkhoffDiamond::getBoundaryCutVertices(const size_t u, const size_t v) const {
-  const std::unordered_map<std::pair<size_t, size_t>, std::vector<std::pair<size_t, size_t>>, pair_hash> data = {
-    {{0, 2}, {{1, 3}, {1, 4}, {1, 5}}},
-    {{0, 3}, {{1, 4}, {1, 5}, {2, 4}, {2, 5}}},
-    {{0, 4}, {{1, 5}, {2, 5}, {3, 5}}},
-    {{1, 3}, {{0, 2}, {2, 4}, {2, 5}}},
-    {{1, 4}, {{0, 2}, {0, 3}, {2, 5}, {3, 5}}},
-    {{1, 5}, {{0, 2}, {0, 3}, {0, 4}}},
-    {{2, 4}, {{0, 3}, {1, 3}, {3, 5}}},
-    {{2, 5}, {{0, 3}, {0, 4}, {1, 3}, {1, 4}}},
-    {{3, 5}, {{0, 4}, {1, 4}, {2, 4}}}
-  };
-  return data.at(std::pair<size_t, size_t>({u, v}));
-}/// BirkhoffDiamond::getBoundaryCutVertices
+Ring BirkhoffDiamond::shrinkToRing() const {
+  VERBOSE_START(BirkhoffDiamond::shrinkToRing)
+  Ring res(*this);
+  VERBOSE << "cast res:\n";
+  VERBOSE_OBJ(res)
+  res.deleteVerticesAtLeast(Ring::k_);
+  VERBOSE << "shrink res:\n";
+  VERBOSE_OBJ(res);
+  VERBOSE_END(BirkhoffDiamond::shrinkToRing)
+  return res;
+}/// BirkhoffDiamond::shrinkToRing
 
-const VII BirkhoffDiamond::getBoundarySeparatedPairs(const size_t i, const size_t j) const {
-  /// TODO: delete getBoundaryCutVertices?
-  return Ring::getBoundarySeparatedPairs(i, j);
-}/// BirkhoffDiamond::getBoundarySeparatedPairs
+const VII BirkhoffDiamond::getBoundarySeparatedVertexPairs(const size_t i, const size_t j) const {
+  return Ring::getBoundarySeparatedVertexPairs(i, j);
+}/// BirkhoffDiamond::getBoundarySeparatedVertexPairs
 
 BirkhoffDiamond::BirkhoffDiamond() {
   k_ = 6; /// boundary size
