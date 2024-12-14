@@ -10,6 +10,46 @@
 
 namespace PlanarGraphColoring {
 
+#define CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
+inline Derived() : Base() {}
+
+#define CLASS_CONSTRUCTOR_DEEPCOPY(Derived, Base) \
+inline Derived(const Derived& rhs) { \
+  if (this != &rhs) { \
+    Base::get() = rhs.getConst(); \
+  } \
+}
+
+#define CLASS_CONSTRUCTOR_MOVECOPY(Derived, Base) \
+inline Derived(Derived&& rhs) { \
+  if (this != &rhs) { \
+    Base::get().swap(rhs.get()); \
+  } \
+}
+
+#define CLASS_ASSIGNMENT_DEEPCOPY(Derived, Base) \
+inline Derived& operator=(const Derived& rhs) { \
+  if (this != &rhs) { \
+    Base::get() = rhs.getConst(); \
+  } \
+  return *this; \
+}
+
+#define CLASS_ASSIGNMENT_MOVECOPY(Derived, Base) \
+inline Derived& operator=(Derived&& rhs) { \
+  if (this != &rhs) { \
+    Base::get().swap(rhs.get()); \
+  } \
+  return *this; \
+}
+
+#define CLASS_5_FUNCTIONS(Derived, Base) \
+CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
+CLASS_CONSTRUCTOR_DEEPCOPY(Derived, Base) \
+CLASS_CONSTRUCTOR_MOVECOPY(Derived, Base) \
+CLASS_ASSIGNMENT_DEEPCOPY(Derived, Base) \
+CLASS_ASSIGNMENT_MOVECOPY(Derived, Base)
+
 #define RESET "\033[0m"
 #define BLACK "\033[30m"  /* Black */
 #define RED "\033[31m"    /* Red */
@@ -157,6 +197,11 @@ std::cout << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (wa
 
 #define PGC__SHOW_3VAR(uar, var, war) \
 std::cout << PGC__STR(uar) << "=" << (uar) << "," << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (war) << "\n";
+
+#define INFO_3VAR(uar, var, war) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE ) { \
+  PGC__SHOW_3VAR(uar, var, war) \
+}
 
 #define II std::pair<size_t, size_t>
 #define VI std::vector<size_t>

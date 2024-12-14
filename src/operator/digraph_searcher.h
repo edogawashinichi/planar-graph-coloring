@@ -10,6 +10,7 @@ class DigraphSearcher : public Searcher {
 public:
   virtual void dfs(const Structure& digraph, SearcherResult* digraph_searcher_result) override;
   virtual void bfs(const Structure& digraph, SearcherResult* digraph_searcher_result) override;
+  virtual void bibfs(const Structure& digraph, const II& vertex_pair, SearcherResult* digraph_searcher_result) override;
   virtual void greedy(const Structure& digraph, SearcherResult* digraph_searcher_result) override;
   virtual void dijkstra(const Structure& digraph, SearcherResult* digraph_searcher_result) override;
 protected:

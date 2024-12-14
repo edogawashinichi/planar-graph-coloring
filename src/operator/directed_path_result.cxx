@@ -50,17 +50,17 @@ std::vector<DirectedPath> DirectedPathResult::getPaths(const size_t vertex) cons
     res.emplace_back(kv.second);
     /// WARNING:
     /// vec.emplace_back(obj):
-    //    0. obj --deepcopy--> anonym
-    //    1. anonym --movecopy--> vec.back
+    //    0. obj --deepcopy--> argument
+    //    1. argument --movecopy--> vec.back
     /// vec.emplace_back(std::move(obj)):
-    //    0. obj --movecopy--> anonym
-    //    1. anonym --movecopy--> vec.back
+    //    0. obj --movecopy--> argument
+    //    1. argument --movecopy--> vec.back
     /// vec.push_back(obj):
-    //    0. obj --deepcopy--> anonym
-    //    1. anonym --deepcopy--> vec.back
+    //    0. obj --deepcopy--> argument
+    //    1. argument --deepcopy--> vec.back
     /// vec.push_back(std::move(obj)):
-    //    0. obj --movecopy--> anonym
-    //    1. anonym --deepcopy--> vec.back
+    //    0. obj --movecopy--> argument
+    //    1. argument --deepcopy--> vec.back
   }
   return res;
 }/// DirectedPathResult::getPaths

@@ -14,30 +14,30 @@ void DigraphSearcherResult::appendDirectedPath(const DirectedPath& path) {
 }/// DigraphSearcherResult::appendDirectedPath
 
 void DigraphSearcherResult::appendWeakComponent(const size_t vertex) {
-  weak_component_.append(vertex);
+  weak_components_.append(vertex);
 }/// DigraphSearcherResult::appendWeakComponent
 
 void DigraphSearcherResult::extendWeakComponent(const size_t vertex) {
-  weak_component_.extend(vertex);
+  weak_components_.extend(vertex);
 }/// DigraphSearcherResult::extendWeakComponent
 
 size_t DigraphSearcherResult::weakComponentSize() const {
-  return weak_component_.size();
+  return weak_components_.size();
 }/// DigraphSearcherResult::size
 
 size_t DigraphSearcherResult::weakComponentSize(const size_t index) const {
-  return weak_component_.size(index);
+  return weak_components_.size(index);
 }/// DigraphSearcherResult::weakComponentSize
 
 size_t DigraphSearcherResult::getWeakComponent(const size_t i, const size_t j) const {
-  return weak_component_.get(i, j);
+  return weak_components_.getConst(i, j);
 }/// DigraphSearcherResult::weakComponentSize
 
 void DigraphSearcherResult::show() const {
   TEST_INFO
-  PGC__SHOW_ENDL("weak component:")
-  weak_component_.show();
-  PGC__SHOW_ENDL("directed paths:")
+  PGC__SHOW_ENDL("weak_components_:")
+  weak_components_.show();
+  PGC__SHOW_ENDL("directed_path_result_:")
   directed_path_result_.show();
 }/// DigraphSearcherResult::show
 

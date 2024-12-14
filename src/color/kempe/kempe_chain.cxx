@@ -5,27 +5,6 @@
 
 namespace PlanarGraphColoring {
 
-KempeChain::KempeChain(const KempeChain& rhs) {
-  this->get() = rhs.getConst();
-}/// KempeChain::KempeChain deepcopy
-
-KempeChain::KempeChain(KempeChain&& rhs) {
-  this->get().swap(rhs.get());
-}/// KempeChain::KempeChain movecopy
-
-KempeChain& KempeChain::operator=(const KempeChain& rhs) {
-  this->get() = rhs.getConst();
-  return *this;
-}/// KempeChain::operator= deepcopy
-
-KempeChain& KempeChain::operator=(KempeChain&& rhs) {
-  this->get().swap(rhs.get());
-  return *this;
-}/// KempeChain::operator= movecopy
-
-KempeChain::KempeChain() : DimensionTwoVector<size_t>() {
-}/// KempeChain::KempeChain
-
 const VII KempeChain::separatedVertexPairs(const size_t ring_size) {
   /// assuming: size=2
   DEBUG_START(KempeChain::separatedVertexPairs)

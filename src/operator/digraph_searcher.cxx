@@ -37,6 +37,10 @@ void DigraphSearcher::bfs(const Structure& structure, SearcherResult* searcher_r
   /// TODO
 }/// DigraphSearcher::bfs
 
+void DigraphSearcher::bibfs(const Structure& structure, const II& vertex_pair, SearcherResult* searcher_result) {
+  /// TODO
+}/// DigraphSearcher::bibfs
+
 void DigraphSearcher::greedy(const Structure& structure, SearcherResult* searcher_result) {
   /// TODO
 }/// DigraphSearcher::greedy

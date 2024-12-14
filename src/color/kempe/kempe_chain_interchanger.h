@@ -7,6 +7,8 @@
 #include "../color_result.h"
 #include "../../topology/ring.h"
 
+/// TODO: reason kempe chain interchanger for each coloring in colorings_if and colorings_else
+
 namespace PlanarGraphColoring {
 
 class KempeChainInterchanger {

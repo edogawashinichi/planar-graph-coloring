@@ -52,6 +52,10 @@ public:
     /// assuming: index valid
     return vvt_[index];
   }/// getConst
+  inline T& get(const size_t i, const size_t j) {
+    /// assuming: i,j valid
+    return vvt_[i][j];
+  }/// get
   inline const T& getConst(const size_t i,  const size_t j) const {
     /// assuming: i,j valid
     return vvt_[i][j];
@@ -63,8 +67,7 @@ public:
   inline virtual void sort() {
     dict_sort<T>(vvt_);
   }/// sort
-protected:
-  std::vector<std::vector<T>>& get() {
+  inline std::vector<std::vector<T>>& get() {
     return vvt_;
   }/// get
 protected:
