@@ -9,6 +9,7 @@ namespace PlanarGraphColoring {
 
 class ColorJudger {
 public:
+  virtual bool isValid(const ColorRepresentation& coloring) = 0;
   virtual bool isBoundaryColoringValid(const Ring& ring, const ColorRepresentation& coloring) = 0;
   virtual bool isIsomorphismByVertexSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs) = 0;
   virtual bool isIsomorphismByVertexSymmetry(const ColorRepresentation& lhs, const ColorRepresentation& rhs, std::vector<size_t>* mapper) = 0;

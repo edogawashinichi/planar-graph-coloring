@@ -26,6 +26,11 @@ public:
   void showWithRepresentative(const size_t i, const size_t n) const;
   std::vector<size_t> representative(const std::vector<size_t>& color) const;
   size_t getClass(const std::vector<size_t>& color) const;
+  const ColorResult& getConst(const size_t index) const;
+  inline const VI get(const size_t i, const size_t j) const {
+    /// assuming: i,j valid
+    return this->getConst(i).getInfo(j);
+  }
 protected:
   std::vector<ColorResult> color_class_;
 };/// class ClassificationInterpreter

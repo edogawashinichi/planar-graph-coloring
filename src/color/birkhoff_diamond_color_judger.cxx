@@ -9,6 +9,13 @@
 
 namespace PlanarGraphColoring {
 
+bool BirkhoffDiamondColorJudger::isValid(const ColorRepresentation& coloring) {
+  BirkhoffDiamond diamond;
+  bool res = coloring.valid() && this->isBoundaryColoringValid(diamond, coloring);
+  /// TODO: isInteriorColoringValid
+  return res;
+}/// BirkhoffDiamondColorJudger::isValid
+
 bool BirkhoffDiamondColorJudger::isBoundaryColoringValid(const Ring& ring, const ColorRepresentation& coloring) {
   auto birkhoff_diamond = dynamic_cast<const BirkhoffDiamond&>(ring);
   const int k = birkhoff_diamond.boundarySize();
@@ -42,7 +49,7 @@ bool BirkhoffDiamondColorJudger::isIsomorphismByVertexSymmetry(const ColorRepres
   BirkhoffDiamond bd;
   ColorTransformer ct;
   bool res = false;
-  mapper->clear();
+  mapper->assign(lhs.size(), 0);
   for (size_t i = 0; i < bd.getVS().size(); ++i) {
     NaiveColorRepresentation ncr;
     ct.transformByVertexSymmetry(bd.getVS().get(i), lhs, &ncr);
@@ -81,7 +88,6 @@ bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorReprese
   }
   std::unordered_map<size_t, size_t> f, g;
   bool res = true;
-  mapper->clear();
   for (size_t i = 0; i < lhs.size(); ++i) {
     if (f.count(lhs.get(i))) {
       if (f[lhs.get(i)] != rhs.get(i)) {
@@ -110,7 +116,7 @@ bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorReprese
       g[rhs.get(i)] = lhs.get(i);
     }
   }
-  (*mapper) = id<size_t>(lhs.size());
+  (*mapper) = id<size_t>(COLORS);
   for (const auto& kv : f) {
     (*mapper)[kv.first] = kv.second;
   }

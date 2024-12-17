@@ -9,6 +9,10 @@ DirectedPathResult* DigraphSearcherResult::getDirectedPathResult() {
   return &directed_path_result_;
 }/// DigraphSearcherResult::getDirectedPathResult
 
+const DirectedPathResult* DigraphSearcherResult::constDirectedPathResult() const {
+  return &directed_path_result_;
+}/// DigraphSearcherResult::constDirectedPathResult
+
 void DigraphSearcherResult::appendDirectedPath(const DirectedPath& path) {
   directed_path_result_.insert(path);
 }/// DigraphSearcherResult::appendDirectedPath

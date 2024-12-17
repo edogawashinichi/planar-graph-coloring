@@ -17,8 +17,18 @@ public:
   NaiveColorRepresentation();
   NaiveColorRepresentation(const NaiveColorRepresentation& rhs);
   NaiveColorRepresentation(const std::vector<size_t>& colors);
+  NaiveColorRepresentation(NaiveColorRepresentation&& rhs);
+  NaiveColorRepresentation& operator=(const NaiveColorRepresentation& rhs);
+  NaiveColorRepresentation& operator=(NaiveColorRepresentation&& rhs);
+  void set(const NaiveColorRepresentation& rhs);
 
   virtual size_t size() const override;
+  inline std::unordered_map<size_t, size_t>& get() {
+    return index2color_;
+  }
+  inline const std::unordered_map<size_t, size_t>& getConst() const {
+    return index2color_;
+  }
   virtual size_t get(const size_t index) const override; 
   virtual bool empty() const override;
   virtual std::vector<size_t> getVector() const override;

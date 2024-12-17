@@ -54,4 +54,13 @@ void DigraphSearcher::dijkstra(const Structure& structure, SearcherResult* searc
   }
 }/// DigraphSearcher::dijkstra
 
+void DigraphSearcher::dijkstra(const Structure& structure, const II& vertex_pair, SearcherResult* searcher_result) {
+  auto digraph = dynamic_cast<const Digraph&>(structure);
+  auto digraph_searcher_result = dynamic_cast<DigraphSearcherResult*>(searcher_result);
+  Dijkstra dijkstra;
+  DirectedPath path;
+  dijkstra.run(vertex_pair.first, vertex_pair.second, digraph, &path);
+  digraph_searcher_result->getDirectedPathResult()->insert(path);
+}/// DigraphSearcher::dijkstra
+
 }/// namespace PlanarGraphColoring

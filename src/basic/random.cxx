@@ -2,6 +2,7 @@
 
 #include "random.h"
 #include "global.h"
+#include "math.h"
 #include <random>
 #include <chrono>
 
@@ -33,5 +34,12 @@ bool bet(const float probability) {
   UNIFORM_DISTRIBUTION(N, res)
   return res < N * probability;
 }/// bet
+
+VI randomChoose(const size_t n, const size_t k) {
+  RANDOM_ENVIRONMENT(random_engine)
+  VI all = id<size_t>(n);
+  std::shuffle(all.begin(), all.end(), random_engine);
+  return VI(all.begin(), all.begin() + k);
+}/// randomChoose
 
 }/// namespace PlanarGraphColoring

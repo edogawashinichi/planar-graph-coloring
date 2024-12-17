@@ -4,6 +4,10 @@
 #include <queue>
 #include <vector>
 
+/// WARNING: redirection bug of docker
+
+/// TODO: check case revisit successor node that popped already
+
 /// 0. init environment
 #define INIT_ENVIRONMENT \
 std::list<DijkstraNode> list; \
@@ -28,7 +32,9 @@ if (PGC__DEBUG_MODE) { \
 /// 2.3 all successors of top node
 #define ALL_SUCCESSORS_OF_TOP_NODE \
 for (const auto successor : digraph.getSuccessors(top->index_)) { \
+  DEBUG << "RESET before\n"; \
   DEBUG << CYAN << "successor" << RESET << ": " << successor; \
+  DEBUG << "RESET after\n"; \
   if (nullptr == visited[successor]) { \
     DEBUG << " not visited\n"; \
     /* 2.3.1 successor not visited (not in list) */ \
@@ -53,6 +59,7 @@ for (const auto successor : digraph.getSuccessors(top->index_)) { \
   } else { \
     DEBUG << " visited cannot be optimized\n"; \
   } \
+  DEBUG << "last for\n"; \
 }/* for */
 
 namespace PlanarGraphColoring {
@@ -71,14 +78,18 @@ bool Dijkstra::run(const size_t start, const size_t end, const Digraph& digraph,
   while (!queue.empty()) {
     /// 2.1 get top node - must be the best
     GET_TOP_NODE
+    DEBUG << "after GET_TOP_NODE\n";
     /// 2.2 find end node
     if (top->index_ == end) {
       DEBUG << "break\n";
       res = true;
       break;
     }
+    DEBUG << "after find end node\n";
+    DEBUG_VEC(digraph.getSuccessors(top->index_))
     /// 2.3 all successors of top node
     ALL_SUCCESSORS_OF_TOP_NODE
+    DEBUG << "after ALL_SUCCESSORS_OF_TOP_NODE\n";
   }/// while
   /// 3. get the best path
   path->clear();

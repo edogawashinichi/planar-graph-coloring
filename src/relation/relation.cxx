@@ -24,10 +24,10 @@ void Relation::show() const {
   std::cout << from_ << "->" << to_ << " ";
   switch (type_) {
     case 0:
-      std::cout << "vertex ";
+      std::cout << "color ";
       break;
     case 1:
-      std::cout << "color ";
+      std::cout << "vertex ";
       break;
     default:
       std::cout << "kempe ";

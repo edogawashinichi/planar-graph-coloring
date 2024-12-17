@@ -2,8 +2,10 @@
 
 #include "birkhoff_diamond_analyst.h"
 #include "classification_interpreter.h"
+#include "routing_interpreter.h"
 #include "../relation/birkhoff_diamond_relation_builder.h"
 #include "../basic/notation.h"
+#include "../basic/random.h"
 
 using namespace PlanarGraphColoring;
 
@@ -29,6 +31,29 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
+void test_1() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+  RelationManager manager;
+  BirkhoffDiamondRelationBuilder builder;
+  builder.run(&manager);
+  BirkhoffDiamondAnalyst analyst;
+  ClassificationInterpreter classification_interpreter;
+  analyst.reasonByVertexColor(manager, &classification_interpreter);
+  for (size_t i = 0; i < classification_interpreter.size(); ++i) {
+    INFO_VAR(i)
+    //INFO_OBJ(classification_interpreter.getConst(i))
+    const VI pair(randomChoose(classification_interpreter.getConst(i).size(), 2));
+    INFO_VEC(pair)
+    RoutingInterpreter routing_interpreter;
+    analyst.reasonByVertexColor(manager, classification_interpreter, i, pair.front(), pair.back(), &routing_interpreter);
+    routing_interpreter.show();
+  }/// for i
+  bool res = true;
+  PGC__TEST_RESULT_INFO(res, 1)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+}/// test_1
+
 PGC__MAIN_START
-  test_0();
+  //test_0();
+  test_1();
 PGC__MAIN_END

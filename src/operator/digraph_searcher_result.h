@@ -18,6 +18,7 @@ public:
   size_t weakComponentSize(const size_t index) const;
   size_t getWeakComponent(const size_t i, const size_t j) const;
   DirectedPathResult* getDirectedPathResult();
+  const DirectedPathResult* constDirectedPathResult() const;
   const WeakComponents& getWeakComponents() const;
 protected:
   WeakComponents weak_components_;

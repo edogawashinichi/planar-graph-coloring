@@ -15,6 +15,7 @@ public:
   virtual void bibfs(const Structure&  structure, const II& vertex_pair, SearcherResult* searcher_result) = 0;
   virtual void greedy(const Structure& structure, SearcherResult* searcher_result) = 0;
   virtual void dijkstra(const Structure& structure, SearcherResult* searcher_result) = 0;
+  virtual void dijkstra(const Structure& structure, const II& vertex_pair, SearcherResult* searcher_result) = 0;
 };/// class Searcher
 
 }/// namespace PlanarGraphColoring

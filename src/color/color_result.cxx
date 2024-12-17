@@ -6,34 +6,45 @@
 
 namespace PlanarGraphColoring {
 
+int ColorResult::find(const VI& color) const {
+  /// TODO: optimize by hashmap
+  int res = -1;
+  for (size_t i = 0; i < colors_.size(); ++i) {
+    if (colors_[i]->getVector() != color) continue;
+    res = i;
+    break;
+  }/// for
+  return res;
+}/// ColorResult::find
+
 ColorResult::ColorResult() {
   colors_.clear();
   VERBOSE << "ColorResult constructor\n";
 }/// ColorResult::ColorResult 
 
 ColorResult::ColorResult(const ColorResult& rhs) {
-  DEBUG_START(ColorResult deepcopy)
-  DEBUG << "rhs:\n";
-  DEBUG_OBJ(rhs)
+  VERBOSE_START(ColorResult deepcopy)
+  VERBOSE << "rhs:\n";
+  VERBOSE_OBJ(rhs)
   for (size_t i = 0; i < rhs.colors_.size(); ++i) {
-    DEBUG << i << "th:\n";
+    VERBOSE << i << "th:\n";
     NaiveColorRepresentation* ptr = dynamic_cast<NaiveColorRepresentation*>(rhs.colors_[i]);
     ColorRepresentation* p = new NaiveColorRepresentation(*ptr);
     this->colors_.emplace_back(p);
-    DEBUG_2VAR(ptr, p)
+    VERBOSE_2VAR(ptr, p)
   }
-  DEBUG_END(ColorResult deepcopy)
+  VERBOSE_END(ColorResult deepcopy)
 }/// ColorResult::ColorResult
 
 ColorResult::ColorResult(ColorResult&& rhs) {
-  DEBUG_START(ColorResult movecopy)
+  VERBOSE_START(ColorResult movecopy)
   for (size_t i = 0; i < rhs.colors_.size(); ++i) {
-    DEBUG << i << "th:\n";
+    VERBOSE << i << "th:\n";
     ColorRepresentation* ptr = rhs.colors_[i];
     rhs.colors_[i] = nullptr;
     this->colors_.emplace_back(ptr);
   }
-  DEBUG_END(ColorResult movecopy)
+  VERBOSE_END(ColorResult movecopy)
 }/// ColorResult::ColorResult
 
 ColorResult::~ColorResult() {

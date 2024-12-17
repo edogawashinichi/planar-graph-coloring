@@ -37,14 +37,20 @@ size_t ClassificationInterpreter::getClass(const std::vector<size_t>& color) con
   return res;
 }/// ClassificationInterpreter::getClass
 
+const ColorResult& ClassificationInterpreter::getConst(const size_t index) const {
+  /// assuming: index valid
+  return color_class_[index];
+}/// ClassificationInterpreter::getConst
+
 void ClassificationInterpreter::set(const RelationManager& relation_manager, DigraphSearcherResult& digraph_searcher_result) {
+  /// depending on digraph dfs
   DEBUG_START(ClassificationInterpreter::set)
   const auto& color_result = *(relation_manager.getColorResultConst());
   const size_t weak_component_size = digraph_searcher_result.weakComponentSize();
   for (size_t i = 0; i < weak_component_size; ++i) {
-    append(color_result, digraph_searcher_result.getWeakComponent(i, 0));
+    this->append(color_result, digraph_searcher_result.getWeakComponent(i, 0));
     for (size_t j = 1; j < digraph_searcher_result.weakComponentSize(i); ++j) {
-      extend(color_result, digraph_searcher_result.getWeakComponent(i, j));
+      this->extend(color_result, digraph_searcher_result.getWeakComponent(i, j));
     }/// for j
   }/// for i
   DEBUG_END(ClassificationInterpreter::set)
@@ -59,7 +65,7 @@ void ClassificationInterpreter::append(const ColorResult& table, const size_t in
   DEBUG << "before color_class_.emplace_back\n";
   color_class_.emplace_back(std::move(result));
   //color_class_.push_back(result);
-  //color_class_.emplace_back(result);/// memory leak risk
+  //color_class_.emplace_back(result);/// WARNING: memory leak risk
   }
   DEBUG_END(ClassificationInterpreter::append)
 }/// ClassificationInterpreter::append

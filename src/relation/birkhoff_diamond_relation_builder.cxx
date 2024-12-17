@@ -11,8 +11,8 @@ namespace PlanarGraphColoring {
 
 void BirkhoffDiamondRelationBuilder::run(RelationManager* relation_manager) {
   INFO_START(BirkhoffDiamondRelationBuilder::run RelationManger)
-  run(relation_manager->getColorResult());
-  run(*(relation_manager->getColorResult()), relation_manager->getRelationResult(), relation_manager->getMapper(), relation_manager->getDigraphResult());
+  this->run(relation_manager->getColorResult());
+  this->run(*(relation_manager->getColorResult()), relation_manager->getRelationResult(), relation_manager->getMapper(), relation_manager->getDigraphResult());
   INFO_END(BirkhoffDiamondRelationBuilder::run RelationManager)
 }/// BirkhoffDiamondRelationBuilder::run
 
@@ -38,20 +38,21 @@ void BirkhoffDiamondRelationBuilder::run(const ColorResult& color_result, Relati
     INFO_VAR(i)
     for (size_t j = i + 1; j < color_result.size(); ++j) {
       size_t type = 0;
-      std::vector<size_t> transform(k);
-      std::vector<size_t> itransform(k);
+      std::vector<size_t> transform;
+      std::vector<size_t> itransform;
       if (judger.isIsomorphismByVertexSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &transform)) {
         ++cnt_vertex;
         INFO_3VAR(i, j, cnt_vertex)
+        /// TODO: enum type
         type = 1;
         transformer.inverseVertexSymmetry(transform, &itransform);
         mapper->insert(relation_result->size(), i, j);
         relation_result->append(Relation(i, j, type, transform));
         mapper->insert(relation_result->size(), j, i);
         relation_result->append(Relation(j, i, type, itransform));
-        digraph_result->getVertex()->append(i, j);
-        digraph_result->getVertexColor()->append(i, j);
-        digraph_result->getVertexColorKempe()->append(i, j);
+        digraph_result->getVertex()->appendUndirected(i, j);
+        digraph_result->getVertexColor()->appendUndirected(i, j);
+        digraph_result->getVertexColorKempe()->appendUndirected(i, j);
       } else if (judger.isIsomorphismByColorSymmetry(color_result.getInfo(i, k), color_result.getInfo(j, k), &transform)) {
         ++cnt_color;
         INFO_3VAR(i, j, cnt_color)
@@ -61,9 +62,9 @@ void BirkhoffDiamondRelationBuilder::run(const ColorResult& color_result, Relati
         relation_result->append(Relation(i, j, type, transform));
         mapper->insert(relation_result->size(), j, i);
         relation_result->append(Relation(j, i, type, itransform));
-        digraph_result->getColor()->append(i, j);
-        digraph_result->getVertexColor()->append(i, j);
-        digraph_result->getVertexColorKempe()->append(i, j);
+        digraph_result->getColor()->appendUndirected(i, j);
+        digraph_result->getVertexColor()->appendUndirected(i, j);
+        digraph_result->getVertexColorKempe()->appendUndirected(i, j);
       }/// else if
     }/// for j
   }/// for i

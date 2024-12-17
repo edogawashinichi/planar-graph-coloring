@@ -6,8 +6,11 @@
 namespace PlanarGraphColoring {
 
 void RoutingInterpreter::show() const {
+  /// assuming: colors.size == transformations.size + 1
   TEST_INFO
   DEBUG_START(RoutingInterpreter::show)
+  std::cout << "RoutingInterpreter::show:\n";
+  std::cout << "length: " << transformations_.size() << "\n";
   if (!colors_.empty()) {
     /// WARNING: partial travesal by size_t type
     for (size_t i = 0; i < colors_.size() - 1; ++i) {
@@ -23,9 +26,13 @@ void RoutingInterpreter::show() const {
   DEBUG_END(RoutingInterpreter::show)
 }/// RoutingInterpreter::show
 
-void RoutingInterpreter::set(const RelationManager& manager, DigraphSearcherResult& result, const size_t start, const size_t end) {
+RoutingInterpreter::RoutingInterpreter(const RelationManager& manager, const DigraphSearcherResult& result, const size_t start, const size_t end) {
+  this->set(manager, result, start, end);
+}/// RoutingInterpreter::RoutingInterpreter
+
+void RoutingInterpreter::set(const RelationManager& manager, const DigraphSearcherResult& result, const size_t start, const size_t end) {
   DEBUG_START(RoutingInterpreter::set)
-  const DirectedPath& path = result.getDirectedPathResult()->getDirectedPath(start, end);
+  const DirectedPath& path = result.constDirectedPathResult()->getDirectedPath(start, end);
   if (!path.vertices_.empty()) {
     for (size_t i = 0; i < path.vertices_.size() - 1; ++i) {
       const size_t u = path.vertices_[i];

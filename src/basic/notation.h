@@ -215,7 +215,19 @@ for (const auto& a : vec) {\
 std::cout << "\n";
 
 #define PGC__DEBUG_VEC(vec) \
-if (PGC__DEBUG_MODE) { \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  PGC__SHOW_VEC(vec) \
+}
+
+#define DEBUG_VEC(vec) PGC__DEBUG_VEC(vec)
+
+#define INFO_VEC(vec) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  PGC__SHOW_VEC(vec) \
+}
+
+#define VERBOSE_VEC(vec) \
+if (PGC__VERBOSE_MODE) { \
   PGC__SHOW_VEC(vec) \
 }
 

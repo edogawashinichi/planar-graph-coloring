@@ -82,4 +82,8 @@ void GraphSearcher::dijkstra(const Structure& structure, SearcherResult* searche
   /// TODO
 }/// GraphSearcher::dijkstra
 
+void GraphSearcher::dijkstra(const Structure& structure, const II& vertex_pair, SearcherResult* searcher_result) {
+  /// TODO
+}/// GraphSearcher::dijkstra
+
 }/// namespace PlanarGraphColoring

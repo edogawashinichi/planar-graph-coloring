@@ -16,7 +16,12 @@ namespace PlanarGraphColoring {
 void Digraph::append(const size_t i, const size_t j) {
   INSERT(successors, i, j)
   INSERT(predecessors, j, i)
-}/// void Digraph::append
+}/// Digraph::append
+
+void Digraph::appendUndirected(const size_t i, const size_t j) {
+  this->append(i, j);
+  this->append(j, i);
+}/// Digraph::appendUndirected
 
 Digraph::Digraph(const size_t n) {
   n_ = n;

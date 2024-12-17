@@ -7,6 +7,32 @@
 
 namespace PlanarGraphColoring {
 
+NaiveColorRepresentation::NaiveColorRepresentation(NaiveColorRepresentation&& rhs) {
+  if (this != &rhs) {
+    index2color_.swap(rhs.get());
+  }/// if
+}/// constructor movecopy
+
+NaiveColorRepresentation& NaiveColorRepresentation::operator=(const NaiveColorRepresentation& rhs) {
+  if (this != &rhs) {
+    index2color_ = rhs.getConst();
+  }/// if
+  return *this;
+}/// assignment deepcopy
+
+NaiveColorRepresentation& NaiveColorRepresentation::operator=(NaiveColorRepresentation&& rhs) {
+  if (this != &rhs) {
+    index2color_.swap(rhs.get());
+  }/// if
+  return *this;
+}/// assignment movecopy
+
+void NaiveColorRepresentation::set(const NaiveColorRepresentation& rhs) {
+  if (this != &rhs) {
+    index2color_ = rhs.getConst();
+  }
+}/// NaiveColorRepresentation::set
+
 NaiveColorRepresentation::NaiveColorRepresentation() {
   index2color_.clear();
 }/// NaiveColorRepresentation::NaiveColorRepresentation
@@ -27,7 +53,7 @@ size_t NaiveColorRepresentation::size() const {
 
 size_t NaiveColorRepresentation::get(const size_t index) const {
   /// no safety check to ensure performance
-  return index2color_.count(index) ? index2color_.at(index) : -1;
+  return index2color_.count(index) ? index2color_.at(index) : UNDEF_VERTEX;
 }/// NaiveColorRepresentation::get
 
 bool NaiveColorRepresentation::empty() const {
@@ -70,11 +96,8 @@ void NaiveColorRepresentation::show() const {
 }/// NaiveColorRepresentation::show
 
 bool NaiveColorRepresentation::valid() const {
-  return true;
-  for (const auto& kv : index2color_) {
-    if (kv.second < 0) return false;
-  }
-  return true;
+  const auto& vec = this->getVector();
+  return std::find(vec.begin(), vec.end(), UNDEF_COLOR) == vec.end();
 }/// NaiveColorRepresentation::valid
 
 }/// namespace PlanarGraphColoring
