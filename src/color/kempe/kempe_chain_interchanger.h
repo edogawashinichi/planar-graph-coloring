@@ -13,11 +13,12 @@ namespace PlanarGraphColoring {
 
 class KempeChainInterchanger {
 public:
-  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, ColorResult* colorings_if, ColorResult* colorings_else) = 0;
+  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const ColorResult& table, ColorResult* colorings_if, ColorResult* colorings_else) = 0;
 protected:
-  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, ColorResult* colorings) = 0;
-  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const II& color_pair, ColorResult* colorings) = 0;
-  virtual void interchange(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const II& colr_pair, ColorResult* colorings) = 0;
+  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const VI& unused_colors, const ColorResult& table, ColorResult* colorings) = 0;
+  virtual bool run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const II& color_pair, const ColorResult& table, ColorResult* colorings) = 0;
+  virtual bool interchange(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const II& colr_pair, const ColorResult& table, ColorResult* colorings) = 0;
+  virtual bool interchange(const ColorRepresentation& coloring, const VI& chain, const II& color_pair, const ColorResult& table, ColorResult* colorings) = 0;
 };/// class KempeChainInterchanger
 
 }/// namespace PlanarGraphColoring

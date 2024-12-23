@@ -5,12 +5,10 @@
 
 namespace PlanarGraphColoring {
 
-const VII KempeChain::separatedVertexPairs(const size_t ring_size) {
-  /// assuming: size=2
-  DEBUG_START(KempeChain::separatedVertexPairs)
-  this->sort(ring_size);
-  DEBUG << "after sort:\n";
-  DEBUG_OBJ(*this)
+const VII KempeChain::getSeparatedVertexPairs(const size_t ring_size) const {
+  /// assuming: this size=2
+  /// assuming: this cycle_sorted
+  VERBOSE_START(KempeChain::getSeparatedVertexPairs)
   VII res;
   /// WARNING: argument ring_size rather than getMaxValue
   for (size_t i = (this->getConst(0).back() + 1) % ring_size; i != this->getConst(1).front(); i = (i + 1) % ring_size) {
@@ -18,9 +16,9 @@ const VII KempeChain::separatedVertexPairs(const size_t ring_size) {
       res.emplace_back(std::pair<size_t, size_t>({i, j}));
     }/// for j
   }/// for i
-  DEBUG_END(KempeChain::separatedVertexPairs)
+  VERBOSE_END(KempeChain::getSeparatedVertexPairs)
   return res;
-}/// KempeChain::separatedVertexPair
+}/// KempeChain::getSeparatedVertexPair
 
 void KempeChain::show() const {
   TEST_INFO

@@ -31,10 +31,11 @@ topology_src_path="../../topology/"
 algebra_src_path="../../algebra/"
 subgraph_src_path="../../subgraph/"
 operator_src_path="../../operator/"
+relation_src_path="../../relation/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} birkhoff_diamond_kempe_chain_interchanger.cxx kempe_chain.cxx ${color_src_path}color_transformer.cxx ${color_src_path}birkhoff_diamond_color_judger.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}random.cxx ${basic_src_path}global.cxx ${topology_src_path}ring.cxx ${topology_src_path}birkhoff_diamond.cxx ${basic_src_path}graph.cxx ${topology_src_path}planar_graph.cxx ${algebra_src_path}symmetry.cxx ${subgraph_src_path}color_inducer.cxx ${subgraph_src_path}vertex_inducer.cxx ${operator_src_path}graph_searcher_result.cxx ${operator_src_path}graph_searcher.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} birkhoff_diamond_kempe_chain_interchanger.cxx kempe_chain.cxx ${color_src_path}birkhoff_diamond_colorer.cxx ${color_src_path}color_transformer.cxx ${color_src_path}birkhoff_diamond_color_judger.cxx ${color_src_path}color_result.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}random.cxx ${basic_src_path}global.cxx ${topology_src_path}ring.cxx ${topology_src_path}birkhoff_diamond.cxx ${basic_src_path}graph.cxx ${topology_src_path}planar_graph.cxx ${algebra_src_path}symmetry.cxx ${subgraph_src_path}color_inducer.cxx ${subgraph_src_path}vertex_inducer.cxx ${operator_src_path}graph_searcher_result.cxx ${operator_src_path}graph_searcher.cxx ${basic_src_path}digraph.cxx ${relation_src_path}relation_manager.cxx ${relation_src_path}birkhoff_diamond_relation_builder.cxx  ${relation_src_path}relation.cxx ${relation_src_path}relation_result.cxx ${relation_src_path}digraph_result.cxx ${relation_src_path}mapper.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

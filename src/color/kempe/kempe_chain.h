@@ -22,7 +22,7 @@ public:
   */
   virtual void show() const override;
   void sort(const size_t ring_size);
-  const VII separatedVertexPairs(const size_t ring_size);
+  const VII getSeparatedVertexPairs(const size_t ring_size) const;
   size_t getMaxValue() const;
   inline std::vector<std::vector<size_t>>& get() {
     return DimensionTwoVector<size_t>::get();

@@ -40,15 +40,21 @@ void test_1() {
   DEBUG << "coloring:\n";
   DEBUG_OBJ(coloring)
   const II vertices = {1, 4};
-  DEBUG << "induce vertices:\n";
+  const II colors = {1, 2};
+  DEBUG << "inducing vertices:\n";
   DEBUG_2VAR(vertices.first, vertices.second)
+  DEBUG << "inducing colors:\n";
+  DEBUG_PAIR(colors)
   ColorInducer inducer;
   KempeChain result;
-  inducer.run(diamond, coloring, vertices, &result);
-  result.sort();
+  inducer.run(diamond, coloring, vertices, colors, &result);
   INFO << "RESULT: \n";
   INFO_OBJ(result)
-  bool res = true;
+  const VVI exp = {
+    {1, 2},
+    {4}
+  };
+  bool res = (result.getConst() == exp);
   PGC__TEST_RESULT_INFO(res, 1)
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
 }/// test_1

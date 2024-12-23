@@ -6,15 +6,21 @@
 
 namespace PlanarGraphColoring {
 
-int ColorResult::find(const VI& color) const {
-  /// TODO: optimize by hashmap
+int ColorResult::find(const VI& color, const size_t k) const {
+  /// assuming: 0 < k < color.size
+  /// TODO: basic/hash.h optimize
   int res = -1;
   for (size_t i = 0; i < colors_.size(); ++i) {
-    if (colors_[i]->getVector() != color) continue;
+    const auto& dest = colors_[i]->getVector();
+    if (VI(dest.begin(), dest.begin() + k) != VI(color.begin(), color.begin() + k)) continue;
     res = i;
     break;
   }/// for
   return res;
+}/// find
+
+int ColorResult::find(const VI& color) const {
+  return this->find(color, color.size());
 }/// ColorResult::find
 
 ColorResult::ColorResult() {

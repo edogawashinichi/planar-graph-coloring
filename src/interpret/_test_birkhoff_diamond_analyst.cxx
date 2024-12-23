@@ -3,6 +3,7 @@
 #include "birkhoff_diamond_analyst.h"
 #include "classification_interpreter.h"
 #include "routing_interpreter.h"
+#include "../color/birkhoff_diamond_color_judger.h"
 #include "../relation/birkhoff_diamond_relation_builder.h"
 #include "../basic/notation.h"
 #include "../basic/random.h"
@@ -36,11 +37,18 @@ void test_1() {
   RelationManager manager;
   BirkhoffDiamondRelationBuilder builder;
   builder.run(&manager);
+  BirkhoffDiamondColorJudger judger;
   BirkhoffDiamondAnalyst analyst;
   ClassificationInterpreter classification_interpreter;
   analyst.reasonByVertexColor(manager, &classification_interpreter);
   for (size_t i = 0; i < classification_interpreter.size(); ++i) {
     INFO_VAR(i)
+    auto representative = classification_interpreter.getConst(i).getConst(0);
+    if (judger.isValid(*representative)) {
+      INFO << "valid class need no kempe!\n";
+      continue;
+    }
+    INFO << "invalid class need kempe!\n";
     //INFO_OBJ(classification_interpreter.getConst(i))
     const VI pair(randomChoose(classification_interpreter.getConst(i).size(), 2));
     INFO_VEC(pair)

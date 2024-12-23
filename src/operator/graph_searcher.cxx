@@ -18,9 +18,10 @@ void GraphSearcher::bfs(const Structure& structure, SearcherResult* searcher_res
 }/// GraphSearcher::bfs
 
 void GraphSearcher::bibfs(const Structure& structure, const II& vertex_pair, SearcherResult* searcher_result) {
+  /// TODO: debug searcher_result ordering (due to unordered_set)
   /// assuming: vertex_pair distinct
-  DEBUG_START(GraphSearcher::bibfs)
-  DEBUG_PAIR(vertex_pair)
+  VERBOSE_START(GraphSearcher::bibfs)
+  VERBOSE_PAIR(vertex_pair)
   auto graph = dynamic_cast<const Graph&>(structure);
   auto graph_searcher_result = dynamic_cast<GraphSearcherResult*>(searcher_result);
   const size_t u = vertex_pair.first;
@@ -71,7 +72,7 @@ void GraphSearcher::bibfs(const Structure& structure, const II& vertex_pair, Sea
     graph_searcher_result->appendComponent(compu);
     graph_searcher_result->appendComponent(compv);
   }
-  DEBUG_END(GraphSearcher::bibfs)
+  VERBOSE_END(GraphSearcher::bibfs)
 }/// GraphSearcher::bibfs
 
 void GraphSearcher::greedy(const Structure& structure, SearcherResult* searcher_result) {

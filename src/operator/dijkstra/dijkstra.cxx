@@ -32,16 +32,14 @@ if (PGC__DEBUG_MODE) { \
 /// 2.3 all successors of top node
 #define ALL_SUCCESSORS_OF_TOP_NODE \
 for (const auto successor : digraph.getSuccessors(top->index_)) { \
-  DEBUG << "RESET before\n"; \
   DEBUG << CYAN << "successor" << RESET << ": " << successor; \
-  DEBUG << "RESET after\n"; \
   if (nullptr == visited[successor]) { \
     DEBUG << " not visited\n"; \
     /* 2.3.1 successor not visited (not in list) */ \
     list.push_back(DijkstraNode(successor, top->length_ + digraph.weight(), top)); \
     queue.push(&(list.back())); \
     visited[successor] = &(list.back()); \
-    if (PGC__DEBUG_MODE) list.back().show(); \
+    DEBUG_OBJ(list.back()) \
   } else if (top->length_ + digraph.weight() < visited[successor]->length_) { \
     DEBUG << " visited can be optimized\n"; \
     if (PGC__DEBUG_MODE) { \
@@ -52,14 +50,10 @@ for (const auto successor : digraph.getSuccessors(top->index_)) { \
     /*       can be optimized through top */ \
     visited[successor]->length_ = top->length_ + digraph.weight(); \
     visited[successor]->prev_ = top; \
-    if (PGC__DEBUG_MODE) { \
-      std::cout << "after:\n"; \
-      visited[successor]->show(); \
-    } \
+    DEBUG_OBJ(*(visited[successor])) \
   } else { \
     DEBUG << " visited cannot be optimized\n"; \
   } \
-  DEBUG << "last for\n"; \
 }/* for */
 
 namespace PlanarGraphColoring {
@@ -78,18 +72,14 @@ bool Dijkstra::run(const size_t start, const size_t end, const Digraph& digraph,
   while (!queue.empty()) {
     /// 2.1 get top node - must be the best
     GET_TOP_NODE
-    DEBUG << "after GET_TOP_NODE\n";
     /// 2.2 find end node
     if (top->index_ == end) {
       DEBUG << "break\n";
       res = true;
       break;
     }
-    DEBUG << "after find end node\n";
-    DEBUG_VEC(digraph.getSuccessors(top->index_))
     /// 2.3 all successors of top node
     ALL_SUCCESSORS_OF_TOP_NODE
-    DEBUG << "after ALL_SUCCESSORS_OF_TOP_NODE\n";
   }/// while
   /// 3. get the best path
   path->clear();
@@ -139,7 +129,7 @@ void Dijkstra::retrieve(const DijkstraNode* end_ptr, DirectedPath* path) {
   const DijkstraNode* cur = end_ptr;
   auto& res = path->vertices_;
   do {
-    if (PGC__DEBUG_MODE) cur->show();
+    DEBUG_OBJ(*cur)
     res.insert(res.begin(), cur->index_);
     cur = cur->prev_;
   } while (cur != nullptr);

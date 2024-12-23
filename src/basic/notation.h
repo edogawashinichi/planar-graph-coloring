@@ -189,6 +189,9 @@ if (PGC__VERBOSE_MODE) { \
   std::cout << PGC__STR(var) << "=" << (var) << " " << PGC__STR(war) << "=" << (war) << "\n"; \
 }
 
+#define VERBOSE_PAIR(pair) \
+VERBOSE_2VAR((pair).first, (pair).second)
+
 #define PGC__SHOW_VAR(var) \
 std::cout << PGC__STR(var) << "=" << (var) << "\n";
 

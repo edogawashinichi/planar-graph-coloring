@@ -224,6 +224,7 @@ Graph::Graph(const size_t n, const std::vector<std::vector<size_t>>& edges) {
   }
 }/// Graph::Graph
 
+/*
 void Graph::show() const {
   TEST_INFO
   std::cout << "number of vertices: " << n_ << "\n";
@@ -238,6 +239,18 @@ void Graph::show() const {
     }
     std::cout << "}\n";
   }
+}/// Graph::show
+*/
+
+void Graph::show() const {
+  TEST_INFO
+  std::cout << "number of vertices: " << n_ << "\n";
+  const VII& edges = this->getEdges();
+  std::cout << "edges:  ";
+  for (const auto& edge : edges) {
+    std::cout << "(" << edge.first << "," << edge.second << ") ";
+  }/// for
+  std::cout << "\n";
 }/// Graph::show
 
 void Graph::show(const size_t n) const {
