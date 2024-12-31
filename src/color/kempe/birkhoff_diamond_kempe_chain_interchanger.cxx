@@ -9,182 +9,159 @@
 
 namespace PlanarGraphColoring {
 
-bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const ColorResult& table, ColorResult* colorings_if, ColorResult* colorings_else) {
-  /// assuming: there is a coloring on ring
-  ///           to specify this coloring is on the boundary and cannot be extended to the interior of the ring directly thus need kempe chain interchange
-  /// assuming: vertex_pair are nonadjacent on the boundary          
-  ///           but may be connected by a kempe chain on the boundary (this situation shall be excluded)
-  /// if there exists a kempe chain of vertex_pair return colorings_if
-  /// otherwise return colorings_else
-  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair colorings_if colorings_else)
-  INFO_OBJ(coloring)
-  INFO_PAIR(vertex_pair)
-  /// 0. if there exists a kempe chain of vertex_pair
-  //     splitting the boundary into 2 parts
-    /// 0.0 if vertex_pair have distinct colors
-    /// 0.1 else vertex_pair have the same color
-  DEBUG << "0. if:\n";
-  bool res_if = this->run(ring, coloring, vertex_pair, id<size_t>(COLORS), table, colorings_if);
-  //if (!res_if) return false;
-  DEBUG_OBJ(*colorings_if)
-  /// 1. else vertex_pair cannot be connected by a kempe chain
-  ///    there must exist a kempe chain of separating_vertex_pair 
-  ///    splitting the boundary into 2 parts with vertex_pair in each of them
-  ///    PARTICULARLY this kempe chain must go to exterior of the ring at separating_vertex_pair
-  ///    while this kempe chain may connect other vertices on the boundary
-  ///    PARTICULARLY this kempe chain must not connect vertex_pair 
-  ///    which shall be checked afterward
-  DEBUG << "1. else:\n";
+bool BirkhoffDiamondKempeChainInterchanger::interchange(const ColorRepresentation& coloring, const ColorResult& table, const VI& chain, const II& color_pair, ColorRepresentation* interchange_coloring) {
+  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::interchange coloring table chain color_pair interchange_coloring)
   DEBUG_OBJ(coloring)
-  DEBUG_PAIR(vertex_pair)
-  bool res_else = false;
-  for (const auto& separating_vertex_pair : ring.getBoundarySeparatedVertexPairs(vertex_pair)) {
-    /// 1.0 if separating_vertex_pair have distinct colors
-    /// 1.1 else separating_vertex_pair have the same color
-    DEBUG << "for ";
-    DEBUG_PAIR(separating_vertex_pair)
-    const size_t c = coloring.get(vertex_pair.first);
-    const size_t d = coloring.get(vertex_pair.second);
-    VI unused_colors;
-    diff<size_t>(id<size_t>(COLORS), {c, d}, &unused_colors);
-    if (this->run(ring, coloring, separating_vertex_pair, unused_colors, table, colorings_else)) {
-      res_else = true;
-      break;
-    }/// if
-  }/// for
-  DEBUG_OBJ(*colorings_else)
-  INFO_2VAR(res_if, res_else)
-  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair colorings_if colorings_else)
-  return res_if && res_else;
+  DEBUG_VEC(chain)
+  DEBUG_PAIR(color_pair)
+  NaiveColorRepresentation inversed_coloring(coloring.getVector());
+  inversed_coloring.inverse(chain, color_pair);
+  DEBUG_OBJ(inversed_coloring)
+  BirkhoffDiamond diamond;
+  const size_t index = table.find(inversed_coloring.getVector(), diamond.boundarySize());/// index must != -1
+  auto table_ptr = table.getConst(index);
+  DEBUG_OBJ(*table_ptr)
+  BirkhoffDiamondColorJudger judger;
+  const bool res = judger.isValid(*table_ptr);
+  if (res) {
+    *interchange_coloring = std::move(inversed_coloring);
+  }
+  /// TODO: debug interchange_coloring not show
+  DEBUG_FLAG_OBJ(res, *interchange_coloring)
+  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::interchange coloring table chain color_pair interchange_coloring)
+  return res;
+}///BirkhoffDiamondKempeChainInterchanger::interchange
+
+bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const KempeChainConnector& separating_connector, const KempeChainConnector& separated_connector, ColorRepresentation* interchange_coloring) {
+  /// assuming: separating_connector.vertex_pair_ don't overlap with separated_connector.vertex_pair_
+  /// assuming: separating_connector.color_pair_ don't overlap with separated_connector.color_pair_
+  DEBUG_START(BirkhoffDiamondChainInterchanger::run ring coloring table separating_connector separated_connector interchange_coloring)
+  DEBUG_OBJ(separating_connector)
+  DEBUG_OBJ(separated_connector)
+  bool res = true;
+  ColorInducer inducer;
+  KempeChain separating_chain;
+  inducer.run(ring, coloring, separating_connector.vertex_pair_, separating_connector.color_pair_, &separating_chain);
+  res = res && (separating_chain.size() == 2);
+  KempeChain separated_chain;
+  inducer.run(ring, coloring, separated_connector.vertex_pair_, separated_connector.color_pair_, &separated_chain);
+  res = res && (separated_chain.size() == 2);
+  if (res) {
+    res = (this->interchange(coloring, table, separated_chain.getConst(0), separated_connector.color_pair_, interchange_coloring));
+    res = res || (this->interchange(coloring, table, separated_chain.getConst(1), separated_connector.color_pair_, interchange_coloring));
+  }/// if
+  DEBUG_FLAG_OBJ(res, *interchange_coloring)
+  DEBUG_END(BirkhoffDiamondChainInterchanger::run ring coloring table separating_connector separated_connector interchange_coloring)
+  return res;
 }/// BirkhoffDiamondKempeChainInterchanger::run
 
-bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const VI& unused_colors, const ColorResult& table, ColorResult* colorings) { 
-  /// TODO: consider argument unused_colors is reasonable or not
-  /// WARNING: most probably unreasonable
-  /// WARNING: argument unused_colors is unnecessary, and afterward verification is needed
-  /// TODO: both of colorings_if colorings_else may have duplicate
-  /// TODO: dfs is needed for both colorings_if colorings_else, once a judger.valid coloring is found return instantly
-  /// assuming: there exists a kempe chain of vertex_pair
-  ///           but may not split the boundary into 2 parts
-  /// RETURN: return colorings instantly once interchange a valid coloring
-  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair unused_colors colorings)
-  DEBUG_OBJ(coloring)
-  DEBUG_PAIR(vertex_pair)
-  DEBUG_VEC(unused_colors)
+bool BirkhoffDiamondKempeChainInterchanger::getColorPairs(const ColorRepresentation& coloring, const VI& used_colors, const II& vertex_pair, VII* color_pairs) {
+  VERBOSE_START(BirkhoffDiamondKempeChainInterchanger::getColorPairs)
   const size_t c = coloring.get(vertex_pair.first);
   const size_t d = coloring.get(vertex_pair.second);
-  if (c == d) {
-    /// 0. vertex_pair have the same color
-    DEBUG << "0. c==d\n";
-    for (const auto unused_color : unused_colors) {
-    //for (size_t color = 0; color < COLORS; ++color) {
-      if (unused_color == c) continue;
-      DEBUG << "for ";
-      DEBUG_VAR(unused_color)
-      this->run(ring, coloring, vertex_pair, std::pair<size_t, size_t>({c, unused_color}), table, colorings);
+  if (cap<size_t>({c, d}, used_colors)) {
+    ;
+  } else if (c != d) {
+    color_pairs->emplace_back(std::pair<size_t, size_t>({c, d}));
+  } else {
+    VI tmp_colors(used_colors);
+    tmp_colors.emplace_back(c);
+    VI unused_colors;
+    diff<size_t>(id<size_t>(COLORS), tmp_colors, &unused_colors);
+    for (const auto& color : unused_colors) {
+      color_pairs->emplace_back(std::pair<size_t, size_t>({c, color}));
     }/// for
-  } else {
-    /// 1. vertex_pair have distinct colors
-    DEBUG << "1. c!=d\n";
-    this->run(ring, coloring, vertex_pair, std::pair<size_t, size_t>({c, d}), table, colorings);
-  }/// else c != d
-  DEBUG_OBJ(*colorings)
-  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair unused_colors colorings)
-  return !colorings->empty();
-}/// BirkhoffDiamondKempeChainInterchanger::run 
+  }/// else c == d
+  VERBOSE_END(BirkhoffDiamondKempeChainInterchanger::getColorPairs)
+  return !color_pairs->empty();
+}/// BirkhoffDiamondKempeChainInterchanger::getColorPairs
 
-bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const II& color_pair, const ColorResult& table, ColorResult* colorings) {
-  /// assuming: there exists a kempe chain of vertex_pair with color_pair
-  ///           but this kempe chain may not split the boundary into 2 parts
-  /// RETURN: return colorings instantly once interchange a valid coloring
-  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair color_pair colorings)
-  DEBUG_OBJ(coloring)
+bool BirkhoffDiamondKempeChainInterchanger::runSeparating(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainInfo* separating_info) {
+  /// TODO: merge runSeparating and runSeparated with macro
+  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::runSeparating ring coloring table vertex_pair separating_info)
   DEBUG_PAIR(vertex_pair)
-  DEBUG_PAIR(color_pair)
-  ColorInducer inducer;
-  KempeChain chain;
-  inducer.run(ring, coloring, vertex_pair, color_pair, &chain);
-  DEBUG_OBJ(chain)
-  bool res = true;
-  if (chain.size() < 2) {
-    /// 0. if the kempe chain cannot split the boundary 
-    DEBUG << "if chain size < 2\n";
-    res = false;
-  } else {
-    /// 1. else the kempe chain can split the boundary
-    ///    call kempe chain interchange
-    DEBUG << "else chain size >= 2\n";
-    res = false;
-    for (const auto& separated_vertex_pair : chain.getSeparatedVertexPairs(ring.boundarySize())) {
-      DEBUG << "for ";
-      DEBUG_PAIR(separated_vertex_pair)
-      const size_t c = coloring.get(separated_vertex_pair.first);
-      const size_t d = coloring.get(separated_vertex_pair.second);
-      if (c == d) {
-        /// 1.0 if separated_vertex_pair have the same color
-        DEBUG << "1.0 c==d\n";
-        std::vector<size_t> unused_colors;
-        diff<size_t>(id<size_t>(COLORS), {c, color_pair.first, color_pair.second}, &unused_colors);
-        for (const auto unused_color : unused_colors) {
-          DEBUG << "  for ";
-          DEBUG_VAR(unused_color)
-          if (this->interchange(ring, coloring, separated_vertex_pair, {c, unused_color}, table, colorings)) {
-            res = true;
-            break;
-          }/// if
-        }/// for unused_color
-      } else {
-        /// 1.1 else separated_vertex_pair have distinct colors
-        DEBUG << "1.1 c!=d\n";
-        res = this->interchange(ring, coloring, separated_vertex_pair, {c, d}, table, colorings);
-      }/// else c != d
+  bool res = false;
+  VII color_pairs;
+  this->getColorPairs(coloring, {}, vertex_pair, &color_pairs);
+  for (const auto& color_pair : color_pairs) {
+    KempeChainConnector separating_connector(vertex_pair, color_pair);
+    for (const auto& separated_vertex_pair : ring.getBoundarySeparatedVertexPairs(vertex_pair)) {
+      VII separated_color_pairs;
+      this->getColorPairs(coloring, {color_pair.first, color_pair.second}, separated_vertex_pair, &separated_color_pairs);
+      for (const auto& separated_color_pair : separated_color_pairs) {
+        KempeChainConnector separated_connector(separated_vertex_pair, separated_color_pair);
+        if (this->run(ring, coloring, table, separating_connector, separated_connector, &(separating_info->interchange_))) {
+        DEBUG << "this run ok\n";
+        res = true;
+        separating_info->color_pair_ = color_pair;
+        separating_info->dual_ = separated_connector;
+        break;
+        }/// if
+      }/// for separated_color_pair
       if (res) break;
     }/// for separated_vertex_pair
-  }/// else chain.size() >= 2
-  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring vertex_pair color_pair colorings)
+    if (res) break;
+  }/// for color_pair
+  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::runSeparating ring coloring table vertex_pair separating_info)
   return res;
-}/// BirkhoffDiamondKempeChainInterchanger::run
+}/// BirkhoffDiamondKempeChainInterchanger::runSeparating
 
-bool BirkhoffDiamondKempeChainInterchanger::interchange(const Ring& ring, const ColorRepresentation& coloring, const II& vertex_pair, const II& color_pair, const ColorResult& table, ColorResult* colorings) {
-  /// assuming: vertex_pair is separated by another kempe chain
-  /// interchange the kempe chain induced by vertex_pair with color_pair
-  /// RETURN: return colorings instantly once interchange a valid coloring
-  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::interchange ring coloring vertex_pair color_pair colorings)
+bool BirkhoffDiamondKempeChainInterchanger::runSeparated(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainInfo* separated_info) {
+  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::runSeparated ring coloring table vertex_pair separated_info)
+  DEBUG_PAIR(vertex_pair)
+  bool res = false;
+  VII color_pairs;
+  this->getColorPairs(coloring, {}, vertex_pair, &color_pairs);
+  for (const auto& color_pair : color_pairs) {
+    KempeChainConnector separated_connector(vertex_pair, color_pair);
+    for (const auto& separating_vertex_pair : ring.getBoundarySeparatedVertexPairs(vertex_pair)) {
+      VII separating_color_pairs;
+      this->getColorPairs(coloring, {color_pair.first, color_pair.second}, separating_vertex_pair, &separating_color_pairs);
+      for (const auto& separating_color_pair : separating_color_pairs) {
+        KempeChainConnector separating_connector(separating_vertex_pair, separating_color_pair);
+        if (this->run(ring, coloring, table, separating_connector, separated_connector, &(separated_info->interchange_))) {
+        DEBUG << "this run ok\n";
+        res = true;
+        separated_info->color_pair_ = color_pair;
+        separated_info->dual_ = separating_connector;
+        break;
+        }/// if
+      }/// for separating_color_pair
+      if (res) break;
+    }/// for separating_vertex_pair
+    if (res) break;
+  }/// for color_pair
+  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::runSeparated ring coloring table vertex_pair separated_info)
+  return res;
+}/// BirkhoffDiamondKempeChainInterchanger::runSeparated
+
+bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainResult* result) {
+  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring table vertex_pair result)
   DEBUG_OBJ(coloring)
   DEBUG_PAIR(vertex_pair)
-  DEBUG_PAIR(color_pair)
-  KempeChain chain;
-  ColorInducer inducer;
-  inducer.run(ring, coloring, vertex_pair, color_pair, &chain);
-  DEBUG << "chain size must be 2!\n";
-  DEBUG_OBJ(chain)
-  bool res = false;
-  res = res || this->interchange(coloring, chain.getConst(0), color_pair, table, colorings);
-  res = res || this->interchange(coloring, chain.getConst(1), color_pair, table, colorings);
-  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::interchange ring coloring vertex_pair color_pair colorings)
-  return res;
-}/// BirkhoffDiamondKempeChainInterchanger::interchange
+  result->vertex_pair_ = vertex_pair;
+  const bool res_separating = this->runSeparating(ring, coloring, table, vertex_pair, &(result->separating_));
+  const bool res_separated = this->runSeparated(ring, coloring, table, vertex_pair, &(result->separated_));
+  DEBUG_OBJ(coloring)
+  DEBUG_PAIR(vertex_pair)
+  DEBUG_FLAG_OBJ(res_separating, result->separating_)
+  DEBUG_FLAG_OBJ(res_separated, result->separated_)
+  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring table vertex_pair result)
+  return res_separating && res_separated;
+}/// BirkhoffDiamondKempeChainInterchanger::run
 
-bool BirkhoffDiamondKempeChainInterchanger::interchange(const ColorRepresentation& coloring, const VI& chain, const II& color_pair, const ColorResult& table, ColorResult* colorings) {
-  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::interchange)
-  NaiveColorRepresentation color(coloring.getVector());
-  color.inverse(chain, color_pair);
-  DEBUG_OBJ(color)
-  BirkhoffDiamond diamond;
-  const size_t index = table.find(color.getVector(), diamond.boundarySize());/// index must != -1
-  auto found_ptr = table.getConst(index);
-  DEBUG << "found_ptr:\n";
-  DEBUG_OBJ(*found_ptr)
-  BirkhoffDiamondColorJudger judger;
-  const bool res = judger.isValid(*found_ptr);
-  if (res) {
-    DEBUG << "valid interchange!\n";
-    colorings->append(color);
-  } else {
-    DEBUG << "invalid interchange!\n";
-  }
-  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::interchange)
+bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, KempeChainResult* result) {
+  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring table result)
+  bool res = false;
+  for (const auto& vertex_pair : ring.getBoundaryNonadjacentVertexPairs()) {
+    if (!this->run(ring, coloring, table, vertex_pair, result)) continue;
+    res = true;
+    break;
+  }/// for
+  INFO_OBJ(coloring)
+  INFO_FLAG_OBJ(res, *result)
+  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring table result)
   return res;
-}/// BirkhoffDiamondKempeChainInterchanger::interchange
+}/// BirkhoffDiamondKempeChainInterchanger::run
 
 }/// namespace PlanarGraphColoring

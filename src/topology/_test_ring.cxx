@@ -36,7 +36,7 @@ void test_0() {
       DEBUG << "getNeighbors(" << i << ") passed!\n";
     }
   }/// for
-  const auto& pairs = ring.getBoundarySeparatedPairs(0, 2);
+  const auto& pairs = ring.getBoundarySeparatedVertexPairs(0, 2);
   DEBUG_VAR(pairs.size())
   res = res && (pairs.size() == 1);
   res = res && (pairs[0] == std::pair<size_t, size_t>({1, 3}));
@@ -44,6 +44,17 @@ void test_0() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
 }/// test_0
 
+void test_1() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+  Ring ring(6);
+  const VII pairs(ring.getBoundaryNonadjacentVertexPairs());
+  INFO_VII(pairs)
+  bool res = (9 == pairs.size());
+  PGC__TEST_RESULT_INFO(res, 1)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+}/// test_0
+
 PGC__MAIN_START
   test_0();
+  test_1();
 PGC__MAIN_END

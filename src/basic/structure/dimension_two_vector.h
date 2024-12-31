@@ -5,6 +5,7 @@
 #include "../notation.h"
 #include "../math.h"
 #include <vector>
+#include <algorithm>
 
 namespace PlanarGraphColoring {
 
@@ -15,15 +16,27 @@ public:
     vvt_.clear();
   }/// DimensionTwoVector default
   DimensionTwoVector(const DimensionTwoVector& rhs) {
-    vvt_ = rhs.vvt_;
+    if (this != &rhs) {
+      vvt_ = rhs.vvt_;
+    }
   }/// DimensionTwoVector deepcopy
   DimensionTwoVector(DimensionTwoVector&& rhs) {
-    vvt_.swap(rhs.vvt_);
+    if (this != &rhs) {
+      vvt_.swap(rhs.vvt_);
+    }
   }/// DimensionTwoVector movecopy
   DimensionTwoVector& operator=(const DimensionTwoVector& rhs) {
-    vvt_ = rhs.vvt_;
+    if (this != &rhs) {
+      vvt_ = rhs.vvt_;
+    }
     return *this;
-  }/// DimensionTwoVector assignment
+  }/// DimensionTwoVector assignment deepcopy
+  DimensionTwoVector& operator=(DimensionTwoVector&& rhs) {
+    if (this != &rhs) {
+      vvt_.swap(rhs.vvt_);
+    }
+    return *this;
+  }
   inline void set(const std::vector<std::vector<T>>& vvt) {
     vvt_ = vvt;
   }/// set
@@ -70,6 +83,15 @@ public:
   inline std::vector<std::vector<T>>& get() {
     return vvt_;
   }/// get
+  inline bool contain(const T& t) const {
+    bool res = false;
+    for (const auto& vt : vvt_) {
+      if (std::find(vt.begin(), vt.end(), t) == vt.end()) continue;
+      res = true;
+      break;
+    }
+    return res;
+  }
 protected:
   std::vector<std::vector<T>> vvt_;
 };/// class DimensionTwoVector

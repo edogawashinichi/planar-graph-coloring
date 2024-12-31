@@ -93,7 +93,16 @@ if (PGC__VERBOSE_MODE) { \
 
 #define DEBUG_OBJ(obj) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  std::cout << PGC__STR(obj) << ":\n"; \
   (obj).show(); \
+}
+
+#define DEBUG_FLAG_OBJ(flag, obj) \
+if (flag) { \
+  DEBUG << PGC__STR(flag) << " ok\n"; \
+  DEBUG_OBJ(obj) \
+} else { \
+  DEBUG << PGC__STR(flag) << " failed\n"; \
 }
 
 #define INFO \
@@ -103,6 +112,14 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) \
 #define INFO_OBJ(obj) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   (obj).show(); \
+}
+
+#define INFO_FLAG_OBJ(flag, obj) \
+if (flag) { \
+  INFO << PGC__STR(flag) << " ok\n"; \
+  INFO_OBJ(obj) \
+} else { \
+  INFO << PGC__STR(flag) << " failed\n"; \
 }
 
 #define PGC__STR(s) \

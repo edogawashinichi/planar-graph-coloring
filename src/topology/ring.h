@@ -17,6 +17,7 @@ public:
   Ring(Ring&& rhs) : PlanarGraph(std::move(rhs)) { std::swap(k_, rhs.k_); }
   Ring& operator=(const Ring& rhs);
   Ring& operator=(Ring&& rhs);
+  Ring(const size_t k);
   Ring(const size_t k, const size_t n, const std::vector<std::vector<size_t>>& edges);
   inline size_t boundarySize() const {
     return k_;
@@ -24,6 +25,7 @@ public:
   inline size_t interiorSize() const {
     return n_ - k_;
   }
+  const VII getBoundaryNonadjacentVertexPairs() const;
   const VII getBoundarySeparatedVertexPairs(const II& vertex_pair) const;
   virtual const VII getBoundarySeparatedVertexPairs(const size_t i, const size_t j) const;
   virtual void show() const override;

@@ -36,6 +36,22 @@ void diff(const std::vector<T>& A, const std::vector<T>& B, std::vector<T>* C) {
   }/// for A
 }/// diff
 
+/* return A cap B nonempty */
+template<typename T>
+bool cap(const std::vector<T>& A, const std::vector<T>& B) {
+  /// TODO: optimize by hash table
+  bool res = false;
+  for (const auto& a : A) {
+    for (const auto& b : B) {
+      if (b != a) continue;
+      res = true;
+      break;
+    }/// for b
+    if (res) break;
+  }/// for a
+  return res;
+}/// cap
+
 /* {0, 1, ..., n-1} */
 template<typename T>
 std::vector<T> id(const size_t n) {

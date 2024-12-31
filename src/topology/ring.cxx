@@ -5,6 +5,19 @@
 
 namespace PlanarGraphColoring {
 
+const VII Ring::getBoundaryNonadjacentVertexPairs() const {
+  /// WARNING: size_t loop penetration
+  int k = static_cast<int>(k_);
+  VII res;
+  for (int i = 0; i <= k - 3; ++i) {
+    const int ma = ((0 == i) ? k - 2 : k - 1);
+    for (int j = i + 2; j <= ma; ++j) {
+      res.emplace_back(std::pair<size_t, size_t>({i, j}));
+    }/// for j
+  }/// for i
+  return res;
+}/// Ring::getBoundaryNonadjacentVertexPairs
+
 const VII Ring::getBoundarySeparatedVertexPairs(const II& vertex_pair) const {
   size_t x = vertex_pair.first;
   size_t y = vertex_pair.second;
@@ -34,6 +47,13 @@ Ring& Ring::operator=(Ring&& rhs) {
   std::swap(k_, rhs.k_);
   return *this;
 }/// assignment movecopy
+
+Ring::Ring(const size_t k) {
+  n_ = k_ = k;
+  for (int i = 0; i < static_cast<int>(k); ++i) {
+    Graph::addEdge(i, (i + 1) % k);
+  }/// for
+}/// Ring::Ring
 
 Ring::Ring(const size_t k, const size_t n, const std::vector<std::vector<size_t>>& edges) :
   PlanarGraph(n, edges), k_(k) {

@@ -120,6 +120,19 @@ void Graph::setSize(const size_t n) {
   }/// while it
 }/// Graph::setSize 
 
+void Graph::addEdge(const size_t i, const size_t j) {
+  this->addUniNeighbor(i, j);
+  this->addUniNeighbor(j, i);
+}/// Graph::addEdge
+
+void Graph::addUniNeighbor(const size_t i, const size_t j) {
+  if (neighbors_.count(i)) {
+    neighbors_[i].emplace_back(j);
+  } else {
+    neighbors_[i] = {j};
+  }
+}/// Graph::addUniNeighbor
+
 bool Graph::containEdge(const size_t i, const size_t j) const {
   bool res = false;
   if (neighbors_.count(i)) {

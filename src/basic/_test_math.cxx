@@ -102,10 +102,20 @@ void test_4() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(4))
 }/// test_4
 
+void test_5() {
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(5))
+  bool res = (cap<size_t>({}, {}) == false);
+  res = res && (cap<size_t>({}, {0, 1, 2}) == false);
+  res = res && (cap<size_t>({1, 2, 3}, {4, 5, 5, 3}) == true);
+  PGC__TEST_RESULT_INFO(res, 5)
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(5))
+}/// test_5
+
 PGC__MAIN_START
   test_0();
   test_1();
   test_2();
   test_3();
   test_4();
+  test_5();
 PGC__MAIN_END
