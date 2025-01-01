@@ -88,6 +88,7 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) \
 
 #define VERBOSE_OBJ(obj) \
 if (PGC__VERBOSE_MODE) { \
+  std::cout << PGC__STR(obj) << ":\n"; \
   (obj).show(); \
 }
 
@@ -111,6 +112,7 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) \
 
 #define INFO_OBJ(obj) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  std::cout << PGC__STR(obj) << ":\n"; \
   (obj).show(); \
 }
 
@@ -191,7 +193,7 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
 }
 
 #define INFO_PAIR(pair) \
-INFO_2VAR((pair).first, (pair).second)
+INFO << PGC__STR(pair) << "={" << (pair).first << "," << (pair).second << "}\n";
 
 #define DEBUG_2VAR(var, war) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
@@ -199,7 +201,7 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
 }
 
 #define DEBUG_PAIR(pair) \
-DEBUG_2VAR((pair).first, (pair).second)
+DEBUG << PGC__STR(pair) << "={" << (pair).first << "," << (pair).second << "}\n";
 
 #define VERBOSE_2VAR(var, war) \
 if (PGC__VERBOSE_MODE) { \
@@ -207,7 +209,7 @@ if (PGC__VERBOSE_MODE) { \
 }
 
 #define VERBOSE_PAIR(pair) \
-VERBOSE_2VAR((pair).first, (pair).second)
+VERBOSE << PGC__STR(pair) << "={" << (pair).first << "," << (pair).second << "}\n";
 
 #define PGC__SHOW_VAR(var) \
 std::cout << PGC__STR(var) << "=" << (var) << "\n";
@@ -229,9 +231,10 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE ) { \
 #define VVI std::vector<std::vector<size_t>>
 
 #define PGC__SHOW_VEC(vec) \
-for (const auto& a : vec) {\
-  std::cout << a << " ";\
-}\
+std::cout << PGC__STR(vec) << ":\n"; \
+for (const auto& a : vec) { \
+  std::cout << a << " "; \
+} \
 std::cout << "\n";
 
 #define PGC__DEBUG_VEC(vec) \

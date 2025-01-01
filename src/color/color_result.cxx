@@ -6,6 +6,15 @@
 
 namespace PlanarGraphColoring {
 
+const ColorRepresentation* ColorResult::findConstPtr(const VI& color, const size_t k) const {
+  auto index = this->find(color, k);
+  const ColorRepresentation* res = nullptr;
+  if (index != -1) {
+    res = this->getConst(index);
+  }/// if
+  return res;
+}/// ColorResult::findConstPtr
+
 int ColorResult::find(const VI& color, const size_t k) const {
   /// assuming: 0 < k < color.size
   /// TODO: basic/hash.h optimize

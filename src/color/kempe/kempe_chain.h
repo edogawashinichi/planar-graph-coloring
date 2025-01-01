@@ -37,10 +37,8 @@ public:
   }/// assignment movecopy
   inline void show() const {
     TEST_INFO
-    INFO_START(KempeChainConnector::show)
     INFO_PAIR(vertex_pair_)
     INFO_PAIR(color_pair_)
-    INFO_END(KempeChainConnector::show)
   }/// show
 };/// class KempeChainConnector
 
@@ -51,11 +49,9 @@ public:
   NaiveColorRepresentation interchange_;
   inline void show() const {
     TEST_INFO
-    INFO_START(KempeChainInfo::show)
     INFO_PAIR(color_pair_)
     INFO_OBJ(dual_)
     INFO_OBJ(interchange_)
-    INFO_END(KempeChainInfo::show)
   }/// show
 };/// class KempeChainInfo
 
@@ -66,11 +62,9 @@ public:
   KempeChainInfo separated_;
   inline void show() const {
     TEST_INFO
-    INFO_START(KempeChainResult::show)
     INFO_PAIR(vertex_pair_)
     INFO_OBJ(separating_)
     INFO_OBJ(separated_)
-    INFO_END(KempeChainResult::show)
   }/// show
 };/// class KempeChainResult
 

@@ -17,6 +17,7 @@ public:
   ColorResult(ColorResult&& rhs);
   int find(const std::vector<size_t>& color) const;
   int find(const std::vector<size_t>& color, const size_t k) const;
+  const ColorRepresentation* findConstPtr(const std::vector<size_t>& color, const size_t k) const;
   void append(const std::vector<size_t>& color);
   void append(const ColorRepresentation& color);
   inline size_t size() const {
