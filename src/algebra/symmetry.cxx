@@ -2,6 +2,7 @@
 
 #include "symmetry.h"
 #include "../basic/notation.h"
+#include "../basic/math.h"
 
 namespace PlanarGraphColoring {
 
@@ -10,7 +11,8 @@ Transformation::Transformation(const std::vector<size_t>& trans) {
 }/// Transformation::Transformation
 
 std::vector<size_t> Transformation::inverse() const {
-  std::vector<size_t> res(trans_.size(), 0);
+  //std::vector<size_t> res(trans_.size(), 0);
+  VI res(id<size_t>(trans_.size()));
   for (size_t i = 0; i < trans_.size(); ++i) {
     res[trans_[i]] = i;
   }

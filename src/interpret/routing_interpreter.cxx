@@ -8,8 +8,6 @@ namespace PlanarGraphColoring {
 void RoutingInterpreter::show() const {
   /// assuming: colors.size == transformations.size + 1
   TEST_INFO
-  DEBUG_START(RoutingInterpreter::show)
-  std::cout << "RoutingInterpreter::show:\n";
   std::cout << "length: " << transformations_.size() << "\n";
   if (!colors_.empty()) {
     /// WARNING: partial travesal by size_t type
@@ -23,7 +21,6 @@ void RoutingInterpreter::show() const {
     INFO << last_index << "th color: ";
     colors_.getConst(last_index)->show();
   }/// if colors not empty
-  DEBUG_END(RoutingInterpreter::show)
 }/// RoutingInterpreter::show
 
 RoutingInterpreter::RoutingInterpreter(const RelationManager& manager, const DigraphSearcherResult& result, const size_t start, const size_t end) {

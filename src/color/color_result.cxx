@@ -134,7 +134,7 @@ void ColorResult::showWith(const std::string& s, const size_t n) const {
   INFO << "size: " << n << "/" << colors_.size() << "\n";
   size_t k = 0;
   for (size_t i = 0; i < colors_.size(); ++i) {
-    if (!colors_[i]->valid()) continue;
+    //if (!colors_[i]->valid()) continue;
     if (k >= n) break;
     if (0 == k) std::cout << i << "th(" << s << "): ";
     else std::cout << i << "th: ";

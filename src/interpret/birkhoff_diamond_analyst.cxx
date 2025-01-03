@@ -43,27 +43,47 @@ void BirkhoffDiamondAnalyst::reasonByVertexColor(const RelationManager& manager,
   INFO_START(BirkhoffDiamondAnalyst::reasonByVertexColor)
   auto classification_interpreter = dynamic_cast<const ClassificationInterpreter&>(input);
   auto routing_interpreter = dynamic_cast<RoutingInterpreter*>(output);
-  /// TODO: classification get(i, j)
-
   const size_t coloring_ij_index = manager.getColorResultConst()->find(classification_interpreter.get(i, j));
   const size_t coloring_ik_index = manager.getColorResultConst()->find(classification_interpreter.get(i, k));
   INFO_2VAR(coloring_ij_index, coloring_ik_index)
-  classification_interpreter.getConst(i).getConst(j)->show();
-  classification_interpreter.getConst(i).getConst(k)->show();
+  DEBUG_OBJ(*(classification_interpreter.getConst(i).getConst(j)))
+  DEBUG_OBJ(*(classification_interpreter.getConst(i).getConst(k)))
   auto representative_ij = classification_interpreter.representative(classification_interpreter.get(i, j));
   auto representative_ik = classification_interpreter.representative(classification_interpreter.get(i, k));
-  INFO_OBJ(NaiveColorRepresentation(representative_ij))
-  INFO_OBJ(NaiveColorRepresentation(representative_ik))
+  DEBUG_OBJ(NaiveColorRepresentation(representative_ij))
+  DEBUG_OBJ(NaiveColorRepresentation(representative_ik))
   DigraphSearcher searcher;
   DigraphSearcherResult result;
   searcher.dijkstra(*(manager.getDigraphResultConst()->getVertexColorConst()), {coloring_ij_index, coloring_ik_index}, &result);
   routing_interpreter->set(manager, result, coloring_ij_index, coloring_ik_index);
+  DEBUG_OBJ(*routing_interpreter)
   INFO_END(BirkhoffDiamondAnalyst::reasonByVertexColor)
 }/// BirkhoffDiamondAnalyst::reasonByVertexColor
 
-void BirkhoffDiamondAnalyst::reasonByVertexColor(const RelationManager& manager, const Interpreter& input, const size_t i, const size_t j, Interpreter* output) {
+void BirkhoffDiamondAnalyst::reasonByVertexColor(const RelationManager& manager, const Interpreter& input, const size_t i, Interpreter* output) {
+  INFO_START(BirkhoffDiamondAnalyst::reasonByVertexColor)
   auto classification_interpreter = dynamic_cast<const ClassificationInterpreter&>(input);
   auto kempe_interpreter = dynamic_cast<KempeInterpreter*>(output);
+  INFO_VAR(i)
+  const VI representative = classification_interpreter.get(i, 0);
+  const size_t representative_index = manager.getColorResultConst()->find(representative);
+  NaiveColorRepresentation representative_coloring(representative);
+  INFO_VAR(representative_index)
+  INFO_OBJ(representative_coloring)
+  BirkhoffDiamondKempeChainInterchanger interchanger;
+  BirkhoffDiamond diamond;
+  interchanger.run(diamond, representative_coloring, *(manager.getColorResultConst()), &(kempe_interpreter->getKempeChainResult()));
+  const auto& separating_interchange = kempe_interpreter->constKempeChainResult().separating_.interchange_;
+  const auto& separated_interchange = kempe_interpreter->constKempeChainResult().separated_.interchange_;
+  const size_t separating_class = classification_interpreter.getClass(separating_interchange.getVector());
+  const size_t separated_class = classification_interpreter.getClass(separated_interchange.getVector());
+  const size_t separating_class_index = classification_interpreter.getConst(separating_class).find(separating_interchange.getVector());
+  const size_t separated_class_index = classification_interpreter.getConst(separated_class).find(separated_interchange.getVector());
+  this->reasonByVertexColor(manager, classification_interpreter, separating_class, separating_class_index, 0, &(kempe_interpreter->getSeparatingRoute()));
+  this->reasonByVertexColor(manager, classification_interpreter, separated_class, separated_class_index, 0, &(kempe_interpreter->getSeparatedRoute()));
+  kempe_interpreter->setClass(i, separating_class, separated_class);
+  kempe_interpreter->setColoring(representative_coloring);
+  INFO_END(BirkhoffDiamondAnalyst::reasonByVertexColor)
 }/// BirkhoffDiamondAnalyst::reasonByVertexColor
 
 }/// namespace PlanarGraphColoring

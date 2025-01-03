@@ -2,6 +2,7 @@
 
 #include "color_transformer.h"
 #include "../algebra/symmetry.h"
+#include "../basic/math.h"
 
 namespace PlanarGraphColoring {
 
@@ -28,9 +29,13 @@ void ColorTransformer::inverseVertexSymmetry(const std::vector<size_t>& input, s
 }/// ColorTransformer::inverseVertexSymmetry
 
 void ColorTransformer::inverseColorSymmetry(const std::vector<size_t>& input, std::vector<size_t>* output) {
-  output->resize(input.size());
+  DEBUG_START(ColorTransformer::inverseColorSymmetry)
+  output->resize(input.size());/// default value 0
+  *output = id<size_t>(input.size());
+  DEBUG_VEC(*output)
   Transformation t(input);
-  *output = t.inverse();/// always deep-copy for any compiler
+  *output = t.inverse();/// deepcopy
+  DEBUG_END(ColorTransformer::inverseColorSymmetry)
 }/// ColorTransformer::inverseColorSymmetry
 
 }/// namespace PlanarGraphColoring

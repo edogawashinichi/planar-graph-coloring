@@ -6,10 +6,33 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
+#include <unordered_map>
 
 namespace PlanarGraphColoring {
 
 /// template function assertion and definition must be put together
+
+/* whether X-->Y is a function */
+template<typename T>
+bool function(const std::vector<T>& X, const std::vector<T>& Y, std::unordered_map<T, T>* f) {
+  /// assuming: X.size == Y.size
+  bool res = true;
+  f->clear();
+  for (size_t i = 0; i < X.size(); ++i) {
+    const T& x = X[i];
+    const T& y = Y[i];
+    if (!f->count(x)) {
+      (*f)[x] = y;
+    } else if ((*f)[x] != y) {
+      /// same x --> distinct y
+      DEBUG_2VAR((*f)[x], y)
+      res = false;
+      break;
+    }/// else if
+  }/// for
+  if (!res) f->clear();
+  return res;
+}/// function
 
 /* x --f--> y */
 template<typename T>
@@ -23,6 +46,7 @@ void map(const std::vector<T>& X, const std::vector<T>& f, std::vector<T>* Y) {
 /* C = A - B */
 template<typename T>
 void diff(const std::vector<T>& A, const std::vector<T>& B, std::vector<T>* C) {
+  C->clear();
   for (const auto a : A) {
     bool contain = false;
     for (const auto b : B) {

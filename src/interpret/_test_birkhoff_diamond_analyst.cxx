@@ -3,6 +3,7 @@
 #include "birkhoff_diamond_analyst.h"
 #include "classification_interpreter.h"
 #include "routing_interpreter.h"
+#include "kempe_interpreter.h"
 #include "../color/birkhoff_diamond_color_judger.h"
 #include "../relation/birkhoff_diamond_relation_builder.h"
 #include "../basic/notation.h"
@@ -61,7 +62,33 @@ void test_1() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
 }/// test_1
 
+/// test_2
+TEST_START(2)
+  RelationManager manager;
+  BirkhoffDiamondRelationBuilder builder;
+  builder.run(&manager);
+  BirkhoffDiamondColorJudger judger;
+  BirkhoffDiamondAnalyst analyst;
+  ClassificationInterpreter classification_interpreter;
+  analyst.reasonByVertexColor(manager, &classification_interpreter);
+  for (size_t i = 0; i < classification_interpreter.size(); ++i) {
+    INFO_VAR(i)
+    auto representative = classification_interpreter.getConst(i).getConst(0);
+    if (judger.isValid(*representative)) {
+      INFO << "valid class need no kempe!\n";
+    } else {
+      INFO << "invalid class need kempe!\n";
+      KempeInterpreter kempe_interpreter;
+      analyst.reasonByVertexColor(manager, classification_interpreter, i, &kempe_interpreter);
+      INFO_OBJ(kempe_interpreter)
+    }/// else
+  }/// for i
+  bool res = true;
+TEST_END(2)
+/// test_2
+
 PGC__MAIN_START
   //test_0();
-  test_1();
+  //test_1();
+  TEST(2)
 PGC__MAIN_END

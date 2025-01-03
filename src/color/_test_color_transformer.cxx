@@ -106,8 +106,21 @@ void test_2() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
 }/// test_2
 
+/// test_3
+TEST_START(3)
+  ColorTransformer transformer;
+  const NaiveColorRepresentation coloring({0, 1, 3, 3});
+  DEBUG_OBJ(coloring)
+  VI inverse;
+  transformer.inverseColorSymmetry(coloring.getVector(), &inverse);
+  INFO_VEC(inverse)
+  bool res = (inverse == VI({0, 1, 2, 3}));
+TEST_END(3)
+/// test_3
+
 PGC__MAIN_START
   test_0();
   test_1();
   test_2();
+  TEST(3)
 PGC__MAIN_END

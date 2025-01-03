@@ -138,17 +138,17 @@ bool BirkhoffDiamondKempeChainInterchanger::runSeparated(const Ring& ring, const
 }/// BirkhoffDiamondKempeChainInterchanger::runSeparated
 
 bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainResult* result) {
-  INFO_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring table vertex_pair result)
+  DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring table vertex_pair result)
   DEBUG_OBJ(coloring)
   DEBUG_PAIR(vertex_pair)
   result->vertex_pair_ = vertex_pair;
   const bool res_separating = this->runSeparating(ring, coloring, table, vertex_pair, &(result->separating_));
   const bool res_separated = this->runSeparated(ring, coloring, table, vertex_pair, &(result->separated_));
-  INFO_OBJ(coloring)
-  INFO_PAIR(vertex_pair)
-  INFO_FLAG_OBJ(res_separating, result->separating_)
-  INFO_FLAG_OBJ(res_separated, result->separated_)
-  INFO_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring table vertex_pair result)
+  DEBUG_OBJ(coloring)
+  DEBUG_PAIR(vertex_pair)
+  DEBUG_FLAG_OBJ(res_separating, result->separating_)
+  DEBUG_FLAG_OBJ(res_separated, result->separated_)
+  DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring table vertex_pair result)
   return res_separating && res_separated;
 }/// BirkhoffDiamondKempeChainInterchanger::run
 
@@ -160,8 +160,8 @@ bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRep
     res = true;
     break;
   }/// for
-  INFO_OBJ(coloring)
-  INFO_FLAG_OBJ(res, *result)
+  DEBUG_OBJ(coloring)
+  DEBUG_FLAG_OBJ(res, *result)
   DEBUG_END(BirkhoffDiamondKempeChainInterchanger::run ring coloring table result)
   return res;
 }/// BirkhoffDiamondKempeChainInterchanger::run

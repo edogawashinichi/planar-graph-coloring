@@ -8,6 +8,30 @@
 
 using namespace PlanarGraphColoring;
 
+/// test_3()
+TEST_START(3)
+  BirkhoffDiamondRelationBuilder builder;
+  RelationManager manager;
+  builder.run(&manager);
+  BirkhoffDiamond diamond;
+  NaiveColorRepresentation coloring({0, 1, 2, 3, 1, 2, 9, 9, 9, 9});
+  auto table_ptr = manager.getColorResult()->findConstPtr(coloring.getVector(), diamond.boundarySize());
+  INFO_OBJ(*table_ptr)
+  BirkhoffDiamondColorJudger judger;
+  bool res = false;
+  if (judger.isValid(*table_ptr)) {
+    INFO << "valid coloring need not interchange\n";
+    res = true;
+  } else {
+    BirkhoffDiamondKempeChainInterchanger interchanger;
+    KempeChainResult result;
+    res = interchanger.run(diamond, coloring, *(manager.getColorResult()), &result);
+    INFO << "invalid coloring need interchange\n";
+    INFO_OBJ(result)
+  }
+TEST_END(3)
+/// test_3()
+
 void test_2() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
   BirkhoffDiamondRelationBuilder builder;
@@ -76,6 +100,7 @@ void test_0() {
 
 PGC__MAIN_START
   //test_0();
-  test_1();
-  test_2();
+  //test_1();
+  //test_2();
+  TEST(3)
 PGC__MAIN_END

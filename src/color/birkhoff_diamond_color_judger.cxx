@@ -80,45 +80,32 @@ bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorReprese
   VERBOSE_START(BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry)
   VERBOSE_OBJ(lhs)
   VERBOSE_OBJ(rhs)
-  std::unordered_map<size_t, size_t> f, g;
   bool res = true;
-  for (size_t i = 0; i < lhs.size(); ++i) {
-    if (f.count(lhs.get(i))) {
-      if (f[lhs.get(i)] != rhs.get(i)) {
-        if (PGC__VERBOSE_MODE) {
-          PGC__SHOW_ENDL("false")
-          std::cout << lhs.get(i) << "->" << f[lhs.get(i)] << "\n";
-          std::cout << "duplicate " << lhs.get(i) << "->" << rhs.get(i) << "\n";
-        }
-        res = false;
-        break;
-      }
+  std::unordered_map<size_t, size_t> f, g;
+  res = res && function<size_t>(lhs.getVector(), rhs.getVector(), &f);
+  res = res && function<size_t>(rhs.getVector(), lhs.getVector(), &g);
+  /// TODO: refactor function/injection/surjection/bijection representation
+  if (res) {
+    mapper->resize(COLORS, UNDEF_COLOR);
+    VI f_keys, g_keys;
+    for (const auto& kv : f) {
+      (*mapper)[kv.first] = kv.second;
+      f_keys.emplace_back(kv.first);
+      g_keys.emplace_back(kv.second);
+    }/// for
+    DEBUG_VEC(f_keys)
+    DEBUG_VEC(g_keys)
+    VI f_keys_res, g_keys_res;
+    diff<size_t>(id<size_t>(COLORS), f_keys, &f_keys_res);
+    diff<size_t>(id<size_t>(COLORS), g_keys, &g_keys_res);
+    DEBUG_VEC(f_keys_res)
+    DEBUG_VEC(g_keys_res)
+    for (size_t i = 0; i < f_keys_res.size(); ++i) {
+      const size_t x = f_keys_res[i];
+      const size_t y = g_keys_res[i];
+      (*mapper)[x] = y;
     }
-    if (g.count(rhs.get(i))) {
-      if (g[rhs.get(i)] != lhs.get(i)) {
-        if (PGC__VERBOSE_MODE) {
-          PGC__SHOW_ENDL("false")
-          std::cout << g[rhs.get(i)] << "<-" << rhs.get(i) << "\n";
-          std::cout << "duplicate " << lhs.get(i) << "<-" << rhs.get(i) << "\n";
-        }
-        res = false;
-        break;
-      }
-    }
-    if (!f.count(lhs.get(i)) && !g.count(rhs.get(i))) {
-      f[lhs.get(i)] = rhs.get(i);
-      g[rhs.get(i)] = lhs.get(i);
-    }
-  }
-  (*mapper) = id<size_t>(COLORS);
-  for (const auto& kv : f) {
-    (*mapper)[kv.first] = kv.second;
-  }
-  if (PGC__VERBOSE_MODE) {
-    PGC__SHOW_ENDL("mapper:")
-    PGC__SHOW_VEC_WITH_INDEX((*mapper))
-    PGC__SHOW_VAR(res)
-  }
+  }/// if res
   VERBOSE_END(BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry)
   return res;
 }/// BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry

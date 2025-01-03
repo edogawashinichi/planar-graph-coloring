@@ -35,7 +35,7 @@ kempe_src_path="../color/kempe/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} kempe_interpreter.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}global.cxx ${kempe_src_path}color_triple.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} kempe_interpreter.cxx ${color_src_path}naive_color_representation.cxx ${basic_src_path}global.cxx ${kempe_src_path}kempe_chain.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

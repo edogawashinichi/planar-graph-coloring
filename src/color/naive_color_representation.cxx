@@ -92,7 +92,10 @@ void NaiveColorRepresentation::show() const {
     return left.first < right.first;
   };
   std::sort(colors.begin(), colors.end(), cmp);
-  PGC__SHOW_VII_WITH_COLOR_SEP(colors, 6, PURPLE, CYAN)
+  std::vector<std::pair<size_t, char>> char_colors(colors.size());
+  std::transform(colors.begin(), colors.end(), char_colors.begin(), [](const II& p){
+char c = static_cast<char>(p.second + 'a'); return std::pair<size_t, char>({p.first, c});});
+  PGC__SHOW_VII_WITH_COLOR_SEP(char_colors, 6, PURPLE, CYAN)
 }/// NaiveColorRepresentation::show
 
 bool NaiveColorRepresentation::valid() const {

@@ -299,7 +299,7 @@ for (size_t i = 0; i < vii.size(); ++i) { \
   if (i < k) { \
     std::cout << kv.first << ":" << C0 << kv.second << RESET << " "; \
   } else { \
-    if (kv.second == UNDEF_COLOR) { \
+    if (kv.second == static_cast<char>(UNDEF_COLOR + 'a')) { \
       std::cout << kv.first << ":" << RED << kv.second << RESET << " "; \
     } else { \
       std::cout << kv.first << ":" << C1 << kv.second << RESET << " "; \
@@ -466,6 +466,17 @@ if (argc > 1) { \
   std::cout << "info mode usage:\n"; \
   std::cout << RED << "./_build_xx.sh info" << RESET << "\n"; \
 }
+
+#define TEST_START(i) \
+void test_##i() { \
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(i))
+
+#define TEST_END(i) \
+  PGC__TEST_RESULT_INFO(res, i) \
+  PGC__SHOW_ENDL(PGC__TEST_SEPAR(i)) \
+}
+
+#define TEST(i) test_##i();
 
 #define PGC__MAIN_START \
 int main(int argc, char* argv[]) { \
