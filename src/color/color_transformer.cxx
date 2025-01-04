@@ -29,13 +29,13 @@ void ColorTransformer::inverseVertexSymmetry(const std::vector<size_t>& input, s
 }/// ColorTransformer::inverseVertexSymmetry
 
 void ColorTransformer::inverseColorSymmetry(const std::vector<size_t>& input, std::vector<size_t>* output) {
-  DEBUG_START(ColorTransformer::inverseColorSymmetry)
+  VERBOSE_START(ColorTransformer::inverseColorSymmetry)
   output->resize(input.size());/// default value 0
   *output = id<size_t>(input.size());
-  DEBUG_VEC(*output)
+  VERBOSE_VEC(*output)
   Transformation t(input);
   *output = t.inverse();/// deepcopy
-  DEBUG_END(ColorTransformer::inverseColorSymmetry)
+  VERBOSE_END(ColorTransformer::inverseColorSymmetry)
 }/// ColorTransformer::inverseColorSymmetry
 
 }/// namespace PlanarGraphColoring

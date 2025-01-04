@@ -12,11 +12,11 @@ namespace PlanarGraphColoring {
 bool BirkhoffDiamondColorJudger::isValid(const ColorRepresentation& coloring) {
   BirkhoffDiamond diamond;
   bool res = coloring.valid();
-  DEBUG << "coloring.valid():\n";
-  DEBUG_VAR(res)
+  VERBOSE << "coloring.valid():\n";
+  VERBOSE_VAR(res)
   res = res && this->isBoundaryColoringValid(diamond, coloring);
-  DEBUG << "isBoundaryColoringValid:\n";
-  DEBUG_VAR(res)
+  VERBOSE << "isBoundaryColoringValid:\n";
+  VERBOSE_VAR(res)
   /// TODO: isInteriorColoringValid
   return res;
 }/// BirkhoffDiamondColorJudger::isValid
@@ -93,13 +93,13 @@ bool BirkhoffDiamondColorJudger::isIsomorphismByColorSymmetry(const ColorReprese
       f_keys.emplace_back(kv.first);
       g_keys.emplace_back(kv.second);
     }/// for
-    DEBUG_VEC(f_keys)
-    DEBUG_VEC(g_keys)
+    VERBOSE_VEC(f_keys)
+    VERBOSE_VEC(g_keys)
     VI f_keys_res, g_keys_res;
     diff<size_t>(id<size_t>(COLORS), f_keys, &f_keys_res);
     diff<size_t>(id<size_t>(COLORS), g_keys, &g_keys_res);
-    DEBUG_VEC(f_keys_res)
-    DEBUG_VEC(g_keys_res)
+    VERBOSE_VEC(f_keys_res)
+    VERBOSE_VEC(g_keys_res)
     for (size_t i = 0; i < f_keys_res.size(); ++i) {
       const size_t x = f_keys_res[i];
       const size_t y = g_keys_res[i];

@@ -6,6 +6,7 @@
 #include "../color/color_result.h"
 #include "../relation/relation_manager.h"
 #include "../operator/digraph_searcher_result.h"
+#include <unordered_set>
 
 namespace PlanarGraphColoring {
 
@@ -31,8 +32,13 @@ public:
     /// assuming: i,j valid
     return this->getConst(i).getInfo(j);
   }
+  inline std::unordered_set<const ColorRepresentation*>& getValidTable() {
+    return valid_table_;
+  }
+  const VI classValidTable() const;
 protected:
   std::vector<ColorResult> color_class_;
+  std::unordered_set<const ColorRepresentation*> valid_table_;
 };/// class ClassificationInterpreter
 
 }/// namespace PlanarGraphColoring

@@ -9,8 +9,6 @@
 #include "../color/naive_color_representation.h"
 #include "../color/kempe/birkhoff_diamond_kempe_chain_interchanger.h"
 
-/// TODO: dfs result may differ, how to memorize classification interpreter
-
 #define FUNC(reasonBySome, getSomeConst) \
 void BirkhoffDiamondAnalyst::reasonBySome(const RelationManager& relation_manager, Interpreter* classification_interpreter) { \
   INFO_START(BirkhoffDiamondAnalyst::reasonBySome) \
@@ -60,27 +58,28 @@ void BirkhoffDiamondAnalyst::reasonByVertexColor(const RelationManager& manager,
   INFO_END(BirkhoffDiamondAnalyst::reasonByVertexColor)
 }/// BirkhoffDiamondAnalyst::reasonByVertexColor
 
-void BirkhoffDiamondAnalyst::reasonByVertexColor(const RelationManager& manager, const Interpreter& input, const size_t i, Interpreter* output) {
+void BirkhoffDiamondAnalyst::reasonByVertexColor(const RelationManager& manager, const size_t i, Interpreter* output, Interpreter* input) {
   INFO_START(BirkhoffDiamondAnalyst::reasonByVertexColor)
-  auto classification_interpreter = dynamic_cast<const ClassificationInterpreter&>(input);
+  auto classification_interpreter = dynamic_cast<ClassificationInterpreter*>(input);
   auto kempe_interpreter = dynamic_cast<KempeInterpreter*>(output);
   INFO_VAR(i)
-  const VI representative = classification_interpreter.get(i, 0);
+  const VI& representative = classification_interpreter->get(i, 0);
   const size_t representative_index = manager.getColorResultConst()->find(representative);
   NaiveColorRepresentation representative_coloring(representative);
   INFO_VAR(representative_index)
   INFO_OBJ(representative_coloring)
   BirkhoffDiamondKempeChainInterchanger interchanger;
   BirkhoffDiamond diamond;
-  interchanger.run(diamond, representative_coloring, *(manager.getColorResultConst()), &(kempe_interpreter->getKempeChainResult()));
+  interchanger.run(diamond, representative_coloring, *(manager.getColorResultConst()), &(kempe_interpreter->getKempeChainResult()), &(classification_interpreter->getValidTable()));
+  INFO_VEC(classification_interpreter->classValidTable())
   const auto& separating_interchange = kempe_interpreter->constKempeChainResult().separating_.interchange_;
   const auto& separated_interchange = kempe_interpreter->constKempeChainResult().separated_.interchange_;
-  const size_t separating_class = classification_interpreter.getClass(separating_interchange.getVector());
-  const size_t separated_class = classification_interpreter.getClass(separated_interchange.getVector());
-  const size_t separating_class_index = classification_interpreter.getConst(separating_class).find(separating_interchange.getVector());
-  const size_t separated_class_index = classification_interpreter.getConst(separated_class).find(separated_interchange.getVector());
-  this->reasonByVertexColor(manager, classification_interpreter, separating_class, separating_class_index, 0, &(kempe_interpreter->getSeparatingRoute()));
-  this->reasonByVertexColor(manager, classification_interpreter, separated_class, separated_class_index, 0, &(kempe_interpreter->getSeparatedRoute()));
+  const size_t separating_class = classification_interpreter->getClass(separating_interchange.getVector());
+  const size_t separated_class = classification_interpreter->getClass(separated_interchange.getVector());
+  const size_t separating_class_index = classification_interpreter->getConst(separating_class).find(separating_interchange.getVector());
+  const size_t separated_class_index = classification_interpreter->getConst(separated_class).find(separated_interchange.getVector());
+  this->reasonByVertexColor(manager, *classification_interpreter, separating_class, separating_class_index, 0, &(kempe_interpreter->getSeparatingRoute()));
+  this->reasonByVertexColor(manager, *classification_interpreter, separated_class, separated_class_index, 0, &(kempe_interpreter->getSeparatedRoute()));
   kempe_interpreter->setClass(i, separating_class, separated_class);
   kempe_interpreter->setColoring(representative_coloring);
   INFO_END(BirkhoffDiamondAnalyst::reasonByVertexColor)

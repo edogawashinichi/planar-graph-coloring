@@ -25,7 +25,7 @@ bool function(const std::vector<T>& X, const std::vector<T>& Y, std::unordered_m
       (*f)[x] = y;
     } else if ((*f)[x] != y) {
       /// same x --> distinct y
-      DEBUG_2VAR((*f)[x], y)
+      VERBOSE_2VAR((*f)[x], y)
       res = false;
       break;
     }/// else if

@@ -79,7 +79,7 @@ TEST_START(2)
     } else {
       INFO << "invalid class need kempe!\n";
       KempeInterpreter kempe_interpreter;
-      analyst.reasonByVertexColor(manager, classification_interpreter, i, &kempe_interpreter);
+      analyst.reasonByVertexColor(manager, i, &kempe_interpreter, &classification_interpreter);
       INFO_OBJ(kempe_interpreter)
     }/// else
   }/// for i

@@ -23,12 +23,15 @@ TEST_START(3)
     INFO << "valid coloring need not interchange\n";
     res = true;
   } else {
+    /// WARNING: running one case will fail
     BirkhoffDiamondKempeChainInterchanger interchanger;
     KempeChainResult result;
-    res = interchanger.run(diamond, coloring, *(manager.getColorResult()), &result);
+    std::unordered_set<const ColorRepresentation*> valid_table;
+    res = interchanger.run(diamond, coloring, *(manager.getColorResult()), &result, &valid_table);
     INFO << "invalid coloring need interchange\n";
     INFO_OBJ(result)
   }
+  /// TODO: debug res=false
 TEST_END(3)
 /// test_3()
 
@@ -49,7 +52,8 @@ void test_2() {
   } else {
     BirkhoffDiamondKempeChainInterchanger interchanger;
     KempeChainResult result;
-    res = interchanger.run(diamond, coloring, *(manager.getColorResult()), &result);
+    std::unordered_set<const ColorRepresentation*> valid_table;
+    res = interchanger.run(diamond, coloring, *(manager.getColorResult()), &result, &valid_table);
     INFO << "invalid coloring need interchange\n";
   }
   PGC__TEST_RESULT_INFO(res, 2)
@@ -73,7 +77,8 @@ void test_1() {
   } else {
     BirkhoffDiamondKempeChainInterchanger interchanger;
     KempeChainResult result;
-    res = interchanger.run(diamond, coloring, *(manager.getColorResult()), &result);
+    std::unordered_set<const ColorRepresentation*> valid_table;
+    res = interchanger.run(diamond, coloring, *(manager.getColorResult()), &result, &valid_table);
     INFO << "invalid coloring need interchange\n";
   }
   PGC__TEST_RESULT_INFO(res, 1)
@@ -91,7 +96,8 @@ void test_0() {
   const II kempe_vertices = {1, 5};
   BirkhoffDiamondKempeChainInterchanger interchanger;
   KempeChainResult result;
-  interchanger.run(diamond, coloring, *(manager.getColorResult()), kempe_vertices, &result);
+  std::unordered_set<const ColorRepresentation*> valid_table;
+  interchanger.run(diamond, coloring, *(manager.getColorResult()), kempe_vertices, &result, &valid_table);
   INFO_OBJ(result)
   bool res = true;
   PGC__TEST_RESULT_INFO(res, 0)

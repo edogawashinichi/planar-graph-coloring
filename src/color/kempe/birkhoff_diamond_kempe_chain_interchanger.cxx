@@ -9,7 +9,9 @@
 
 namespace PlanarGraphColoring {
 
-bool BirkhoffDiamondKempeChainInterchanger::interchange(const ColorRepresentation& coloring, const ColorResult& table, const VI& chain, const II& color_pair, ColorRepresentation* interchange_coloring) {
+/// TODO: implement valid table by disjoint set
+
+bool BirkhoffDiamondKempeChainInterchanger::interchange(const ColorRepresentation& coloring, const ColorResult& table, const VI& chain, const II& color_pair, ColorRepresentation* interchange_coloring, std::unordered_set<const ColorRepresentation*>* valid_table) {
   DEBUG_START(BirkhoffDiamondKempeChainInterchanger::interchange coloring table chain color_pair interchange_coloring)
   DEBUG_OBJ(coloring)
   DEBUG_VEC(chain)
@@ -18,21 +20,24 @@ bool BirkhoffDiamondKempeChainInterchanger::interchange(const ColorRepresentatio
   inversed_coloring.inverse(chain, color_pair);
   DEBUG_OBJ(inversed_coloring)
   BirkhoffDiamond diamond;
-  auto table_ptr = table.findConstPtr(inversed_coloring.getVector(), diamond.boundarySize());
-  DEBUG_OBJ(*table_ptr)
+  auto inverse_ptr = table.findConstPtr(inversed_coloring.getVector(), diamond.boundarySize());
+  DEBUG_OBJ(*inverse_ptr)
   BirkhoffDiamondColorJudger judger;
-  const bool res = judger.isValid(*table_ptr);
+  const bool res = valid_table->count(inverse_ptr) || judger.isValid(*inverse_ptr);
   if (res) {
     auto lhs = dynamic_cast<NaiveColorRepresentation*>(interchange_coloring);
-    //*lhs = std::move(inversed_coloring);
-    *lhs = *(dynamic_cast<const NaiveColorRepresentation*>(table_ptr));
+    //*lhs = std::move(inversed_coloring);/// WARNING: reference basic class ptr
+    *lhs = *(dynamic_cast<const NaiveColorRepresentation*>(inverse_ptr));
+    auto coloring_ptr = table.findConstPtr(coloring.getVector(), diamond.boundarySize());
+    valid_table->insert(coloring_ptr);
   }
   DEBUG_FLAG_OBJ(res, *interchange_coloring)
+  DEBUG_VAR(valid_table->size())
   DEBUG_END(BirkhoffDiamondKempeChainInterchanger::interchange coloring table chain color_pair interchange_coloring)
   return res;
 }///BirkhoffDiamondKempeChainInterchanger::interchange
 
-bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const KempeChainConnector& separating_connector, const KempeChainConnector& separated_connector, ColorRepresentation* interchange_coloring) {
+bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const KempeChainConnector& separating_connector, const KempeChainConnector& separated_connector, ColorRepresentation* interchange_coloring, std::unordered_set<const ColorRepresentation*>* valid_table) {
   /// assuming: separating_connector.vertex_pair_ don't overlap with separated_connector.vertex_pair_
   /// assuming: separating_connector.color_pair_ don't overlap with separated_connector.color_pair_
   DEBUG_START(BirkhoffDiamondChainInterchanger::run ring coloring table separating_connector separated_connector interchange_coloring)
@@ -47,8 +52,8 @@ bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRep
   inducer.run(ring, coloring, separated_connector.vertex_pair_, separated_connector.color_pair_, &separated_chain);
   res = res && (separated_chain.size() == 2);
   if (res) {
-    res = (this->interchange(coloring, table, separated_chain.getConst(0), separated_connector.color_pair_, interchange_coloring));
-    res = res || (this->interchange(coloring, table, separated_chain.getConst(1), separated_connector.color_pair_, interchange_coloring));
+    res = this->interchange(coloring, table, separated_chain.getConst(0), separated_connector.color_pair_, interchange_coloring, valid_table);
+    res = res || (this->interchange(coloring, table, separated_chain.getConst(1), separated_connector.color_pair_, interchange_coloring, valid_table));
   }/// if
   DEBUG_FLAG_OBJ(res, *interchange_coloring)
   DEBUG_END(BirkhoffDiamondChainInterchanger::run ring coloring table separating_connector separated_connector interchange_coloring)
@@ -76,7 +81,7 @@ bool BirkhoffDiamondKempeChainInterchanger::getColorPairs(const ColorRepresentat
   return !color_pairs->empty();
 }/// BirkhoffDiamondKempeChainInterchanger::getColorPairs
 
-bool BirkhoffDiamondKempeChainInterchanger::runSeparating(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainInfo* separating_info) {
+bool BirkhoffDiamondKempeChainInterchanger::runSeparating(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainInfo* separating_info, std::unordered_set<const ColorRepresentation*>* valid_table) {
   /// TODO: merge runSeparating and runSeparated with macro
   DEBUG_START(BirkhoffDiamondKempeChainInterchanger::runSeparating ring coloring table vertex_pair separating_info)
   DEBUG_PAIR(vertex_pair)
@@ -90,7 +95,7 @@ bool BirkhoffDiamondKempeChainInterchanger::runSeparating(const Ring& ring, cons
       this->getColorPairs(coloring, {color_pair.first, color_pair.second}, separated_vertex_pair, &separated_color_pairs);
       for (const auto& separated_color_pair : separated_color_pairs) {
         KempeChainConnector separated_connector(separated_vertex_pair, separated_color_pair);
-        if (this->run(ring, coloring, table, separating_connector, separated_connector, &(separating_info->interchange_))) {
+        if (this->run(ring, coloring, table, separating_connector, separated_connector, &(separating_info->interchange_), valid_table)) {
         DEBUG << "this run ok\n";
         res = true;
         separating_info->color_pair_ = color_pair;
@@ -107,7 +112,7 @@ bool BirkhoffDiamondKempeChainInterchanger::runSeparating(const Ring& ring, cons
   return res;
 }/// BirkhoffDiamondKempeChainInterchanger::runSeparating
 
-bool BirkhoffDiamondKempeChainInterchanger::runSeparated(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainInfo* separated_info) {
+bool BirkhoffDiamondKempeChainInterchanger::runSeparated(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainInfo* separated_info, std::unordered_set<const ColorRepresentation*>* valid_table) {
   DEBUG_START(BirkhoffDiamondKempeChainInterchanger::runSeparated ring coloring table vertex_pair separated_info)
   DEBUG_PAIR(vertex_pair)
   bool res = false;
@@ -120,7 +125,7 @@ bool BirkhoffDiamondKempeChainInterchanger::runSeparated(const Ring& ring, const
       this->getColorPairs(coloring, {color_pair.first, color_pair.second}, separating_vertex_pair, &separating_color_pairs);
       for (const auto& separating_color_pair : separating_color_pairs) {
         KempeChainConnector separating_connector(separating_vertex_pair, separating_color_pair);
-        if (this->run(ring, coloring, table, separating_connector, separated_connector, &(separated_info->interchange_))) {
+        if (this->run(ring, coloring, table, separating_connector, separated_connector, &(separated_info->interchange_), valid_table)) {
         DEBUG << "this run ok\n";
         res = true;
         separated_info->color_pair_ = color_pair;
@@ -137,13 +142,13 @@ bool BirkhoffDiamondKempeChainInterchanger::runSeparated(const Ring& ring, const
   return res;
 }/// BirkhoffDiamondKempeChainInterchanger::runSeparated
 
-bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainResult* result) {
+bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, const II& vertex_pair, KempeChainResult* result, std::unordered_set<const ColorRepresentation*>* valid_table) {
   DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring table vertex_pair result)
   DEBUG_OBJ(coloring)
   DEBUG_PAIR(vertex_pair)
   result->vertex_pair_ = vertex_pair;
-  const bool res_separating = this->runSeparating(ring, coloring, table, vertex_pair, &(result->separating_));
-  const bool res_separated = this->runSeparated(ring, coloring, table, vertex_pair, &(result->separated_));
+  const bool res_separating = this->runSeparating(ring, coloring, table, vertex_pair, &(result->separating_), valid_table);
+  const bool res_separated = this->runSeparated(ring, coloring, table, vertex_pair, &(result->separated_), valid_table);
   DEBUG_OBJ(coloring)
   DEBUG_PAIR(vertex_pair)
   DEBUG_FLAG_OBJ(res_separating, result->separating_)
@@ -152,11 +157,11 @@ bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRep
   return res_separating && res_separated;
 }/// BirkhoffDiamondKempeChainInterchanger::run
 
-bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, KempeChainResult* result) {
+bool BirkhoffDiamondKempeChainInterchanger::run(const Ring& ring, const ColorRepresentation& coloring, const ColorResult& table, KempeChainResult* result, std::unordered_set<const ColorRepresentation*>* valid_table) {
   DEBUG_START(BirkhoffDiamondKempeChainInterchanger::run ring coloring table result)
   bool res = false;
   for (const auto& vertex_pair : ring.getBoundaryNonadjacentVertexPairs()) {
-    if (!this->run(ring, coloring, table, vertex_pair, result)) continue;
+    if (!this->run(ring, coloring, table, vertex_pair, result, valid_table)) continue;
     res = true;
     break;
   }/// for

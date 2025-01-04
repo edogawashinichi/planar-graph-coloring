@@ -7,8 +7,18 @@ namespace PlanarGraphColoring {
 
 constexpr size_t N = 5;
 
+const VI ClassificationInterpreter::classValidTable() const {
+  VI res;
+  for (auto ptr : valid_table_) {
+    const size_t i = this->getClass(ptr->getVector());
+    res.emplace_back(i);
+  }/// for
+  return res;
+}/// ClassificationInterpreter::classValidTable
+
 ClassificationInterpreter::ClassificationInterpreter() {
   color_class_.clear();
+  valid_table_.clear();
 }/// ClassificationInterpreter::ClassificationInterpreter
 
 std::vector<size_t> ClassificationInterpreter::representative(const std::vector<size_t>& color) const {
