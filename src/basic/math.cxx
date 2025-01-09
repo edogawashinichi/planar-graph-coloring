@@ -4,6 +4,15 @@
 
 namespace PlanarGraphColoring {
 
+size_t fact(const size_t n) {
+  /// assuming: n! is no more than max value of size_t
+  size_t res = 1;
+  for (size_t i = 2; i <= n; ++i) {
+    res *= i;
+  }
+  return res;
+}/// fact
+
 /*
 template<typename T>
 void map(const std::vector<T>& X, const std::vector<T>& f, std::vector<T>* Y) {

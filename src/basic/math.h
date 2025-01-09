@@ -12,6 +12,9 @@ namespace PlanarGraphColoring {
 
 /// template function assertion and definition must be put together
 
+/* return n!=1*2*3*...*n */
+size_t fact(const size_t n);
+
 /* whether X-->Y is a function */
 template<typename T>
 bool function(const std::vector<T>& X, const std::vector<T>& Y, std::unordered_map<T, T>* f) {

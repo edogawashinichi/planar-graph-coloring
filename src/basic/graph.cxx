@@ -167,6 +167,7 @@ VII Graph::getEdges() const {
       res.emplace_back(std::pair<size_t, size_t>({u, v}));
     }/// v
   }/// for kv
+  dict_sort(res);
   return res;
 }/// Graph::getEdges
 

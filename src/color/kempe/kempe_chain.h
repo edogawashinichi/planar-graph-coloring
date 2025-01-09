@@ -70,14 +70,7 @@ public:
 
 class KempeChain : public DimensionTwoVector<size_t> {
 public:
-  CLASS_5_FUNCTIONS(KempeChain, DimensionTwoVector<size_t>)
-  /*
-  KempeChain();
-  KempeChain(const KempeChain& rhs);/// WARNING: k K
-  KempeChain(KempeChain&& rhs);
-  KempeChain& operator=(const KempeChain& rhs);
-  KempeChain& operator=(KempeChain&& rhs);
-  */
+  DERIVE_CLASS_5_FUNCTIONS(KempeChain, DimensionTwoVector<size_t>)
   virtual void show() const override;
   void sort(const size_t ring_size);
   const VII getSeparatedVertexPairs(const size_t ring_size) const;

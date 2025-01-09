@@ -10,7 +10,7 @@ namespace PlanarGraphColoring {
 
 class Component : public DimensionOneVector<size_t> {
 public:
-  CLASS_5_FUNCTIONS(Component, DimensionOneVector<size_t>)
+  DERIVE_CLASS_5_FUNCTIONS(Component, DimensionOneVector<size_t>)
   inline virtual void show() const override {
     TEST_INFO
     PGC__SHOW_ENDL("component:")
@@ -20,7 +20,7 @@ public:
 
 class Components : public DimensionTwoVector<size_t> {
 public:
-  CLASS_5_FUNCTIONS(Components, DimensionTwoVector<size_t>)
+  DERIVE_CLASS_5_FUNCTIONS(Components, DimensionTwoVector<size_t>)
   inline virtual void show() const override {
     TEST_INFO
     PGC__SHOW_ENDL("components:")

@@ -10,24 +10,73 @@
 
 namespace PlanarGraphColoring {
 
-#define CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
+/// macro for a base class Base with container member mem_
+
+#define CLASS_CONSTRUCTOR_DEFAULT(Base, mem_) \
+inline Base() { \
+  mem_.clear(); \
+}
+
+#define CLASS_CONSTRUCTOR_DELETE(Base, mem_) \
+inline Base() = delete;
+
+#define CLASS_CONSTRUCTOR_DEEPCOPY(Base, mem_) \
+inline Base(const Base& rhs) { \
+  if (this != &rhs) { \
+    mem_ = rhs.mem_; \
+  } \
+}
+
+#define CLASS_CONSTRUCTOR_MOVECOPY(Base, mem_) \
+inline Base(Base&& rhs) { \
+  if (this != &rhs) { \
+    mem_.swap(rhs.mem_); \
+  } \
+}
+
+#define CLASS_ASSIGNMENT_DEEPCOPY(Base, mem_) \
+inline Base& operator=(const Base& rhs) { \
+  if (this != &rhs) { \
+    mem_ = rhs.mem_; \
+  } \
+  return *this; \
+}
+
+#define CLASS_ASSIGNMENT_MOVECOPY(Base, mem_) \
+inline Base& operator=(Base&& rhs) { \
+  if (this != &rhs) { \
+    mem_.swap(rhs.mem_); \
+  } \
+  return *this; \
+}
+
+#define CLASS_5_FUNCTIONS(Base, mem_) \
+CLASS_CONSTRUCTOR_DEFAULT(Base, mem_) \
+CLASS_CONSTRUCTOR_DEEPCOPY(Base, mem_) \
+CLASS_CONSTRUCTOR_MOVECOPY(Base, mem_) \
+CLASS_ASSIGNMENT_DEEPCOPY(Base, mem_) \
+CLASS_ASSIGNMENT_MOVECOPY(Base, mem_)
+
+/// macro for a derived class Derived from a base class Base
+
+#define DERIVE_CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
 inline Derived() : Base() {}
 
-#define CLASS_CONSTRUCTOR_DEEPCOPY(Derived, Base) \
+#define DERIVE_CLASS_CONSTRUCTOR_DEEPCOPY(Derived, Base) \
 inline Derived(const Derived& rhs) { \
   if (this != &rhs) { \
     Base::get() = rhs.getConst(); \
   } \
 }
 
-#define CLASS_CONSTRUCTOR_MOVECOPY(Derived, Base) \
+#define DERIVE_CLASS_CONSTRUCTOR_MOVECOPY(Derived, Base) \
 inline Derived(Derived&& rhs) { \
   if (this != &rhs) { \
     Base::get().swap(rhs.get()); \
   } \
 }
 
-#define CLASS_ASSIGNMENT_DEEPCOPY(Derived, Base) \
+#define DERIVE_CLASS_ASSIGNMENT_DEEPCOPY(Derived, Base) \
 inline Derived& operator=(const Derived& rhs) { \
   if (this != &rhs) { \
     Base::get() = rhs.getConst(); \
@@ -35,7 +84,7 @@ inline Derived& operator=(const Derived& rhs) { \
   return *this; \
 }
 
-#define CLASS_ASSIGNMENT_MOVECOPY(Derived, Base) \
+#define DERIVE_CLASS_ASSIGNMENT_MOVECOPY(Derived, Base) \
 inline Derived& operator=(Derived&& rhs) { \
   if (this != &rhs) { \
     Base::get().swap(rhs.get()); \
@@ -43,12 +92,12 @@ inline Derived& operator=(Derived&& rhs) { \
   return *this; \
 }
 
-#define CLASS_5_FUNCTIONS(Derived, Base) \
-CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
-CLASS_CONSTRUCTOR_DEEPCOPY(Derived, Base) \
-CLASS_CONSTRUCTOR_MOVECOPY(Derived, Base) \
-CLASS_ASSIGNMENT_DEEPCOPY(Derived, Base) \
-CLASS_ASSIGNMENT_MOVECOPY(Derived, Base)
+#define DERIVE_CLASS_5_FUNCTIONS(Derived, Base) \
+DERIVE_CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
+DERIVE_CLASS_CONSTRUCTOR_DEEPCOPY(Derived, Base) \
+DERIVE_CLASS_CONSTRUCTOR_MOVECOPY(Derived, Base) \
+DERIVE_CLASS_ASSIGNMENT_DEEPCOPY(Derived, Base) \
+DERIVE_CLASS_ASSIGNMENT_MOVECOPY(Derived, Base)
 
 #define RESET "\033[0m"
 #define BLACK "\033[30m"  /* Black */
