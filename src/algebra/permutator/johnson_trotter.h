@@ -2,14 +2,15 @@
 
 #pragma once
 
+#include "permutator.h"
 #include "../../basic/notation.h"
 
 namespace PlanarGraphColoring {
 
-class JohnsonTrotter {
+class JohnsonTrotter : public Permutator {
 public:
-  /* generate all permutations of {0, 1, ..., n-1} */
-  VVI run(const size_t n);
+  /* all permutations not in dictionary order */
+  virtual VVI run(const size_t n) override;
 protected:
   /* flip each direction[i] with a[i] greater than value */
   void flipGreater(const VI& a, const size_t value, VI* direction);

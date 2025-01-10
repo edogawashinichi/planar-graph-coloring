@@ -4,30 +4,55 @@
 
 namespace PlanarGraphColoring {
 
-Permutation::Permutation(const Permutation& rhs) {
-  if (this != &rhs) {
-    f_ = rhs.f_;
-  }
-}/// constructor deepcopy
+void Permutation::show() const {
+  TEST_INFO
+  //INFO_VEC(f_)
+  if (this->id()) {
+    std::cout << "()";
+  } else {
+    const VVI& cycles = this->getCycles();
+    for (const auto& cycle : cycles) {
+      if (cycle.size() == 1) continue;
+      std::cout << "(";
+      for (const auto& i : cycle) {
+        std::cout << i << " ";
+      }/// for i
+      std::cout << ")";
+    }/// for cycle
+  }/// else
+  std::cout << "\n";
+}/// Permutation::show
 
-Permutation::Permutation(Permutation&& rhs) {
-  if (this != &rhs) {
-    std::swap(f_, rhs.f_);
-  }
-}/// constructor movecopy
+VVI Permutation::getCycles() const {
+  VVI res;
+  VI visited(f_.size(), 0);
+  for (size_t i = 0; i < f_.size(); ++i) {
+    if (1 == visited[i]) continue;
+    VI cycle;
+    size_t j = i;
+    do {
+      visited[j] = 1;
+      cycle.emplace_back(j);
+      j = f_[j];
+    } while (0 == visited[j]);
+    res.emplace_back(cycle);
+  }/// for
+  return res;
+}/// Permutation::getCycles
 
-Permutation& Permutation::operator=(const Permutation& rhs) {
-  if (this != &rhs) {
-    f_ = rhs.f_;
-  }
-  return *this;
-}/// assignment deepcopy
+bool Permutation::id() const {
+  bool res = true;
+  for (size_t i = 0; i < f_.size(); ++i) {
+    if (i != f_[i]) {
+      res = false;
+      break;
+    }
+  }/// for
+  return res;
+}/// Permutation::id
 
-Permutation& Permutation::operator=(Permutation&& rhs) {
-  if (this != &rhs) {
-    std::swap(f_, rhs.f_);
-  }
-  return *this;
-}/// assignment movecopy
+Permutation::Permutation(const VI& a) {
+  f_ = a;
+}/// Permutation::Permutation
 
 }/// namespace PlanarGraphColoring

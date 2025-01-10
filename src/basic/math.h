@@ -12,8 +12,39 @@ namespace PlanarGraphColoring {
 
 /// template function assertion and definition must be put together
 
+template<typename T>
+bool equal(const std::vector<std::vector<T>>& lhs, const std::vector<std::vector<T>>& rhs) {
+  bool res = (lhs.size() == rhs.size());
+  if (res) {
+    for (size_t i = 0; i < lhs.size(); ++i) {
+      if (lhs[i] != rhs[i]) {
+        res = false;
+        break;
+      }/// if
+    }/// for
+  }/// if
+  return res;
+}/// equal
+
 /* return n!=1*2*3*...*n */
 size_t fact(const size_t n);
+
+/* no same element in container */
+template<typename T>
+bool distinct(const std::vector<std::vector<T>>& vvt) {
+  /// TODO: opitimize by hash table
+  bool res = true;
+  for (size_t i = 0; i < vvt.size(); ++i) {
+    for (size_t j = i + 1; j < vvt.size(); ++j) {
+      if (vvt[i] == vvt[j]) {
+        res = false;
+        break;
+      }/// if
+    }/// for j
+    if (!res) break;
+  }/// for i
+  return res;
+}/// distinct
 
 /* whether X-->Y is a function */
 template<typename T>
@@ -37,7 +68,7 @@ bool function(const std::vector<T>& X, const std::vector<T>& Y, std::unordered_m
   return res;
 }/// function
 
-/* x --f--> y */
+/* X --f--> Y */
 template<typename T>
 void map(const std::vector<T>& X, const std::vector<T>& f, std::vector<T>* Y) {
   /// assuming: X in domain of f
