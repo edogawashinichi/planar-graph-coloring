@@ -4,9 +4,34 @@
 
 namespace PlanarGraphColoring {
 
+std::ostream& operator<<(std::ostream& cout, const Permutation& obj) {
+  /// TODO: how to pass cout to obj.show()
+  obj.show();
+  return cout;
+}/// friend operator<<
+
+Permutation operator*(const Permutation& lhs, const Permutation& rhs) {
+  /// assuming: lhs.size() == rhs.size()
+  /// left association: i-->lhs-->rhs-->j
+  Permutation product;
+  for (size_t i = 0; i < lhs.size(); ++i) {
+    const size_t j = rhs.getConst(lhs.getConst(i));
+    product.append(j);
+  }/// for
+  return product;
+}/// friend operator*
+
+bool operator==(const Permutation& lhs, const Permutation& rhs) {
+  return lhs.getConst() == rhs.getConst();
+}/// friend operator==
+
+bool operator!=(const Permutation& lhs, const Permutation& rhs) {
+  return lhs.getConst() != rhs.getConst();
+}/// friend operator!=
+
 void Permutation::show() const {
   TEST_INFO
-  //INFO_VEC(f_)
+  //DimensionOneVector<size_t>::show();
   if (this->id()) {
     std::cout << "()";
   } else {
@@ -25,15 +50,15 @@ void Permutation::show() const {
 
 VVI Permutation::getCycles() const {
   VVI res;
-  VI visited(f_.size(), 0);
-  for (size_t i = 0; i < f_.size(); ++i) {
+  VI visited(this->size(), 0);
+  for (size_t i = 0; i < this->size(); ++i) {
     if (1 == visited[i]) continue;
     VI cycle;
     size_t j = i;
     do {
       visited[j] = 1;
       cycle.emplace_back(j);
-      j = f_[j];
+      j = this->getConst(j);
     } while (0 == visited[j]);
     res.emplace_back(cycle);
   }/// for
@@ -42,8 +67,8 @@ VVI Permutation::getCycles() const {
 
 bool Permutation::id() const {
   bool res = true;
-  for (size_t i = 0; i < f_.size(); ++i) {
-    if (i != f_[i]) {
+  for (size_t i = 0; i < this->size(); ++i) {
+    if (i != this->getConst(i)) {
       res = false;
       break;
     }
@@ -51,8 +76,18 @@ bool Permutation::id() const {
   return res;
 }/// Permutation::id
 
+size_t Permutation::order() const {
+  size_t res = 1;
+  Permutation product(*this);
+  while (!product.id()) {
+    product = product * (*this);
+    ++res;
+  }/// while
+  return res;
+}/// Permutation::order
+
 Permutation::Permutation(const VI& a) {
-  f_ = a;
+  this->get() = a;
 }/// Permutation::Permutation
 
 }/// namespace PlanarGraphColoring

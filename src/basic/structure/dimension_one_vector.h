@@ -2,28 +2,23 @@
 
 #pragma once
 
-#include <vector>
+#include "../notation.h"
 
 namespace PlanarGraphColoring {
 
 template<typename T>
 class DimensionOneVector {
 public:
+  CLASS_4_FUNCTIONS(DimensionOneVector, vt_)
   DimensionOneVector() {
     vt_.clear();
-  }/// DimensionOneVector default
-  DimensionOneVector(const DimensionOneVector& rhs) {
-    vt_ = rhs;
-  }/// DimensionOneVector deepcopy
-  DimensionOneVector(DimensionOneVector&& rhs) {
-    vt_.swap(rhs);
-  }/// DimensionOneVector movecopy
-  DimensionOneVector& operator=(const DimensionOneVector& rhs) {
-    vt_ = rhs;
-    return *this;
-  }/// DimensionOneVector assignment
+  }/// DimensionOneVector constructordefault
   inline const std::vector<T>& getConst() const {
     return vt_;
+  }/// getConst
+  inline const T& getConst(const size_t index) const {
+    /// assuming: index valid
+    return vt_[index];
   }/// getConst
   inline std::vector<T>& get() {
     return vt_;

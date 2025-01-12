@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ring.h"
+#include "../basic/math.h"
 
 namespace PlanarGraphColoring {
 
@@ -12,15 +13,9 @@ public:
   inline Neighborhood() {
     k_ = K;
     n_ = K + 1;
-    const VVI edges = {
-      {0, 1}, {0, 4}, {0, 5},
-      {1, 2}, {1, 5},
-      {2, 3}, {2, 5},
-      {3, 4}, {3, 5},
-      {4, 5}
-    };
+    const VII& edges = this->getEdges();
     for (const auto& edge : edges) {
-      Graph::addEdge(edge.front(), edge.back());
+      Graph::addEdge(edge.first, edge.second);
     }/// for
   }/// Neighborhood
 
@@ -29,6 +24,18 @@ public:
     INFO << "neighborhood size: " << k_ << "\n";
     Ring::show();
   }/// show
+  virtual VII getEdges() const override {
+    VII res;
+    for (int i = 0; i <= static_cast<int>(k_) - 2; ++i) {
+      res.emplace_back(std::pair<size_t, size_t>({static_cast<size_t>(i), static_cast<size_t>(i) + 1}));
+    }/// for
+    res.push_back(std::pair<size_t, size_t>({k_ - 1, 0}));
+    for (size_t i = 0; i < k_; ++i) {
+      res.emplace_back(std::pair<size_t, size_t>({i, k_}));
+    }/// for
+    dict_sort(res);
+    return res;
+  }/// getEdges
 };/// class Neighborhood
 
 }/// namespace PlanarGraphColoring

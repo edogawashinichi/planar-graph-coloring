@@ -8,7 +8,7 @@ using namespace PlanarGraphColoring;
 TEST_START(0)
   SymmetryGroup<4> S4;
   INFO_OBJ(S4)
-  bool res = true;
+  bool res = (S4.size() == fact(4));
 TEST_END(0)
 /// test_0
 

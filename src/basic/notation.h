@@ -50,12 +50,15 @@ inline Base& operator=(Base&& rhs) { \
   return *this; \
 }
 
-#define CLASS_5_FUNCTIONS(Base, mem_) \
-CLASS_CONSTRUCTOR_DEFAULT(Base, mem_) \
+#define CLASS_4_FUNCTIONS(Base, mem_) \
 CLASS_CONSTRUCTOR_DEEPCOPY(Base, mem_) \
 CLASS_CONSTRUCTOR_MOVECOPY(Base, mem_) \
 CLASS_ASSIGNMENT_DEEPCOPY(Base, mem_) \
 CLASS_ASSIGNMENT_MOVECOPY(Base, mem_)
+
+#define CLASS_5_FUNCTIONS(Base, mem_) \
+CLASS_CONSTRUCTOR_DEFAULT(Base, mem_) \
+CLASS_4_FUNCTIONS(Base, mem_)
 
 /// macro for a derived class Derived from a base class Base
 

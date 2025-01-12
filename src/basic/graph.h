@@ -41,7 +41,7 @@ public:
     return n_;
   }
   const std::vector<std::vector<size_t>> getNeighborsInfo() const;
-  VII getEdges() const;
+  virtual VII getEdges() const;
   bool containEdge(const size_t i, const size_t j) const;
   void addEdge(const size_t i, const size_t j);
   void addUniNeighbor(const size_t i, const size_t j);
