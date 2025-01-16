@@ -6,21 +6,33 @@
 namespace PlanarGraphColoring {
 
 VVI JohnsonTrotter::run(const size_t n) {
+  return this->run(n, false);
+}/// JohnsonTrotter::run
+
+VVI JohnsonTrotter::runEven(const size_t n) {
+  return this->run(n, true);
+}/// JohnsonTrotter::runEven
+
+VVI JohnsonTrotter::run(const size_t n, const bool even_only) {
   /// TODO: optimize by omitting direction
   DEBUG_START(JohnsonTrotter::run)
   VVI res;
   VI direction(n, 1);/// 1: mobile from right to left
                      /// 0: mobile from left to right
   VI a(id<size_t>(n));/// inplace permutation
+  size_t swap_cnt = 0;
   do {
     DEBUG_VAR(res.size())
     DEBUG_VEC(direction)
     DEBUG_VEC(a)
-    res.emplace_back(a);
+    if (!even_only || (even_only && (0 == swap_cnt % 2))) {
+      res.emplace_back(a);
+    }
     const int index = this->maxMobileIndex(a, direction);
     DEBUG_VAR(index)
     if (index < 0) break; 
     const size_t value = a[index];
+    ++swap_cnt;
     if (direction[index]) {
       std::swap(a[index - 1], a[index]);
       std::swap(direction[index - 1], direction[index]);/// WARNING: swap direction as well

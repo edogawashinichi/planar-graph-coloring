@@ -68,10 +68,27 @@ TEST_START(4)
 TEST_END(4)
 /// test_4
 
+/// test_5
+TEST_START(5)
+  const size_t N = 3;
+  JohnsonTrotter jt;
+  VVI res_jt = jt.runEven(N);
+  dict_sort(res_jt);
+  INFO_VVI_WITH_INDEX(res_jt)
+  const VVI exp = {
+    {0, 1, 2},
+    {1, 2, 0},
+    {2, 0, 1}
+  };
+  bool res = (equal(exp, res_jt));
+TEST_END(5)
+/// test_5
+
 PGC__MAIN_START
   TEST(0)
   TEST(1)
   TEST(2)
   TEST(3)
   TEST(4)
+  TEST(5)
 PGC__MAIN_END

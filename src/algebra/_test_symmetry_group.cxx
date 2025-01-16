@@ -12,6 +12,15 @@ TEST_START(0)
 TEST_END(0)
 /// test_0
 
+/// test_1
+TEST_START(1)
+  SymmetryGroup<7> S7;
+  INFO_OBJ(S7)
+  bool res = (S7.size() == fact(7));
+TEST_END(1)
+/// test_1
+
 PGC__MAIN_START
   TEST(0)
+  TEST(1)
 PGC__MAIN_END

@@ -6,6 +6,7 @@
 /// 2. (association): a X b X c = (a X b) X c = a X (b X c)
 /// 3. (unit) unique unit element 1: 1 X e = e X 1 = e
 /// 4. (inverse) unique inverse element i: e X i = i X e = 1 
+/// assuming: group is finite
 
 #pragma once
 
@@ -16,6 +17,10 @@ namespace PlanarGraphColoring {
 template<typename T>
 class Group : public DimensionOneVector<T> {
 public:
+  ///TODO: virtual VI orbit(const size_t element) const = 0;
+  size_t size() const {
+    return DimensionOneVector<T>::size();
+  }/// size
   virtual void show() const = 0;
   virtual const T& unit() const = 0;
   virtual const T& inverse(const T& element) const = 0;

@@ -11,7 +11,10 @@ class JohnsonTrotter : public Permutator {
 public:
   /* all permutations not in dictionary order */
   virtual VVI run(const size_t n) override;
+  /* all even permutations */
+  VVI runEven(const size_t n);
 protected:
+  VVI run(const size_t n, const bool even_only);
   /* flip each direction[i] with a[i] greater than value */
   void flipGreater(const VI& a, const size_t value, VI* direction);
   /* whether a[index] is mobile : not blocked by greater value or boundary */
