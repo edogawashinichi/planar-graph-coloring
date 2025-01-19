@@ -1,4 +1,4 @@
-/// next_iter.h
+/// next_iter_permutator.h
 
 #pragma once
 
@@ -7,7 +7,7 @@
 
 namespace PlanarGraphColoring {
 
-class NextIter : public Permutator {
+class NextIterPermutator : public Permutator {
 public:
   /* all permutations in dictionary order */
   virtual VVI run(const size_t n) override;
@@ -16,6 +16,6 @@ public:
 protected:
   int ascendMaxIndex(const VI& a);
   size_t minAscendIndex(const VI& a, const size_t ascend_max_index);
-};/// class NextIter
+};/// class NextIterPermutator
 
 }/// namespace PlanarGraphColoring

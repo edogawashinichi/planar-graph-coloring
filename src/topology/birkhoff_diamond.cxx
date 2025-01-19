@@ -23,8 +23,8 @@ const VII BirkhoffDiamond::getBoundarySeparatedVertexPairs(const size_t i, const
 }/// BirkhoffDiamond::getBoundarySeparatedVertexPairs
 
 BirkhoffDiamond::BirkhoffDiamond() {
-  k_ = 6; /// boundary size
-  n_ = 6 + 4; /// total
+  k_ = BIRKHOFF_DIAMOND_BOUNDARY_SIZE; /// boundary size
+  n_ = BIRKHOFF_DIAMOND_SIZE; /// total
   const std::vector<std::vector<size_t>> edges = {
     {0, 1}, {0, 5}, {0, 6},
     {1, 2}, {1, 6}, {1, 7},

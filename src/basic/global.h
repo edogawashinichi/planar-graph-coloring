@@ -5,10 +5,18 @@
 #include <stack>
 
 namespace PlanarGraphColoring {
-  /* const */
+  /* color */
   extern const size_t COLORS;
   extern const size_t UNDEF_COLOR;
   extern const size_t UNDEF_VERTEX;
+
+  /* topoloty */
+  extern const size_t BIRKHOFF_DIAMOND_BOUNDARY_SIZE;
+  extern const size_t BIRKHOFF_DIAMOND_INTERIOR_SIZE;
+  extern const size_t BIRKHOFF_DIAMOND_SIZE;
+
+  /* combinatorics */
+  inline constexpr size_t COMBINATION_MAX_N = 34;/// C++17 support inline constexpr for compiling time global const variables
 
   /* random */
   extern unsigned int PGC__HISTORY_SEED;

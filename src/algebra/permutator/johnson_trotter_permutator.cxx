@@ -1,21 +1,21 @@
-/// johnson_trotter.cxx
+/// johnson_trotter_permutator.cxx
 
-#include "johnson_trotter.h"
+#include "johnson_trotter_permutator.h"
 #include "../../basic/math.h"
 
 namespace PlanarGraphColoring {
 
-VVI JohnsonTrotter::run(const size_t n) {
+VVI JohnsonTrotterPermutator::run(const size_t n) {
   return this->run(n, false);
-}/// JohnsonTrotter::run
+}/// JohnsonTrotterPermutator::run
 
-VVI JohnsonTrotter::runEven(const size_t n) {
+VVI JohnsonTrotterPermutator::runEven(const size_t n) {
   return this->run(n, true);
-}/// JohnsonTrotter::runEven
+}/// JohnsonTrotterPermutator::runEven
 
-VVI JohnsonTrotter::run(const size_t n, const bool even_only) {
+VVI JohnsonTrotterPermutator::run(const size_t n, const bool even_only) {
   /// TODO: optimize by omitting direction
-  DEBUG_START(JohnsonTrotter::run)
+  DEBUG_START(JohnsonTrotterPermutator::run)
   VVI res;
   VI direction(n, 1);/// 1: mobile from right to left
                      /// 0: mobile from left to right
@@ -42,19 +42,19 @@ VVI JohnsonTrotter::run(const size_t n, const bool even_only) {
     }/// else
     this->flipGreater(a, value, &direction);
   } while (true);
-  DEBUG_END(JohnsonTrotter::run)
+  DEBUG_END(JohnsonTrotterPermutator::run)
   return res;
-}/// JohnsonTrotter::run
+}/// JohnsonTrotterPermutator::run
 
-void JohnsonTrotter::flipGreater(const VI& a, const size_t value, VI* direction) {
+void JohnsonTrotterPermutator::flipGreater(const VI& a, const size_t value, VI* direction) {
   for (size_t i = 0; i < a.size(); ++i) {
     if (a[i] > value) {
       (*direction)[i] = 1 - (*direction)[i];
     }
   }
-}/// JohnsonTrotter::flipGreater
+}/// JohnsonTrotterPermutator::flipGreater
 
-int JohnsonTrotter::maxMobileIndex(const VI& a, const VI& direction) {
+int JohnsonTrotterPermutator::maxMobileIndex(const VI& a, const VI& direction) {
   /// WARNING: comparison between int and size_t
   int max_a = -1;
   int max_i = -1;
@@ -68,15 +68,15 @@ int JohnsonTrotter::maxMobileIndex(const VI& a, const VI& direction) {
     }/// if
   }/// for
   return max_i;
-}/// JohnsonTrotter::maxMobileIndex
+}/// JohnsonTrotterPermutator::maxMobileIndex
 
-bool JohnsonTrotter::mobile(const VI& a, const VI& direction, const size_t i) {
+bool JohnsonTrotterPermutator::mobile(const VI& a, const VI& direction, const size_t i) {
   bool res = true;
   res = res && !((0 == i) && direction[i]);
   res = res && !((i > 0) && direction[i] && (a[i - 1] >= a[i]));
   res = res && !((a.size() - 1 == i) && !direction[i]);
   res = res && !((i < a.size() - 1) && !direction[i] && (a[i] <= a[i + 1]));
   return res;
-}/// JohnsonTrotter::mobile
+}/// JohnsonTrotterPermutator::mobile
 
 }/// namespace PlanarGraphColoring

@@ -6,7 +6,7 @@ using namespace PlanarGraphColoring;
 
 /// test_0
 TEST_START(0)
-  AlternatingGroup<3> A3;
+  AlternatingGroup A3(3);
   INFO_OBJ(A3)
   bool res = (A3.size() == fact(3) / 2);
 TEST_END(0)
@@ -14,7 +14,7 @@ TEST_END(0)
 
 /// test_1
 TEST_START(1)
-  AlternatingGroup<4> A4;
+  AlternatingGroup A4(4);
   INFO_OBJ(A4)
   bool res = (A4.size() == fact(4) / 2);
 TEST_END(1)

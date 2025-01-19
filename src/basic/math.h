@@ -26,6 +26,9 @@ bool equal(const std::vector<std::vector<T>>& lhs, const std::vector<std::vector
   return res;
 }/// equal
 
+/* the number of choosing n items from k items */
+LL combination(const size_t n, const size_t k);
+
 /* return n!=1*2*3*...*n */
 size_t fact(const size_t n);
 
@@ -74,6 +77,8 @@ void map(const std::vector<T>& X, const std::vector<T>& f, std::vector<T>* Y) {
   /// assuming: X in domain of f
   /// assuming: X and Y have the same domain
   /// T : size_t / int / long (discrete types only)
+  /// WARNING: function transform requires that Y must be constructed before usage
+  Y->resize(X.size());
   std::transform(X.begin(), X.end(), Y->begin(), [&](const size_t x){return f[x];});
 }/// map
 

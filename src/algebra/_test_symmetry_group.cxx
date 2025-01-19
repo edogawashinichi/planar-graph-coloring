@@ -6,7 +6,7 @@ using namespace PlanarGraphColoring;
 
 /// test_0
 TEST_START(0)
-  SymmetryGroup<4> S4;
+  SymmetryGroup S4(4);
   INFO_OBJ(S4)
   bool res = (S4.size() == fact(4));
 TEST_END(0)
@@ -14,7 +14,7 @@ TEST_END(0)
 
 /// test_1
 TEST_START(1)
-  SymmetryGroup<7> S7;
+  SymmetryGroup S7(7);
   INFO_OBJ(S7)
   bool res = (S7.size() == fact(7));
 TEST_END(1)

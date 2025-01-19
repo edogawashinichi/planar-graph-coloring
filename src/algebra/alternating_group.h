@@ -5,14 +5,14 @@
 #pragma once
 
 #include "symmetry_group.h"
-#include "permutator/johnson_trotter.h"
+#include "permutator/johnson_trotter_permutator.h"
 
 namespace PlanarGraphColoring {
 
-template<size_t N>
-class AlternatingGroup : public SymmetryGroup<N> {
+class AlternatingGroup : public SymmetryGroup {
 public:
-  inline AlternatingGroup() {
+  inline AlternatingGroup() = default;
+  inline AlternatingGroup(const size_t N) {
     const size_t n = fact(N) / 2;
     /*
     Proposition: the number of all even permutations is equal to the number of all odd permutations of order N.
@@ -21,12 +21,13 @@ public:
     the reverse injection indicates n(o)<=n(e).
     */
     Group<Permutation>::elements().resize(n);
-    JohnsonTrotter jt;
+    JohnsonTrotterPermutator jt;
     VVI res = jt.runEven(N);
+    dict_sort(res);
     for (size_t i = 0; i < n; ++i) {
       Group<Permutation>::element(i) = std::move(Permutation(res[i]));
     }/// for
-  }/// constructor default
+  }/// constructor
 };/// class AlternatingGroup
 
 }/// namespace PlanarGraphColoring

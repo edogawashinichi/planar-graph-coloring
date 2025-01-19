@@ -37,6 +37,15 @@ public:
     }
     return *this;
   }
+  inline void set(const size_t row, const size_t col) {
+    for (size_t r = 0; r < row; ++r) {
+      std::vector<T> vt(col);/// col Ts of type T default value
+      for (size_t c = 0; c < col; ++c) {
+        vt[c] = T(r * col + c);
+      }/// for col
+      vvt_.emplace_back(vt);
+    }/// for row
+  }/// set
   inline void set(const std::vector<std::vector<T>>& vvt) {
     vvt_ = vvt;
   }/// set
@@ -51,7 +60,7 @@ public:
     /// assuming: vvt_ not empty
     vvt_.back().emplace_back(t);
   }/// extend
-  inline size_t size() const {
+  inline virtual size_t size() const {
     return vvt_.size();
   }/// size
   inline size_t size(const size_t index) const {

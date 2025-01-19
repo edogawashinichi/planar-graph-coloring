@@ -1,10 +1,10 @@
-/// next_iter.cxx
+/// next_iter_permutator.cxx
 
-#include "next_iter.h"
+#include "next_iter_permutator.h"
 
 namespace PlanarGraphColoring {
 
-VVI NextIter::run(const size_t n) {
+VVI NextIterPermutator::run(const size_t n) {
   VVI res;
   res.emplace_back(id<size_t>(n));
   while (true) {
@@ -13,9 +13,9 @@ VVI NextIter::run(const size_t n) {
     res.emplace_back(next);
   }
   return res;
-}/// NextIter::run
+}/// NextIterPermutator::run
 
-VI NextIter::run(const size_t n, const size_t i) {
+VI NextIterPermutator::run(const size_t n, const size_t i) {
   VVI res;
   res.emplace_back(id<size_t>(n));
   for (size_t j = 0; j < i; ++j) {
@@ -24,9 +24,9 @@ VI NextIter::run(const size_t n, const size_t i) {
     res.emplace_back(next);
   }
   return res.back();
-}/// NextIter::run
+}/// NextIterPermutator::run
 
-bool NextIter::run(const VI& cur, VI* next) {
+bool NextIterPermutator::run(const VI& cur, VI* next) {
   bool res = false;
   VI a(cur);
   const int ascend_max_index = this->ascendMaxIndex(a);
@@ -40,9 +40,9 @@ bool NextIter::run(const VI& cur, VI* next) {
     res = true;
   }/// if
   return res;
-}/// NextIter::run
+}/// NextIterPermutator::run
 
-size_t NextIter::minAscendIndex(const VI& a, const size_t ascend_max_index) {
+size_t NextIterPermutator::minAscendIndex(const VI& a, const size_t ascend_max_index) {
   size_t min_index = ascend_max_index + 1;
   size_t min_value = a[ascend_max_index + 1];
   for (size_t i = ascend_max_index + 2; i < a.size(); ++i) {
@@ -52,9 +52,9 @@ size_t NextIter::minAscendIndex(const VI& a, const size_t ascend_max_index) {
     }/// if
   }/// for
   return min_index;
-}/// NextIter::minAscendIndex
+}/// NextIterPermutator::minAscendIndex
 
-int NextIter::ascendMaxIndex(const VI& a) {
+int NextIterPermutator::ascendMaxIndex(const VI& a) {
   int res = -1;
   for (int i = static_cast<int>(a.size()) - 2; i >= 0; --i) {
     if (a[i] < a[i + 1]) {
@@ -63,6 +63,6 @@ int NextIter::ascendMaxIndex(const VI& a) {
     }
   }/// for
   return res;
-}/// NextIter::minAscendIndex
+}/// NextIterPermutator::minAscendIndex
 
 }/// namespace PlanarGraphColoring

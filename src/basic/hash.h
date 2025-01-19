@@ -10,6 +10,7 @@ namespace PlanarGraphColoring {
 
 struct pair_hash {
   size_t N() const {
+    /// WARNING: transform global non-constant-expression to constant-expression
     return UNDEF_VERTEX;
   }
   size_t operator() (const std::pair<size_t, size_t>& p) const {

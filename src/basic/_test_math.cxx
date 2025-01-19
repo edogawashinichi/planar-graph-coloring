@@ -111,6 +111,17 @@ void test_5() {
   PGC__SHOW_ENDL(PGC__TEST_SEPAR(5))
 }/// test_5
 
+/// test_6
+TEST_START(6)
+  bool res = (combination(1, 1) == 1);
+  res = res && (combination(2, 0) == 1);
+  res = res && (combination(3, 2) == 3);
+  res = res && (combination(4, 2) == 6);
+  res = res && (combination(5, 5) == 1);
+  res = res && (combination(6, 3) == 20);
+TEST_END(6)
+/// test_6
+
 PGC__MAIN_START
   test_0();
   test_1();
@@ -118,4 +129,5 @@ PGC__MAIN_START
   test_3();
   test_4();
   test_5();
+  TEST(6)
 PGC__MAIN_END

@@ -10,55 +10,55 @@
 
 namespace PlanarGraphColoring {
 
-/// macro for a base class Base with container member mem_
+/// macro for a class Class with container member mem_
 
-#define CLASS_CONSTRUCTOR_DEFAULT(Base, mem_) \
-inline Base() { \
+#define CLASS_CONSTRUCTOR_DEFAULT(Class, mem_) \
+inline Class() { \
   mem_.clear(); \
 }
 
-#define CLASS_CONSTRUCTOR_DELETE(Base, mem_) \
-inline Base() = delete;
+#define CLASS_CONSTRUCTOR_DELETE(Class, mem_) \
+inline Class() = delete;
 
-#define CLASS_CONSTRUCTOR_DEEPCOPY(Base, mem_) \
-inline Base(const Base& rhs) { \
+#define CLASS_CONSTRUCTOR_DEEPCOPY(Class, mem_) \
+inline Class(const Class& rhs) { \
   if (this != &rhs) { \
     mem_ = rhs.mem_; \
   } \
 }
 
-#define CLASS_CONSTRUCTOR_MOVECOPY(Base, mem_) \
-inline Base(Base&& rhs) { \
+#define CLASS_CONSTRUCTOR_MOVECOPY(Class, mem_) \
+inline Class(Class&& rhs) { \
   if (this != &rhs) { \
     mem_.swap(rhs.mem_); \
   } \
 }
 
-#define CLASS_ASSIGNMENT_DEEPCOPY(Base, mem_) \
-inline Base& operator=(const Base& rhs) { \
+#define CLASS_ASSIGNMENT_DEEPCOPY(Class, mem_) \
+inline Class& operator=(const Class& rhs) { \
   if (this != &rhs) { \
     mem_ = rhs.mem_; \
   } \
   return *this; \
 }
 
-#define CLASS_ASSIGNMENT_MOVECOPY(Base, mem_) \
-inline Base& operator=(Base&& rhs) { \
+#define CLASS_ASSIGNMENT_MOVECOPY(Class, mem_) \
+inline Class& operator=(Class&& rhs) { \
   if (this != &rhs) { \
     mem_.swap(rhs.mem_); \
   } \
   return *this; \
 }
 
-#define CLASS_4_FUNCTIONS(Base, mem_) \
-CLASS_CONSTRUCTOR_DEEPCOPY(Base, mem_) \
-CLASS_CONSTRUCTOR_MOVECOPY(Base, mem_) \
-CLASS_ASSIGNMENT_DEEPCOPY(Base, mem_) \
-CLASS_ASSIGNMENT_MOVECOPY(Base, mem_)
+#define CLASS_4_FUNCTIONS(Class, mem_) \
+CLASS_CONSTRUCTOR_DEEPCOPY(Class, mem_) \
+CLASS_CONSTRUCTOR_MOVECOPY(Class, mem_) \
+CLASS_ASSIGNMENT_DEEPCOPY(Class, mem_) \
+CLASS_ASSIGNMENT_MOVECOPY(Class, mem_)
 
-#define CLASS_5_FUNCTIONS(Base, mem_) \
-CLASS_CONSTRUCTOR_DEFAULT(Base, mem_) \
-CLASS_4_FUNCTIONS(Base, mem_)
+#define CLASS_5_FUNCTIONS(Class, mem_) \
+CLASS_CONSTRUCTOR_DEFAULT(Class, mem_) \
+CLASS_4_FUNCTIONS(Class, mem_)
 
 /// macro for a derived class Derived from a base class Base
 
@@ -277,6 +277,7 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE ) { \
   PGC__SHOW_3VAR(uar, var, war) \
 }
 
+#define LL long long
 #define II std::pair<size_t, size_t>
 #define VI std::vector<size_t>
 #define VII std::vector<std::pair<size_t, size_t>>

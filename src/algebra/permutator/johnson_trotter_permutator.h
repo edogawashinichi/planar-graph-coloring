@@ -1,4 +1,4 @@
-/// johnson_trotter.h
+/// johnson_trotter_permutator.h
 
 #pragma once
 
@@ -7,7 +7,7 @@
 
 namespace PlanarGraphColoring {
 
-class JohnsonTrotter : public Permutator {
+class JohnsonTrotterPermutator : public Permutator {
 public:
   /* all permutations not in dictionary order */
   virtual VVI run(const size_t n) override;
