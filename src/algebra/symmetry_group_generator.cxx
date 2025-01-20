@@ -1,7 +1,7 @@
 /// symmetry_group_generator.cxx
 
 #include "symmetry_group_generator.h"
-#include "../combinatorics/gray_code_combinator.h"
+#include "../combinatorics/combinator/gray_code_combinator.h"
 
 namespace PlanarGraphColoring {
 

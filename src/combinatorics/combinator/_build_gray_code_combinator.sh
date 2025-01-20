@@ -2,7 +2,7 @@
 
 echo "start building..."
 
-obj_path="../../obj/"
+obj_path="../../../obj/"
 if [ ! -d ${obj_path} ]; then
   echo "mkdir ${obj_path}"
   mkdir ${obj_path}
@@ -27,7 +27,7 @@ if [ -f ${obj_file} ]; then
 fi
 
 src_path="./"
-basic_src_path="../basic/"
+basic_src_path="../../basic/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value

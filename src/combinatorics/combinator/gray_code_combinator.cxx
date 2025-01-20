@@ -1,7 +1,7 @@
 /// gray_code_combinator.cxx
 
 #include "gray_code_combinator.h"
-#include "../basic/global.h"
+#include "../../basic/global.h"
 
 /// TODO: solve non-constant-expression bug of COMBINATION_MAX_N
 

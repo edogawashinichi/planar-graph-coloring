@@ -28,12 +28,12 @@ fi
 
 src_path="./"
 basic_src_path="../basic/"
-combinatorics_src_path="../combinatorics/"
-permutator_src_path="./permutator/"
+combinator_src_path="../combinatorics/combinator/"
+permutator_src_path="../combinatorics/permutator/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} permutation.cxx symmetry_group_generator.cxx ${basic_src_path}global.cxx ${basic_src_path}math.cxx ${combinatorics_src_path}gray_code_combinator.cxx ${permutator_src_path}next_iter_permutator.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} permutation.cxx symmetry_group_generator.cxx symmetry_group.cxx ${basic_src_path}global.cxx ${basic_src_path}math.cxx ${combinator_src_path}gray_code_combinator.cxx ${permutator_src_path}next_iter_permutator.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

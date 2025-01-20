@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../basic/notation.h"
+#include "../../basic/notation.h"
 
 namespace PlanarGraphColoring {
 

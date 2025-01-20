@@ -5,7 +5,8 @@
 #pragma once
 
 #include "symmetry_group.h"
-#include "permutator/johnson_trotter_permutator.h"
+#include "../basic/math.h"
+#include "../combinatorics/permutator/johnson_trotter_permutator.h"
 
 namespace PlanarGraphColoring {
 

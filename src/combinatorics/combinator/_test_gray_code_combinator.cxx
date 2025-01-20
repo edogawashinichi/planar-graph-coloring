@@ -1,7 +1,7 @@
 /// _test_gray_code_combinator.cxx
 
 #include "gray_code_combinator.h"
-#include "../basic/math.h"
+#include "../../basic/math.h"
 
 using namespace PlanarGraphColoring;
 

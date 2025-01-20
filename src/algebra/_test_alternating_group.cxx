@@ -1,6 +1,7 @@
 /// _test_alternating_group.cxx
 
 #include "alternating_group.h"
+#include "../basic/math.h"
 
 using namespace PlanarGraphColoring;
 

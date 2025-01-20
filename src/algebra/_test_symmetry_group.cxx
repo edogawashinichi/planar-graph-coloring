@@ -1,6 +1,7 @@
 /// _test_symmetry_group.cxx
 
 #include "symmetry_group.h"
+#include "../basic/math.h"
 
 using namespace PlanarGraphColoring;
 

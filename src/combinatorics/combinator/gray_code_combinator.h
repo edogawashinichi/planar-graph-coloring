@@ -3,7 +3,7 @@
 #pragma once
 
 #include "combinator.h"
-#include "../basic/global.h"
+#include "../../basic/global.h"
 #include <bitset>
 
 namespace PlanarGraphColoring {
