@@ -3,13 +3,13 @@
 #pragma once
 
 #include "coloring_group.h"
-#include "../basic/global.h"
+#include "birkhoff_diamond_vertex_symmetry_group.h"
 
 namespace PlanarGraphColoring {
 
-class BirkhoffDiamondColoringGroup : public ColoringGroup {
+class BirkhoffDiamondColoringGroup : public ColoringGroup<BirkhoffDiamondVertexSymmetryGroup> {
 public:
-  inline BirkhoffDiamondColoringGroup() : ColoringGroup(BIRKHOFF_DIAMOND_BOUNDARY_SIZE, COLORS) {}
+  inline BirkhoffDiamondColoringGroup() : ColoringGroup<BirkhoffDiamondVertexSymmetryGroup>(COLORS) {}
 };/// class BirkhoffDiamondColoringGroup
 
 }/// namespace PlanarGraphColoring
