@@ -10,7 +10,7 @@ namespace PlanarGraphColoring {
   extern const size_t UNDEF_COLOR;
   extern const size_t UNDEF_VERTEX;
 
-  /* topoloty */
+  /* topology */
   extern const size_t BIRKHOFF_DIAMOND_BOUNDARY_SIZE;
   extern const size_t BIRKHOFF_DIAMOND_INTERIOR_SIZE;
   extern const size_t BIRKHOFF_DIAMOND_SIZE;
