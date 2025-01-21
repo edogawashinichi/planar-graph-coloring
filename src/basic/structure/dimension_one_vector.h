@@ -3,6 +3,8 @@
 #pragma once
 
 #include "../notation.h"
+#include <algorithm>
+#include <iterator>
 
 namespace PlanarGraphColoring {
 
@@ -12,7 +14,7 @@ public:
   CLASS_4_FUNCTIONS(DimensionOneVector, vt_)
   DimensionOneVector() {
     vt_.clear();
-  }/// DimensionOneVector constructordefault
+  }/// DimensionOneVector constructor default
   inline const std::vector<T>& getConst() const {
     return vt_;
   }/// getConst
@@ -37,6 +39,14 @@ public:
     TEST_INFO
     PGC__SHOW_VEC(vt_)
   }/// show
+  inline int find(const T& t) const {
+    auto iter = std::find(vt_.begin(), vt_.end(), t);
+    if (iter == vt_.end()) {
+      return -1;
+    } else {
+      return std::distance(vt_.begin(), iter);
+    }
+  }/// find
 protected:
   std::vector<T> vt_;
 };/// class DimensionOneVector

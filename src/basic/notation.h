@@ -284,7 +284,7 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE ) { \
 #define VVI std::vector<std::vector<size_t>>
 
 #define PGC__SHOW_VEC(vec) \
-std::cout << PGC__STR(vec) << ":\n"; \
+/*std::cout << PGC__STR(vec) << ":\n";*/ \
 for (const auto& a : vec) { \
   std::cout << a << " "; \
 } \
