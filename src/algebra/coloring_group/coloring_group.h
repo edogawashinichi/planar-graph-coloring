@@ -18,8 +18,8 @@ class ColoringGroup : public DirectProduct<Permutation, Permutation> {
 public:
   inline ColoringGroup() = delete;
   inline ColoringGroup(const size_t color_order) : DirectProduct<Permutation, Permutation>() {
-    g_ = std::make_unique<VertexSymmetryGroup>();
-    h_ = std::make_unique<SymmetryGroup>(color_order);
+    g_ = std::make_unique<VertexSymmetryGroup>();/// g: vertex symmetry group
+    h_ = std::make_unique<SymmetryGroup>(color_order);/// h: color symmetry group
     DimensionTwoVector<size_t>::set(g_->size(), h_->size());
   }/// constructor
   inline virtual size_t size() const override {
@@ -37,6 +37,20 @@ public:
     h_->show();
     INFO_3VAR(this->size(), this->sizeVertexSymmetryGroup(), this->sizeColorSymmetryGroup())
   }/// show
+  inline II get(const size_t index) {
+    /// assuming: index valid
+    II res;
+    DimensionTwoVector<size_t>::get(index, &(res.first), &(res.second));
+    return res;
+  }/// get
+  inline const Permutation& constVertexPermutation(const size_t index) const {
+    /// assuming: index valid
+    return g_->constElement(index);
+  }/// constVertexPermutation
+  inline const Permutation& constColorPermutation(const size_t index) const {
+    /// assuming: index valid
+    return h_->constElement(index);
+  }/// constColorPermutation
 };/// class ColoringGroup
 
 }/// namespace PlanarGraphColoring
