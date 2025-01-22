@@ -12,9 +12,12 @@ template<typename T>
 class DimensionOneVector {
 public:
   CLASS_4_FUNCTIONS(DimensionOneVector, vt_)
-  DimensionOneVector() {
+  inline DimensionOneVector() {
     vt_.clear();
   }/// DimensionOneVector constructor default
+  inline DimensionOneVector(const size_t n) {
+    vt_.resize(n);
+  }/// DimensionOneVector constructor
   inline const std::vector<T>& getConst() const {
     return vt_;
   }/// getConst

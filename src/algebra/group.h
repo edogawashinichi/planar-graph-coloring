@@ -19,15 +19,46 @@ namespace PlanarGraphColoring {
 template<typename T>
 class Group : public DimensionOneVector<T> {
 public:
-  virtual VI orbit(const size_t element_index) const = 0;
-  virtual std::vector<T> orbit(const T& element) const = 0;
-  size_t size() const {
+  inline Group<T>() = default;
+  inline Group<T>(const size_t n) : DimensionOneVector<T>(n) {}
+  /// WARNING: extract orbit of type T
+  inline virtual std::vector<T> orbit(const T& element) const {
+    std::vector<T> res;
+    res.emplace_back(this->unit());
+    T product(element);
+    while (!product.id()) {
+      res.emplace_back(product);
+      product = product * element;
+    }/// while
+    return res;
+  }/// orbit
+  inline size_t size() const {
     return DimensionOneVector<T>::size();
   }/// size
-  virtual void show() const = 0;
-  virtual const T& unit() const = 0;
-  virtual const T& inverse(const T& element) const = 0;
-  virtual const T& multiply(const T& e, const T& f) const = 0;
+  inline virtual void show() const {
+    TEST_INFO
+    for (size_t i = 0; i < this->size(); ++i) {
+      std::cout << i << "th: ";
+      this->constElement(i).show();
+    }/// for
+  }/// show
+  inline virtual const T& unit() const {
+    for (const T& element : this->constElements()) {
+      if (element.id()) return element;
+    }/// for
+    return this->constElement(0);
+  }/// unit
+  inline virtual const T& inverse(const T& element) const {
+    for (const T& t : this->constElements()) {
+      if (T(t * element).id()) return t;
+    }/// for
+    return this->constElement(0);
+  }/// inverse
+  inline virtual const T& multiply(const T& e, const T& f) const {
+    T product(e * f);
+    const size_t i = this->index(product);
+    return this->constElement(i);
+  }/// multiply
   inline const std::vector<T>& constElements() const {
     return DimensionOneVector<T>::getConst();
   }/// constElements
@@ -42,6 +73,9 @@ public:
     /// assuming: index valid
     return DimensionOneVector<T>::get(index);
   }/// element
+  inline int index(const T& element) const {
+    return DimensionOneVector<T>::find(element);
+  }/// index
 };/// class Group
 
 }/// namespace PlanarGraphColoring
