@@ -11,7 +11,7 @@ namespace PlanarGraphColoring {
 template<typename T>
 class GroupGenerator {
 public:
-  virtual void run(const Group<T>& group, const VI& generators, Group<T>* subgroup) = 0;
+  virtual void run(const Group<T>& group, const std::vector<T>& generators, Group<T>* subgroup) = 0;
 };/// class GroupGenerator
 
 }/// namespace PlanarGraphColoring

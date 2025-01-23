@@ -8,7 +8,7 @@
 /// 4. (inverse) unique inverse element i: e X i = i X e = 1 
 ///
 /// assuming: finite group
-/// template interface
+/// template typename T: Permutation / IntegerMod<N>
 
 #pragma once
 
@@ -19,17 +19,17 @@ namespace PlanarGraphColoring {
 template<typename T>
 class Group : public DimensionOneVector<T> {
 public:
-  inline Group<T>() = default;
-  inline Group<T>(const size_t n) : DimensionOneVector<T>(n) {}
-  /// WARNING: extract orbit of type T
-  inline virtual std::vector<T> orbit(const T& element) const {
-    std::vector<T> res;
-    res.emplace_back(this->unit());
-    T product(element);
-    while (!product.id()) {
-      res.emplace_back(product);
+  inline Group<T>() : DimensionOneVector<T>() {
+  }/// constructor default
+  inline Group<T>(const size_t n) : DimensionOneVector<T>(n) {
+  }/// constructor
+  inline virtual VI orbit(const T& element) const {
+    VI res;
+    T product(this->unit());
+    do {
+      res.emplace_back(this->index(product));
       product = product * element;
-    }/// while
+    } while (!product.id());
     return res;
   }/// orbit
   inline size_t size() const {
@@ -56,9 +56,22 @@ public:
   }/// inverse
   inline virtual const T& multiply(const T& e, const T& f) const {
     T product(e * f);
-    const size_t i = this->index(product);
-    return this->constElement(i);
+    return this->constElement(this->index(product));
   }/// multiply
+  inline virtual const T& product(const std::vector<T>& elements) const {
+    T p(this->unit());
+    for (const T& element : elements) {
+      p = p * element;
+    }
+    return this->constElement(this->index(p));
+  }/// product
+  inline virtual T product(const VI& elements) const {
+    T res(this->unit());
+    for (const size_t index : elements) {
+      res = this->constElement(index) * res;
+    }
+    return res;
+  }/// product
   inline const std::vector<T>& constElements() const {
     return DimensionOneVector<T>::getConst();
   }/// constElements
@@ -75,6 +88,14 @@ public:
   }/// element
   inline int index(const T& element) const {
     return DimensionOneVector<T>::find(element);
+  }/// index
+  inline VI index(const std::vector<T>& elements) const {
+    /// assuming: all elements valid
+    VI res;
+    for (const T& element : elements) {
+      res.emplace_back(static_cast<size_t>(this->index(element)));
+    }
+    return res;
   }/// index
 };/// class Group
 

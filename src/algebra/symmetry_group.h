@@ -6,22 +6,23 @@
 
 #include "group.h"
 #include "permutation.h"
+#include "../combinatorics/permutator/next_iter_permutator.h"
 
 namespace PlanarGraphColoring {
 
 class SymmetryGroup : public Group<Permutation> {
 public:
-  inline SymmetryGroup() = default;
-  SymmetryGroup(const size_t N);
-  size_t product(const VI& element_indices) const;
-  virtual std::vector<Permutation> orbit(const Permutation& element) const override;
-  virtual VI orbit(const size_t element_index) const override;
-  size_t getIndex(const VI& element) const;
-  VI getIndices(const VVI& elements) const;
-  virtual void show() const override;
-  virtual const Permutation& unit() const override;
-  virtual const Permutation& inverse(const Permutation& e) const override;
-  virtual const Permutation& multiply(const Permutation& e, const Permutation& f) const override;
+  inline SymmetryGroup() : Group<Permutation>() {
+  }/// constructor default
+  inline SymmetryGroup(const size_t N) : Group<Permutation>() {
+    const size_t n = fact(N);
+    Group<Permutation>::elements().resize(n);
+    NextIterPermutator ni;
+    const VVI& res = ni.run(N);
+    for (size_t i = 0; i < n; ++i) {
+      Group<Permutation>::element(i) = std::move(Permutation(res[i]));
+    }/// for
+  }/// constructor
 };/// class SymmetryGroup
 
 }/// namespace PlanarGraphColoring
