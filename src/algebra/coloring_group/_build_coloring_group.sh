@@ -34,7 +34,7 @@ combinator_src_path="../../combinatorics/combinator/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${algebra_src_path}permutation.cxx ${algebra_src_path}symmetry_group.cxx ${algebra_src_path}symmetry_group_generator.cxx ${basic_src_path}global.cxx ${basic_src_path}math.cxx ${permutator_src_path}next_iter_permutator.cxx ${combinator_src_path}gray_code_combinator.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${algebra_src_path}permutation.cxx ${algebra_src_path}symmetry_group_generator.cxx ${basic_src_path}global.cxx ${basic_src_path}math.cxx ${permutator_src_path}next_iter_permutator.cxx ${combinator_src_path}gray_code_combinator.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"
