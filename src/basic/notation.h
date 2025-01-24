@@ -95,12 +95,15 @@ inline Derived& operator=(Derived&& rhs) { \
   return *this; \
 }
 
-#define DERIVE_CLASS_5_FUNCTIONS(Derived, Base) \
-DERIVE_CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
+#define DERIVE_CLASS_4_FUNCTIONS(Derived, Base) \
 DERIVE_CLASS_CONSTRUCTOR_DEEPCOPY(Derived, Base) \
 DERIVE_CLASS_CONSTRUCTOR_MOVECOPY(Derived, Base) \
 DERIVE_CLASS_ASSIGNMENT_DEEPCOPY(Derived, Base) \
 DERIVE_CLASS_ASSIGNMENT_MOVECOPY(Derived, Base)
+
+#define DERIVE_CLASS_5_FUNCTIONS(Derived, Base) \
+DERIVE_CLASS_CONSTRUCTOR_DEFAULT(Derived, Base) \
+DERIVE_CLASS_4_FUNCTIONS(Derived, Base)
 
 #define RESET "\033[0m"
 #define BLACK "\033[30m"  /* Black */
@@ -314,6 +317,27 @@ for (size_t macro_i = 0; macro_i < (vec).size() - 1; ++macro_i) { \
 std::cout << (vec).back() << "\n"; \
 }
 
+#define SHOW_CHAR_WITH_COLOR(c) \
+if ('r' == (c) || 'R' == (c)) { \
+  std::cout << RED << (c) << RESET; \
+} else if ('g' == (c) || 'G' == (c)){ \
+  std::cout << GREEN << (c) << RESET; \
+} else if ('b' == (c) || 'B' == (c)) { \
+  std::cout << BLUE << (c) << RESET; \
+} else if ('y' == (c) || 'Y' == (c)) { \
+  std::cout << YELLOW << (c) << RESET; \
+} else { \
+  std::cout << WHITE << (c) << RESET; \
+}
+
+#define SHOW_COLORING_WITH_INDEX(coloring) \
+for (size_t i = 0; i < (coloring).size(); ++i) { \
+  std::cout << i << ":"; \
+  SHOW_CHAR_WITH_COLOR((coloring)[i].get()) \
+  std::cout << " "; \
+} \
+std::cout << "\n";
+
 #define PGC__SHOW_VEC_WITH_INDEX(vec) \
 for (size_t i = 0; i < vec.size(); ++i) {\
   std::cout << i << "th:" << vec[i] << " ";\
@@ -411,19 +435,22 @@ for (const auto& kv : map) {\
 }
 
 #define PGC__STR_RED(s) \
-std::string("\033[31m") + std::string(s) + std::string("\033[0m")
+std::string(RED) + std::string(s) + std::string(RESET)
 
 #define PGC__STR_GREEN(s) \
-std::string("\033[32m") + std::string(s) + std::string("\033[0m")
+std::string(GREEN) + std::string(s) + std::string(RESET)
 
 #define PGC__STR_YELLOW(s) \
-std::string("\033[33m") + std::string(s) + std::string("\033[0m")
+std::string(YELLOW) + std::string(s) + std::string(RESET)
 
 #define PGC__STR_BLUE(s) \
-std::string("\033[34m") + std::string(s) + std::string("\033[0m")
+std::string(BLUE) + std::string(s) + std::string(RESET)
 
-#define PGC__STR_VIOLET(s) \
-std::string("\033[35m") + std::string(s) + std::string("\033[0m")
+#define PGC__STR_PURPLE(s) \
+std::string(PURPLE) + std::string(s) + std::string(RESET)
+
+#define PGC__STR_CYAN(s) \
+std::string(CYAN) + std::string(s) + std::string(RESET)
 
 #define PGC__TEST_FAIL_INFO(i) \
 PGC__STR_BLUE(PGC__STR(test_##i)) + " " + PGC__STR_RED("FAILED") + "!"

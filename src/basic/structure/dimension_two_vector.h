@@ -88,10 +88,12 @@ public:
     /// assuming: i,j valid
     return vvt_[i][j];
   }/// getConst
+  /*  
   inline virtual void show() const {
     TEST_INFO
     PGC__SHOW_VVI(vvt_)
   }/// show
+  */
   inline virtual void sort() {
     dict_sort<T>(vvt_);
   }/// sort

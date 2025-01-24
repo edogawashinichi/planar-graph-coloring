@@ -2,21 +2,22 @@
 
 #pragma once
 
+#include <vector>
 #include <stack>
 
 namespace PlanarGraphColoring {
   /* color */
-  extern const size_t COLORS;
-  extern const size_t UNDEF_COLOR;
+  extern const std::vector<char> COLORS;
+  extern const char UNDEF_COLOR;
   extern const size_t UNDEF_VERTEX;
 
   /* topology */
-  extern const size_t BIRKHOFF_DIAMOND_BOUNDARY_SIZE;
-  extern const size_t BIRKHOFF_DIAMOND_INTERIOR_SIZE;
-  extern const size_t BIRKHOFF_DIAMOND_SIZE;
+  inline constexpr size_t BIRKHOFF_DIAMOND_BOUNDARY_SIZE = 6;
+  inline constexpr size_t BIRKHOFF_DIAMOND_INTERIOR_SIZE = 4;
+  inline constexpr size_t BIRKHOFF_DIAMOND_SIZE = 10;
 
   /* combinatorics */
-  inline constexpr size_t COMBINATION_MAX_N = 34;/// C++17 support inline constexpr for compiling time global const variables
+  inline constexpr size_t COMBINATION_MAX_N = 34;/// compile-time global-const-variable (C++17)
 
   /* random */
   extern unsigned int PGC__HISTORY_SEED;

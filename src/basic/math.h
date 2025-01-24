@@ -13,6 +13,16 @@ namespace PlanarGraphColoring {
 /// template function assertion and definition must be put together
 
 template<typename T>
+int find_index_in_vector(const T& t, const std::vector<T>& vector) {
+    auto iter = std::find(vector.begin(), vector.end(), t);
+    if (iter == vector.end()) {
+      return -1;
+    } else {
+      return std::distance(vector.begin(), iter);
+    }
+}/// find_index_in_vector
+
+template<typename T>
 bool equal(const std::vector<std::vector<T>>& lhs, const std::vector<std::vector<T>>& rhs) {
   bool res = (lhs.size() == rhs.size());
   if (res) {

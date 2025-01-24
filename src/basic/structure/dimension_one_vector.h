@@ -3,8 +3,7 @@
 #pragma once
 
 #include "../notation.h"
-#include <algorithm>
-#include <iterator>
+#include "../math.h"
 
 namespace PlanarGraphColoring {
 
@@ -38,17 +37,14 @@ public:
   inline size_t size() const {
     return vt_.size();
   }/// size
+  /*
   inline virtual void show() const {
     TEST_INFO
     PGC__SHOW_VEC(vt_)
   }/// show
+  */
   inline int find(const T& t) const {
-    auto iter = std::find(vt_.begin(), vt_.end(), t);
-    if (iter == vt_.end()) {
-      return -1;
-    } else {
-      return std::distance(vt_.begin(), iter);
-    }
+    return find_index_in_vector<T>(t, vt_);
   }/// find
 protected:
   std::vector<T> vt_;
