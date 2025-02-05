@@ -20,10 +20,10 @@ const VII KempeChain::getSeparatedVertexPairs(const size_t ring_size) const {
   return res;
 }/// KempeChain::getSeparatedVertexPair
 
-void KempeChain::show() const {
+void KempeChain::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << "KempeChain:\n";
-  PGC__SHOW_VVI_WITH_INDEX(this->getConst())
+  cout << "KempeChain:\n";
+  PGC__SHOW_VVI_WITH_INDEX(cout, this->getConst())
 }/// KempeChain::show
 
 void KempeChain::sort(const size_t ring_size) {

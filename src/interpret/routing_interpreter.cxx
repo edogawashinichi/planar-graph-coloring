@@ -5,21 +5,21 @@
 
 namespace PlanarGraphColoring {
 
-void RoutingInterpreter::show() const {
+void RoutingInterpreter::show(std::ostream& cout) const {
   /// assuming: colors.size == transformations.size + 1
   TEST_INFO
-  std::cout << "length: " << transformations_.size() << "\n";
+  cout << "length: " << transformations_.size() << "\n";
   if (!colors_.empty()) {
     /// WARNING: partial travesal by size_t type
     for (size_t i = 0; i < colors_.size() - 1; ++i) {
       INFO << i << "th color: ";
-      colors_.getConst(i)->show();
+      colors_.getConst(i)->show(cout);
       INFO << TAB << i << "th transformation: ";
-      transformations_.get(i).show();
+      transformations_.get(i).show(cout);
     }
     const size_t last_index = colors_.size() - 1;
     INFO << last_index << "th color: ";
-    colors_.getConst(last_index)->show();
+    colors_.getConst(last_index)->show(cout);
   }/// if colors not empty
 }/// RoutingInterpreter::show
 

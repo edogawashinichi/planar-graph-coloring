@@ -84,26 +84,26 @@ void ClassificationInterpreter::extend(const ColorResult& table, const size_t in
   color_class_.back().append(table.getInfo(index));
 }/// ClassificationInterpreter::extend
 
-void ClassificationInterpreter::show() const {
+void ClassificationInterpreter::show(std::ostream& cout) const {
   TEST_INFO
   DEBUG_START(ClassificationInterpreter::show)
   for (size_t i = 0; i < color_class_.size(); ++i) {
-    std::cout << i << "th class (total " << color_class_[i].size() << "):\n";
-    this->showWithRepresentative(i, N);
+    cout << i << "th class (total " << color_class_[i].size() << "):\n";
+    this->showWithRepresentative(cout, i, N);
   }
   DEBUG_END(ClassificationInterpreter::show)
 }/// ClassificationInterpreter::show
 
-void ClassificationInterpreter::showWithRepresentative(const size_t i, const size_t n) const {
-  color_class_[i].showWith("representative", n);
+void ClassificationInterpreter::showWithRepresentative(std::ostream& cout, const size_t i, const size_t n) const {
+  color_class_[i].showWith(cout, "representative", n);
 }/// ClassificationInterpreter::showWithRepresentative
 
-void ClassificationInterpreter::show(const size_t index) const {
+void ClassificationInterpreter::show(std::ostream& cout, const size_t index) const {
   TEST_INFO
   /// assuming: 0 <= index < size
   DEBUG_START(ClassificationInterpreter::show)
-  std::cout << index << "th class (total " << color_class_[index].size() << "):\n";
-  this->showWithRepresentative(index, N);
+  cout << index << "th class (total " << color_class_[index].size() << "):\n";
+  this->showWithRepresentative(cout, index, N);
   DEBUG_END(ClassificationInterpreter::show)
 }/// ClassificationInterpreter::show
 

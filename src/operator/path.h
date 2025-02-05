@@ -3,13 +3,14 @@
 #pragma once
 
 #include <vector>
+#include <ostream>
 
 namespace PlanarGraphColoring {
 
 struct Path {
   Path();
   Path(const std::vector<size_t>& v);
-  void show() const;
+  void show(std::ostream& cout) const;
   void clear();
   size_t first() const;
   size_t last() const;

@@ -23,23 +23,23 @@ void DirectedPathResult::insert(const size_t i, const size_t j, const DirectedPa
   paths_[std::pair<size_t, size_t>({i, j})] = path;
 }/// DirectedPathResult::insert
 
-void DirectedPathResult::show() const {
+void DirectedPathResult::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << "size: " << paths_.size() << "\n";
+  cout << "size: " << paths_.size() << "\n";
   const std::vector<std::vector<size_t>> res(this->getPathsInfo());
   for (size_t i = 0; i < res.size(); ++i) {
-    std::cout << i << "th:  ";
-    PGC__SHOW_VEC_WITH_ARROW(res[i])
+    cout << i << "th:  ";
+    PGC__SHOW_VEC_WITH_ARROW(cout, res[i])
   }
 }/// DirectedPathResult::show
 
-void DirectedPathResult::show(const size_t vertex) const {
+void DirectedPathResult::show(std::ostream& cout, const size_t vertex) const {
   TEST_INFO
   const std::vector<DirectedPath>& paths = this->getPaths(vertex);
-  std::cout << "size: " << paths.size() << "\n";
+  cout << "size: " << paths.size() << "\n";
   for (size_t i = 0; i < paths.size(); ++i) {
-    std::cout << i << "th:  ";
-    paths[i].show();
+    cout << i << "th:  ";
+    paths[i].show(cout);
   }
 }/// DirectedPathResult::show
 

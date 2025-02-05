@@ -59,11 +59,11 @@ Ring::Ring(const size_t k, const size_t n, const std::vector<std::vector<size_t>
   PlanarGraph(n, edges), k_(k) {
 }/// Ring::Ring
 
-void Ring::show() const {
+void Ring::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << "boundary size: " << k_ << "\n";
-  std::cout << "interior size: " << interiorSize() << "\n";
-  PlanarGraph::show();
+  cout << "boundary size: " << k_ << "\n";
+  cout << "interior size: " << interiorSize() << "\n";
+  PlanarGraph::show(cout);
 }/// Ring::show
 
 }/// PlanarGraphColoring

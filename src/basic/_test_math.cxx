@@ -5,39 +5,36 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
+/// test_0
+TEST_START(0)
   const std::vector<int> X = {2, 5, 7};
   const std::vector<int> f = {0, 1, 4, 9, 16, 25, 36, 49, 64, 81};
   std::vector<int> Y(X.size(), 0);
   map<int>(X, f, &Y);
   const std::vector<int> Z = {4, 25, 49};
   bool res = (Y == Z);
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
-void test_1() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+/// test_1
+TEST_START(1)
   const std::vector<int> A = {1, 3, 5, 7, 8};
   const std::vector<int> B = {2, 3, 8};
   std::vector<int> C;
   diff<int>(A, B, &C);
   const std::vector<int> D = {1, 5, 7};
   bool res = (C == D);
-  PGC__TEST_RESULT_INFO(res, 1) 
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
-}/// test_1
+TEST_END(1)
+/// test_1
 
-void test_2() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
+/// test_2
+TEST_START(2)
   bool res = (id<int>(5) == std::vector({0, 1, 2, 3, 4}));
-  PGC__TEST_RESULT_INFO(res, 2) 
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(2))
-}/// test_2
+TEST_END(2)
+/// test_2
 
-void test_3() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(3))
+/// test_3
+TEST_START(3)
   std::vector<std::vector<size_t>> data = {
     {1, 2, 3},
     {1, 2, 3, 4},
@@ -66,12 +63,11 @@ void test_3() {
   };
   dict_sort(data, false);
   res = res && (exp_descend == data);
-  PGC__TEST_RESULT_INFO(res, 3)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(3))
-}/// test_3
+TEST_END(3)
+/// test_3
 
-void test_4() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(4))
+/// test_4
+TEST_START(4)
   VVI data = {
     {1, 2,},
     {4, 5, 6},
@@ -98,18 +94,16 @@ void test_4() {
     {}
   };
   res = res && (exp_descend == data);
-  PGC__TEST_RESULT_INFO(res, 4)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(4))
-}/// test_4
+TEST_END(4)
+/// test_4
 
-void test_5() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(5))
+/// test_5
+TEST_START(5)
   bool res = (cap<size_t>({}, {}) == false);
   res = res && (cap<size_t>({}, {0, 1, 2}) == false);
   res = res && (cap<size_t>({1, 2, 3}, {4, 5, 5, 3}) == true);
-  PGC__TEST_RESULT_INFO(res, 5)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(5))
-}/// test_5
+TEST_END(5)
+/// test_5
 
 /// test_6
 TEST_START(6)

@@ -10,7 +10,7 @@ void KempeInterpreter::setClass(const size_t i, const size_t j, const size_t k) 
   separated_class_ = k;
 }/// KempeInterpreter::setClass
 
-void KempeInterpreter::show() const {
+void KempeInterpreter::show(std::ostream& cout) const {
   TEST_INFO
   INFO_VAR(class_)
   INFO_VAR(separating_class_)

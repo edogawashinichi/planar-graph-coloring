@@ -4,10 +4,10 @@
 
 namespace PlanarGraphColoring {
 
-void GraphSearcherResult::show() const {
+void GraphSearcherResult::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << "components:\n";
-  components_.show();
+  cout << "components:\n";
+  components_.show(cout);
 }/// GraphSearcherResult::show
 
 void GraphSearcherResult::appendComponent(const std::unordered_set<size_t>& component) {

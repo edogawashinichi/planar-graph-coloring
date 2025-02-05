@@ -20,7 +20,7 @@ struct pair_hash {
 
 struct vector_hash {
   size_t N() const {
-    return COLORS;
+    return COLORS.size();
   }
   size_t operator() (const std::vector<size_t>& v) const {
     size_t res = 0;

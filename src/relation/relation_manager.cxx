@@ -44,32 +44,32 @@ const DigraphResult* RelationManager::getDigraphResultConst() const {
   return digraph_result_.get();
 }/// RelationManager::getDigraphResultConst
 
-void RelationManager::show() const {
+void RelationManager::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << "color result:\n";
+  cout << "color result:\n";
   showColorResult();
-  std::cout << "relation result:\n";
+  cout << "relation result:\n";
   showRelationResult();
-  std::cout << "mapper:\n";
+  cout << "mapper:\n";
   showMapper();
-  std::cout << "digraph result:\n";
+  cout << "digraph result:\n";
   showDigraphResult();
 }/// RelationManager::show
 
 void RelationManager::showColorResult() const {
-  color_result_->show(20);
+  color_result_->show(std::cout, 20);
 }/// RelationManager::showColorResult
 
 void RelationManager::showRelationResult() const {
-  relation_result_->show(20);
+  relation_result_->show(std::cout, 20);
 }/// RelationManager::showRelationResult
 
 void RelationManager::showMapper() const {
-  mapper_->show(20);
+  mapper_->show(std::cout, 20);
 }/// RelationManager::showMapper
 
 void RelationManager::showDigraphResult() const {
-  digraph_result_->show();
+  digraph_result_->show(std::cout);
 }/// RelationManagerowDigraphResult
 
 }/// namespace PlanarGraphColoring

@@ -12,7 +12,7 @@ public:
     relations_.emplace_back(relation);
   }
   Relation get(const size_t index) const;
-  void show(const size_t n) const;
+  void show(std::ostream& cout, const size_t n) const;
   inline size_t size() const {
     return relations_.size();
   }

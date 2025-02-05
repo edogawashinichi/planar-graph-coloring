@@ -56,7 +56,7 @@ const Digraph* DigraphResult::getVertexColorKempeConst() const {
   return vertex_color_kempe_.get();
 }/// DigraphResult::getVertexColorKempeConst
 
-void DigraphResult::show() const {
+void DigraphResult::show(std::ostream& cout) const {
   TEST_INFO
   DEBUG_START(DigraphResult::show)
   const size_t vertex_size = vertex_->size();

@@ -11,7 +11,7 @@ class Permutation : public DimensionOneVector<size_t> {
 public:
   DERIVE_CLASS_5_FUNCTIONS(Permutation, DimensionOneVector<size_t>)
   Permutation(const VI& a);
-  void show() const;
+  void show(std::ostream& cout) const;
   bool id() const;
   size_t order() const;
   VVI getCycles() const;

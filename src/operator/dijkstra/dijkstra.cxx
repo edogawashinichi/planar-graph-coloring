@@ -26,7 +26,7 @@ auto top = queue.top(); \
 queue.pop(); \
 if (PGC__DEBUG_MODE) { \
   std::cout << PURPLE << "top" << RESET << ":  "; \
-  top->show(); \
+  top->show(std::cout); \
 }
 
 /// 2.3 all successors of top node
@@ -44,7 +44,7 @@ for (const auto successor : digraph.getSuccessors(top->index_)) { \
     DEBUG << " visited can be optimized\n"; \
     if (PGC__DEBUG_MODE) { \
       std::cout << "before:\n"; \
-      visited[successor]->show(); \
+      visited[successor]->show(std::cout); \
     } \
     /* 2.3.2 successor visited (already in list) */ \
     /*       can be optimized through top */ \
@@ -86,7 +86,7 @@ bool Dijkstra::run(const size_t start, const size_t end, const Digraph& digraph,
   if (res) {
     this->retrieve(visited[end], path);
     INFO << "best path exist:\n";
-    path->show();
+    path->show(std::cout);
   } else {
     INFO << "best path not exist!\n"; 
   }
@@ -111,7 +111,7 @@ void Dijkstra::run(const size_t start, const Digraph& digraph, DirectedPathResul
   /// 3. get all best paths
   this->retrieve(list, paths);
   INFO << "all best paths:\n";
-  paths->show();
+  paths->show(std::cout);
   DEBUG_END(Dijkstra::run)
 }/// Dijkstra::run
 

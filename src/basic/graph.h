@@ -30,8 +30,8 @@ public:
   Graph& operator=(Graph&& rhs);
   Graph(const std::vector<std::vector<size_t>>& edges);
   Graph(const size_t n, const std::vector<std::vector<size_t>>& edges);
-  virtual void show() const override;
-  virtual void show(const size_t n) const override;
+  virtual void show(std::ostream& cout) const override;
+  virtual void show(std::ostream& cout, const size_t n) const override;
   void clear();
   void setSize(const size_t n);
   void insert(const size_t u, const size_t v);

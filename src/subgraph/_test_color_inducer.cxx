@@ -8,36 +8,30 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
+/// test_0
+TEST_START(0)
   BirkhoffDiamond diamond;
-  DEBUG << "birkhoff diamond:\n";
-  if (PGC__DEBUG_MODE) diamond.show();
+  DEBUG_OBJ(diamond)
   const std::vector<size_t> coloring_data = {0, 1, 2, 3, 2,0, 1, 0, 1, 2};
   NaiveColorRepresentation coloring(coloring_data);
-  DEBUG << "coloring:\n";
-  if (PGC__DEBUG_MODE) coloring.show();
+  DEBUG_OBJ(coloring)
   const std::vector<size_t> colors = {0, 1};
   DEBUG << "induce colors:\n";
-  PGC__DEBUG_VEC(colors)
+  PGC__DEBUG_VEC(std::cout, colors)
   ColorInducer inducer;
   Graph result;
   inducer.run(diamond, coloring, colors, &result);
-  INFO << "RESULT: \n";
-  result.show();
+  INFO_OBJ(result)
   bool res = true;
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
-void test_1() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+/// test_1
+TEST_START(1)
   BirkhoffDiamond diamond;
-  DEBUG << "birkhoff diamond:\n";
   DEBUG_OBJ(diamond)
   const std::vector<size_t> coloring_data = {0, 1, 2, 3, 2, 0, 1, 0, 1, 2};
   NaiveColorRepresentation coloring(coloring_data);
-  DEBUG << "coloring:\n";
   DEBUG_OBJ(coloring)
   const II vertices = {1, 4};
   const II colors = {1, 2};
@@ -48,16 +42,14 @@ void test_1() {
   ColorInducer inducer;
   KempeChain result;
   inducer.run(diamond, coloring, vertices, colors, &result);
-  INFO << "RESULT: \n";
   INFO_OBJ(result)
   const VVI exp = {
     {1, 2},
     {4}
   };
   bool res = (result.getConst() == exp);
-  PGC__TEST_RESULT_INFO(res, 1)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
-}/// test_1
+TEST_END(1)
+/// test_1
 
 PGC__MAIN_START
   test_0();

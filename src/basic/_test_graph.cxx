@@ -8,8 +8,8 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0)) 
+/// test_0
+TEST_START(0)
   const size_t n = 4;
   const std::vector<std::vector<size_t>> edges = {
     {0, 1}, {1, 2}, {2, 3}
@@ -31,9 +31,8 @@ void test_0() {
       DEBUG << "getNeighbors(" << i << ") passed!\n";
     }
   }/// for
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
 PGC__MAIN_START
   test_0();

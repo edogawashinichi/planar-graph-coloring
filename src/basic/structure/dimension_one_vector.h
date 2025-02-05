@@ -1,9 +1,13 @@
 /// dimension_one_vector.h
 
+/// WARNING: std::vector memory DATA always on HEAP
+///                             object on stack or heap
+
 #pragma once
 
 #include "../notation.h"
 #include "../math.h"
+#include <ostream>
 
 namespace PlanarGraphColoring {
 
@@ -14,12 +18,22 @@ public:
   inline DimensionOneVector() {
     vt_.clear();
   }/// DimensionOneVector constructor default
+  inline DimensionOneVector(const std::vector<T>& vt) {
+    vt_ = vt;
+  }/// constructor
   inline DimensionOneVector(const size_t n) {
     vt_.resize(n);
   }/// DimensionOneVector constructor
+  inline void resize(const size_t n) {
+    vt_.resize(n);
+  }/// resize
   inline const std::vector<T>& getConst() const {
     return vt_;
   }/// getConst
+  inline std::vector<T> getCopy(const size_t begin, const size_t end) const {
+    /// assuming: beign, end valid
+    return std::vector<T>(vt_.begin() + begin, vt_.begin() + end);
+  }/// getCopy
   inline const T& getConst(const size_t index) const {
     /// assuming: index valid
     return vt_[index];
@@ -37,12 +51,14 @@ public:
   inline size_t size() const {
     return vt_.size();
   }/// size
-  /*
-  inline virtual void show() const {
+  inline virtual void show(std::ostream& cout) const {
     TEST_INFO
-    PGC__SHOW_VEC(vt_)
+    PGC__SHOW_VEC(cout, vt_)
   }/// show
-  */
+  inline friend std::ostream& operator<<(std::ostream& cout, const DimensionOneVector<T>& obj) {
+    obj.show(cout);
+    return cout;
+  }/// friend operator<<
   inline int find(const T& t) const {
     return find_index_in_vector<T>(t, vt_);
   }/// find

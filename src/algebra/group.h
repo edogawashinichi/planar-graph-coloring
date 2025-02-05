@@ -35,11 +35,11 @@ public:
   inline size_t size() const {
     return DimensionOneVector<T>::size();
   }/// size
-  inline virtual void show() const {
+  inline virtual void show(std::ostream& cout) const {
     TEST_INFO
     for (size_t i = 0; i < this->size(); ++i) {
-      std::cout << i << "th: ";
-      this->constElement(i).show();
+      cout << i << "th: ";
+      this->constElement(i).show(cout);
     }/// for
   }/// show
   inline virtual const T& unit() const {

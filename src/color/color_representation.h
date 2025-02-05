@@ -2,6 +2,7 @@
 
 /// this is the basic class of color representation
 /// Four Colors Representations Only
+/// TODO: refactor by DimensionOneVector
 
 #pragma once
 
@@ -51,7 +52,7 @@ public:
   }/// getVector
   virtual void set(const size_t index, const size_t color) = 0;
   virtual void reset(const size_t index) = 0;
-  virtual void show() const = 0;
+  virtual void show(std::ostream& cout) const = 0;
   inline virtual bool valid() const {
     bool res = true;
     for (size_t i = 0; i < this->size(); ++i) {

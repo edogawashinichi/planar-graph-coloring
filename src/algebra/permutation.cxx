@@ -6,7 +6,7 @@ namespace PlanarGraphColoring {
 
 std::ostream& operator<<(std::ostream& cout, const Permutation& obj) {
   /// TODO: how to pass cout to obj.show()
-  obj.show();
+  obj.show(cout);
   return cout;
 }/// friend operator<<
 
@@ -29,23 +29,23 @@ bool operator!=(const Permutation& lhs, const Permutation& rhs) {
   return lhs.getConst() != rhs.getConst();
 }/// friend operator!=
 
-void Permutation::show() const {
+void Permutation::show(std::ostream& cout) const {
   TEST_INFO
   //DimensionOneVector<size_t>::show();
   if (this->id()) {
-    std::cout << "()";
+    cout << "()";
   } else {
     const VVI& cycles = this->getCycles();
     for (const auto& cycle : cycles) {
       if (cycle.size() == 1) continue;
-      std::cout << "(";
+      cout << "(";
       for (const auto& i : cycle) {
-        std::cout << i << " ";
+        cout << i << " ";
       }/// for i
-      std::cout << ")";
+      cout << ")";
     }/// for cycle
   }/// else
-  std::cout << "\n";
+  cout << "\n";
 }/// Permutation::show
 
 VVI Permutation::getCycles() const {

@@ -31,10 +31,10 @@ public:
   inline size_t sizeColorSymmetryGroup() const {
     return h_->size();
   }/// sizeColorSymmetryGroup
-  inline virtual void show() const override {
+  inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
-    g_->show();
-    h_->show();
+    g_->show(cout);
+    h_->show(cout);
     INFO_3VAR(this->size(), this->sizeVertexSymmetryGroup(), this->sizeColorSymmetryGroup())
   }/// show
   inline II get(const size_t index) {

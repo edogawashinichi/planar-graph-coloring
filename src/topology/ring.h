@@ -28,7 +28,7 @@ public:
   const VII getBoundaryNonadjacentVertexPairs() const;
   const VII getBoundarySeparatedVertexPairs(const II& vertex_pair) const;
   virtual const VII getBoundarySeparatedVertexPairs(const size_t i, const size_t j) const;
-  virtual void show() const override;
+  virtual void show(std::ostream& cout) const override;
 };/// class Ring
 
 }/// namespace PlanarGraphColoring

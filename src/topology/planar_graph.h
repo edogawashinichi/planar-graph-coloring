@@ -14,7 +14,7 @@ public:
   PlanarGraph& operator=(const PlanarGraph& rhs);
   PlanarGraph& operator=(PlanarGraph&& rhs);
   PlanarGraph(const std::vector<std::vector<size_t>>& edges);
-  virtual void show() const override;
+  virtual void show(std::ostream& cout) const override;
   PlanarGraph(const size_t n, const std::vector<std::vector<size_t>>& edges);
 };/// class PlanarGraph
 

@@ -24,11 +24,11 @@ public:
   inline virtual size_t size() const override {
     return g_->size() * h_->size();
   }/// size
-  inline virtual void show() const override {
+  inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
-    g_->show();
-    h_->show();
-    DimensionTwoVector<size_t>::show();
+    g_->show(cout);
+    h_->show(cout);
+    DimensionTwoVector<size_t>::show(cout);
   }/// show
 protected:
   std::unique_ptr<Group<T>> g_;

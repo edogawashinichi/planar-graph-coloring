@@ -256,29 +256,29 @@ void Graph::show() const {
 }/// Graph::show
 */
 
-void Graph::show() const {
+void Graph::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << "number of vertices: " << n_ << "\n";
+  cout << "number of vertices: " << n_ << "\n";
   const VII& edges = this->getEdges();
-  std::cout << "edges:  ";
+  cout << "edges:  ";
   for (const auto& edge : edges) {
-    std::cout << "(" << edge.first << "," << edge.second << ") ";
+    cout << "(" << edge.first << "," << edge.second << ") ";
   }/// for
-  std::cout << "\n";
+  cout << "\n";
 }/// Graph::show
 
-void Graph::show(const size_t n) const {
+void Graph::show(std::ostream& cout, const size_t n) const {
   TEST_INFO
-  std::cout << "number of vertices: " << n_ << "\n";
-  std::cout << "neighbors:\n";
+  cout << "number of vertices: " << n_ << "\n";
+  cout << "neighbors:\n";
   size_t i = 0;
   for (const auto& kv : neighbors_) {
     if (i++ >= n) break;
-    std::cout << kv.first << ": { ";
+    cout << kv.first << ": { ";
     for (const auto v : kv.second) {
-      std::cout << v << " ";
+      cout << v << " ";
     }
-    std::cout << "}\n";
+    cout << "}\n";
   }
 }/// Graph::show
 

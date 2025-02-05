@@ -9,6 +9,7 @@ namespace PlanarGraphColoring {
 
 class Color {
 public:
+  CLASS_4_FUNCTIONS(Color, c_)
   inline Color() : c_(UNDEF_COLOR) {}/// constructor default
   inline Color(const char c) : c_(c) {}/// constructor
   inline Color(const size_t i) {
@@ -19,8 +20,7 @@ public:
   }/// get
   inline size_t getIndex() const {
     const int index = find_index_in_vector<char>(c_, COLORS);
-    size_t res = (-1 == index) ? COLORS.size() : static_cast<size_t>(index);
-    return res;
+    return (-1 == index) ? COLORS.size() : static_cast<size_t>(index);
   }/// getIndex
   inline void set(const char c) {
     c_ = c;
@@ -29,77 +29,97 @@ public:
     if (i < COLORS.size()) c_ = COLORS[i];
     else c_ = UNDEF_COLOR;
   }/// set
-  inline void show() const {
+  inline void show(std::ostream& cout) const {
     TEST_INFO
-    SHOW_CHAR_WITH_COLOR(c_)
+    SHOW_CHAR_WITH_COLOR(cout, c_)
   }/// show
+  inline friend std::ostream& operator<<(std::ostream& cout, const Color& color) {
+    color.show(cout);
+    return cout;
+  }/// friend operator<<
+  inline friend bool operator==(const Color& lhs, const Color& rhs) {
+    return lhs.c_ == rhs.c_;
+  }/// friend operator==
 protected:
   char c_;
 };/// class Color
 
-template<size_t N>
 class Coloring : public DimensionOneVector<Color> {
 public:
-  /* WARNING: DERIVE_CLASS_4_FUNCTIONS(Coloring, DimensionOneVector<Color>) also ok */
-  DERIVE_CLASS_4_FUNCTIONS(Coloring<N>, DimensionOneVector<Color>)
-  inline Coloring<N>() : DimensionOneVector<Color>(N) { 
-    /// WARNING: execution order depends on the compiler
-    ///          if it has something inside
-  }/// constructor default
-  inline Coloring<N>(const VI& data) {
-    /// assuming: data.size == N
-    this->get().resize(N, Color());
-    for (size_t i = 0; i < N; ++i) {
+  DERIVE_CLASS_5_FUNCTIONS(Coloring, DimensionOneVector<Color>)
+  inline Coloring(const Coloring& c, const Coloring& d) {
+    splice<Color>(c.getConst(), d.getConst(), &(this->get()));
+  }/// constructor
+  inline Coloring(const VI& c, const VI& d) {
+    VI e;
+    splice<size_t>(c, d, &e);
+    this->set(e);
+  }/// constructor
+  inline Coloring(const VI& data) {
+    this->set(data);
+  }/// constructor
+  inline Coloring(const std::vector<Color>& data) {
+    this->set(data);
+  }/// constructor
+  inline void set(const VI& data) {
+    this->get().resize(data.size(), Color());
+    for (size_t i = 0; i < data.size(); ++i) {
       this->get(i) = std::move(Color(data[i]));
     }
-  }/// constructor
+  }/// set
+  inline void set(const std::vector<Color>& data) {
+    this->get().resize(data.size(), Color());
+    for (size_t i = 0; i < data.size(); ++i) {
+      this->get(i) = std::move(Color(data[i]));
+    }
+  }/// set
+  inline Coloring getCopy(const size_t start, const size_t end) const {
+    std::vector<Color> coloring(DimensionOneVector<Color>::getCopy(start, end));
+    return Coloring(coloring);
+  }/// getCopy
   inline VI getData() const {
-    VI res(this->size(), 0);
+    VI res(this->size(), COLORS.size());
     for (size_t i = 0; i < this->size(); ++i) {
       res[i] = this->getConst(i).getIndex();
     }
     return res;
-  }/// getConst
-  inline Coloring<N>(const VI& c, const VI& d) {
-    /// assuming: N == c size + d size
-    this->get().resize(N, Color());
-    for (size_t i = 0; i < c.size(); ++i) {
-      this->get(i) = std::move(Color(c[i]));
-    }
-    for (size_t i = c.size(); i < c.size() + d.size(); ++i) {
-      this->get(i) = std::move(Color(d[i - c.size()]));
-    }
-  }/// constructor
-  inline virtual void show() const {
+  }/// getData
+  inline bool valid() const {
+    return this->find(Color('X')) == -1;
+  }/// vaild
+  inline virtual void show(std::ostream& cout) const {
     TEST_INFO
-    SHOW_COLORING_WITH_INDEX(this->getConst())
+    SHOW_COLORING_WITH_INDEX(cout, this->getConst(), this->valid())
   }/// show
+  inline friend std::ostream& operator<<(std::ostream& cout, const Coloring& obj) {
+    obj.show(cout);
+    return cout;
+  }/// friend operator<<
 };/// class Coloring
 
-template<size_t N>
-class ColoringResult : public DimensionOneVector<Coloring<N>> {
+class ColoringResult : public DimensionOneVector<Coloring> {
 public:
-  DERIVE_CLASS_4_FUNCTIONS(ColoringResult<N>, DimensionOneVector<Coloring<N>>)
-  inline ColoringResult<N>() : DimensionOneVector<Coloring<N>>() {
-  }/// constructor default
-  inline ColoringResult<N>(const VVI& data) {
-    /// assuming: data.front().size == N
+  DERIVE_CLASS_5_FUNCTIONS(ColoringResult, DimensionOneVector<Coloring>)
+  inline ColoringResult(const VVI& data) {
     this->set(data);
   }/// constructor
   inline void set(const VVI& data) {
-    /// assuming: data.front().size == N
-    this->get().resize(data.size(), Coloring<N>());
+    this->get().resize(data.size(), Coloring());
     for (size_t i = 0; i < data.size(); ++i) {
-      this->get(i) = std::move(Coloring<N>(data[i]));
+      this->get(i) = std::move(Coloring(data[i]));
     }
   }/// set
-  inline virtual void show() const {
+  inline virtual void show(std::ostream& cout) const {
     TEST_INFO
     for (size_t i = 0; i < this->size(); ++i) {
-      std::cout << i << "th: ";
-      this->getConst(i).show();
+      SHOW_INDEX_WITH_COLOR(cout, i, this->getConst(i).valid())
+      this->getConst(i).show(cout);
     }
   }/// show
+  inline friend std::ostream& operator<<(std::ostream& cout, const ColoringResult& obj) {
+    obj.show(cout);
+    return cout;
+  }/// friend operator<<
 };/// class ColoringResult
 
 }/// namespace PlanarGraphColoring

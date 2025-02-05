@@ -33,12 +33,12 @@ std::vector<size_t> VertexSymmetry::get(const size_t index) const {
   return mappers_[index];
 }/// VertexSymmetry::get
 
-void VertexSymmetry::show() const {
+void VertexSymmetry::show(std::ostream& cout) const {
   TEST_INFO
   for (size_t i = 0; i < mappers_.size(); ++i) {
     const auto& mapper = mappers_[i];
-    std::cout << i << "th:  ";
-    PGC__SHOW_VEC_WITH_INDEX(mapper)
+    cout << i << "th:  ";
+    PGC__SHOW_VEC_WITH_INDEX(cout, mapper)
   }
 }/// VertexSymmetry::show
 

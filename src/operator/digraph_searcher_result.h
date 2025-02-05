@@ -10,7 +10,7 @@ namespace PlanarGraphColoring {
 
 class DigraphSearcherResult : public SearcherResult {
 public:
-  virtual void show() const override;
+  virtual void show(std::ostream& cout) const override;
   void appendWeakComponent(const size_t vertex);
   void extendWeakComponent(const size_t vertex);
   void appendDirectedPath(const DirectedPath& path);

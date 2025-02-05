@@ -11,7 +11,9 @@ TEST_START(0)
   for (const auto& d : data) {
     obj.append(d);
   }/// for
-  INFO_OBJ(obj)
+  INFO_(obj)
+  DEBUG_(obj)
+  VERBOSE_(obj)
   bool res = (obj.find(1) != -1);
   res = res && (obj.find(0) != -1);
   res = res && (obj.find(2) != -1);
@@ -19,6 +21,22 @@ TEST_START(0)
 TEST_END(0)
 /// test_0
 
+/// test_1
+TEST_START(1)
+  DimensionOneVector<size_t> obj;
+  const VI data = {0, 1, 0, 2, 1};
+  for (const auto& d : data) {
+    obj.append(d);
+  }/// for
+  DimensionOneVector<size_t> sub(obj.getCopy(1, 3));
+  INFO_(sub)
+  DEBUG_(sub)
+  VERBOSE_(sub)
+  bool res = (sub.size() == 2);
+TEST_END(1)
+/// test_1
+
 PGC__MAIN_START
   TEST(0)
+  TEST(1)
 PGC__MAIN_END

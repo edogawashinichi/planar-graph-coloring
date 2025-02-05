@@ -81,7 +81,7 @@ void NaiveColorRepresentation::reset(const size_t index) {
   index2color_[index] = UNDEF_COLOR;
 }/// NaiveColorRepresentation::reset
 
-void NaiveColorRepresentation::show() const {
+void NaiveColorRepresentation::show(std::ostream& cout) const {
   TEST_INFO
   std::vector<std::pair<size_t, size_t>> colors;
   for (const auto& kv : index2color_) {
@@ -95,7 +95,7 @@ void NaiveColorRepresentation::show() const {
   std::vector<std::pair<size_t, char>> char_colors(colors.size());
   std::transform(colors.begin(), colors.end(), char_colors.begin(), [](const II& p){
 char c = static_cast<char>(p.second + 'a'); return std::pair<size_t, char>({p.first, c});});
-  PGC__SHOW_VII_WITH_COLOR_SEP(char_colors, 6, PURPLE, CYAN)
+  PGC__SHOW_VII_WITH_COLOR_SEP(cout, char_colors, 6, PURPLE, CYAN)
 }/// NaiveColorRepresentation::show
 
 bool NaiveColorRepresentation::valid() const {

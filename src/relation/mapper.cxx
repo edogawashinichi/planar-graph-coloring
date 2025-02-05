@@ -19,14 +19,14 @@ void Mapper::insert(const size_t i, const std::pair<size_t, size_t>& p) {
   line2plane_[i] = p;
 }/// Mapper::insert
 
-void Mapper::show(const size_t n) const {
+void Mapper::show(std::ostream& cout, const size_t n) const {
   TEST_INFO
-  std::cout << "size: " << n << "/" << line2plane_.size() << "\n";
+  cout << "size: " << n << "/" << line2plane_.size() << "\n";
   size_t i = 0;
   for (const auto& kv : line2plane_) {
     if (i >= n) break;
-    std::cout << (i++) << "th: ";
-    std::cout << kv.first << "->" << "(" << kv.second.first << "," << kv.second.second << ")\n";
+    cout << (i++) << "th: ";
+    cout << kv.first << "->" << "(" << kv.second.first << "," << kv.second.second << ")\n";
   }
 }/// Mapper::show
 

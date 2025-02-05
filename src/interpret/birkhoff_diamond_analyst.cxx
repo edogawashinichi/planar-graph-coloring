@@ -23,7 +23,7 @@ void BirkhoffDiamondAnalyst::reasonBySome(const RelationManager& relation_manage
   const size_t cnt = 15; \
   for (size_t i = 0; i < interpreter->size() && i < cnt; ++i) { \
     DEBUG << i << "th size: " << interpreter->size(i) << "\n"; \
-    interpreter->show(i); \
+    interpreter->show(std::cout, i); \
   } \
   INFO_END(BirkhoffDiamondAnalyst::reasonBySome) \
 }/// BirkhoffDiamondAnalyst::reasonBySome

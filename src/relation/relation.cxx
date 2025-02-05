@@ -19,20 +19,20 @@ Relation::Relation(const size_t from, const size_t to, const size_t type, const 
   mapper_ = mapper;
 }/// Relation::Relation
 
-void Relation::show() const {
+void Relation::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << from_ << "->" << to_ << " ";
+  cout << from_ << "->" << to_ << " ";
   switch (type_) {
     case 0:
-      std::cout << "color ";
+      cout << "color ";
       break;
     case 1:
-      std::cout << "vertex ";
+      cout << "vertex ";
       break;
     default:
-      std::cout << "kempe ";
+      cout << "kempe ";
   }
-  PGC__SHOW_VEC_WITH_INDEX(mapper_);
+  PGC__SHOW_VEC_WITH_INDEX(cout, mapper_);
 }/// Relation::show
 
 }/// namespace PlanarGraphColoring

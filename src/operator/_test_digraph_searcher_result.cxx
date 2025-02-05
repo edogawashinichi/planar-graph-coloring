@@ -6,8 +6,8 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0)) 
+/// test_0
+TEST_START(0)
   DigraphSearcherResult result;
   result.appendWeakComponent(0);
   result.appendWeakComponent(1);
@@ -16,11 +16,10 @@ void test_0() {
   result.appendWeakComponent(3);
   result.extendWeakComponent(4);
   result.extendWeakComponent(5);
-  result.show();
+  result.show(std::cout);
   res = res && (result.weakComponentSize() == 3);
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
 PGC__MAIN_START
   test_0();

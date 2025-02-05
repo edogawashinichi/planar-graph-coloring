@@ -40,9 +40,9 @@ public:
   inline std::vector<ColorRepresentation*>& get() {
     return colors_;
   }
-  void show() const;
-  void show(const size_t n) const;
-  void showWith(const std::string& s, const size_t n) const;
+  void show(std::ostream& cout) const;
+  void show(std::ostream& cout, const size_t n) const;
+  void showWith(std::ostream& cout, const std::string& s, const size_t n) const;
   ~ColorResult();
 };/// class ColorResult
 

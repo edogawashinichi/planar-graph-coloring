@@ -10,6 +10,29 @@
 
 namespace PlanarGraphColoring {
 
+/* void type not included */
+#define FUNDAMENTAL_TYPE(var) \
+( \
+typeid(var) == typeid(int) || \
+typeid(var) == typeid(short) || \
+typeid(var) == typeid(long) || \
+typeid(var) == typeid(long long) || \
+typeid(var) == typeid(unsigned) || \
+typeid(var) == typeid(unsigned short) || \
+typeid(var) == typeid(unsigned long) ||\
+typeid(var) == typeid(unsigned long long) || \
+typeid(var) == typeid(float) || \
+typeid(var) == typeid(double) || \
+typeid(var) == typeid(long double) || \
+typeid(var) == typeid(char) || \
+typeid(var) == typeid(unsigned char) || \
+typeid(var) == typeid(signed char) || \
+typeid(var) == typeid(wchar_t) || \
+typeid(var) == typeid(char16_t) || \
+typeid(var) == typeid(char32_t) || \
+typeid(var) == typeid(bool) \
+)
+
 /// macro for a class Class with container member mem_
 
 #define CLASS_CONSTRUCTOR_DEFAULT(Class, mem_) \
@@ -30,7 +53,7 @@ inline Class(const Class& rhs) { \
 #define CLASS_CONSTRUCTOR_MOVECOPY(Class, mem_) \
 inline Class(Class&& rhs) { \
   if (this != &rhs) { \
-    mem_.swap(rhs.mem_); \
+    std::swap(mem_, rhs.mem_); \
   } \
 }
 
@@ -45,7 +68,7 @@ inline Class& operator=(const Class& rhs) { \
 #define CLASS_ASSIGNMENT_MOVECOPY(Class, mem_) \
 inline Class& operator=(Class&& rhs) { \
   if (this != &rhs) { \
-    mem_.swap(rhs.mem_); \
+    std::swap(mem_, rhs.mem_); \
   } \
   return *this; \
 }
@@ -118,7 +141,7 @@ DERIVE_CLASS_4_FUNCTIONS(Derived, Base)
 #define TAB "  "
 
 #define CUR_COLOR \
-(PGC__COLOR_STACK.top() == 0 ? RED : (PGC__COLOR_STACK.top() == 1 ? GREEN : (PGC__COLOR_STACK.top() == 2 ? BLUE : YELLOW)))
+(PGC__COLOR_STACK.empty() ? CYAN : (PGC__COLOR_STACK.top() == 0 ? RED : (PGC__COLOR_STACK.top() == 1 ? GREEN : (PGC__COLOR_STACK.top() == 2 ? BLUE : YELLOW))))
 
 #define PUSH_COLOR \
 PGC__COLOR_STACK.push(PGC__PERIODIC_COLOR); \
@@ -144,13 +167,13 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) \
 #define VERBOSE_OBJ(obj) \
 if (PGC__VERBOSE_MODE) { \
   std::cout << PGC__STR(obj) << ":\n"; \
-  (obj).show(); \
+  (obj).show(std::cout); \
 }
 
 #define DEBUG_OBJ(obj) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
   std::cout << PGC__STR(obj) << ":\n"; \
-  (obj).show(); \
+  (obj).show(std::cout); \
 }
 
 #define DEBUG_FLAG_OBJ(flag, obj) \
@@ -168,7 +191,7 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) \
 #define INFO_OBJ(obj) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   std::cout << PGC__STR(obj) << ":\n"; \
-  (obj).show(); \
+  (obj).show(std::cout); \
 }
 
 #define INFO_FLAG_OBJ(flag, obj) \
@@ -282,156 +305,171 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE ) { \
 
 #define LL long long
 #define II std::pair<size_t, size_t>
+#define VC std::vector<char>
 #define VI std::vector<size_t>
 #define VII std::vector<std::pair<size_t, size_t>>
 #define VVI std::vector<std::vector<size_t>>
 
-#define PGC__SHOW_VEC(vec) \
+#define PGC__SHOW_VEC(cout, vec) \
 for (const auto& a : vec) { \
-  std::cout << a << " "; \
+  (cout) << a << " "; \
 } \
-std::cout << "\n";
+(cout) << "\n";
 
-#define PGC__DEBUG_VEC(vec) \
+#define PGC__DEBUG_VEC(cout, vec) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
-  PGC__SHOW_VEC(vec) \
+  PGC__SHOW_VEC(cout, vec) \
 }
 
-#define DEBUG_VEC(vec) PGC__DEBUG_VEC(vec)
+#define DEBUG_VEC(vec) PGC__DEBUG_VEC(std::cout, vec)
 
 #define INFO_VEC(vec) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
-  PGC__SHOW_VEC(vec) \
+  PGC__SHOW_VEC(std::cout, vec) \
 }
 
 #define VERBOSE_VEC(vec) \
 if (PGC__VERBOSE_MODE) { \
-  PGC__SHOW_VEC(vec) \
+  PGC__SHOW_VEC(std::cout, vec) \
 }
 
-#define PGC__SHOW_VEC_WITH_ARROW(vec) \
+#define PGC__SHOW_VEC_WITH_ARROW(cout, vec) \
 if (!(vec).empty()) { \
 for (size_t macro_i = 0; macro_i < (vec).size() - 1; ++macro_i) { \
-  std::cout << (vec)[macro_i] << "->"; \
+  (cout) << (vec)[macro_i] << "->"; \
 } \
-std::cout << (vec).back() << "\n"; \
+(cout) << (vec).back() << "\n"; \
 }
 
-#define SHOW_CHAR_WITH_COLOR(c) \
-if ('r' == (c) || 'R' == (c)) { \
-  std::cout << RED << (c) << RESET; \
-} else if ('g' == (c) || 'G' == (c)){ \
-  std::cout << GREEN << (c) << RESET; \
-} else if ('b' == (c) || 'B' == (c)) { \
-  std::cout << BLUE << (c) << RESET; \
-} else if ('y' == (c) || 'Y' == (c)) { \
-  std::cout << YELLOW << (c) << RESET; \
+#define SHOW_CHAR_WITH_WHITE(cout, c) \
+(cout) << WHITE << (c) << RESET;
+
+#define SHOW_INDEX_WITH_COLOR(cout, i, color_flag) \
+if (color_flag) { \
+  (cout) << CUR_COLOR << i << RESET << "th: "; \
 } else { \
-  std::cout << WHITE << (c) << RESET; \
+  (cout) << i << "th: "; \
 }
 
-#define SHOW_COLORING_WITH_INDEX(coloring) \
+#define SHOW_CHAR_WITH_COLOR(cout, c) \
+if ('r' == (c) || 'R' == (c)) { \
+  (cout) << RED << (c) << RESET; \
+} else if ('g' == (c) || 'G' == (c)){ \
+  (cout) << GREEN << (c) << RESET; \
+} else if ('b' == (c) || 'B' == (c)) { \
+  (cout) << BLUE << (c) << RESET; \
+} else if ('y' == (c) || 'Y' == (c)) { \
+  (cout) << YELLOW << (c) << RESET; \
+} else { \
+  (cout) << WHITE << (c) << RESET; \
+}
+
+#define SHOW_COLORING_WITH_INDEX(cout, coloring, not_white_flag) \
 for (size_t i = 0; i < (coloring).size(); ++i) { \
-  std::cout << i << ":"; \
-  SHOW_CHAR_WITH_COLOR((coloring)[i].get()) \
-  std::cout << " "; \
+  (cout) << i << ":"; \
+  if (not_white_flag) { \
+    SHOW_CHAR_WITH_COLOR(cout, (coloring)[i].get()) \
+  } else { \
+    SHOW_CHAR_WITH_WHITE(cout, (coloring)[i].get()) \
+  } \
+  (cout) << " "; \
 } \
-std::cout << "\n";
+(cout) << "\n";
 
-#define PGC__SHOW_VEC_WITH_INDEX(vec) \
+#define PGC__SHOW_VEC_WITH_INDEX(cout, vec) \
 for (size_t i = 0; i < vec.size(); ++i) {\
-  std::cout << i << "th:" << vec[i] << " ";\
+  (cout) << i << "th:" << vec[i] << " ";\
 }\
-std::cout << "\n";
+(cout) << "\n";
 
-#define PGC__SHOW_VII(vii) \
+#define PGC__SHOW_VII(cout, vii) \
 for (const auto& kv : vii) { \
-  std::cout << kv.first << "," << kv.second << " "; \
+  (cout) << kv.first << "," << kv.second << " "; \
 } \
-std::cout << "\n";
+(cout) << "\n";
 
-#define PGC__DEBUG_VII(vii) \
+#define PGC__DEBUG_VII(cout, vii) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
-  PGC__SHOW_VII(vii) \
+  PGC__SHOW_VII(cout, vii) \
 }
 
 #define DEBUG_VII(vii) \
-PGC__DEBUG_VII(vii)
+PGC__DEBUG_VII(std::cout, vii)
 
 #define INFO_VII(vii) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
-  PGC__SHOW_VII(vii) \
+  PGC__SHOW_VII(std::cout, vii) \
 }
 
-#define PGC__SHOW_VII_WITH_COLOR(vii, COLOR) \
+#define PGC__SHOW_VII_WITH_COLOR(cout, vii, COLOR) \
 for (const auto& kv : vii) { \
-  std::cout << kv.first << ":" << COLOR << kv.second << RESET << " "; \
+  (cout) << kv.first << ":" << COLOR << kv.second << RESET << " "; \
 } \
-std::cout << "\n";
+(cout) << "\n";
 
-#define PGC__SHOW_VII_WITH_COLOR_SEP(vii, k, C0, C1) \
+#define PGC__SHOW_VII_WITH_COLOR_SEP(cout, vii, k, C0, C1) \
 for (size_t i = 0; i < vii.size(); ++i) { \
   const auto& kv = vii[i]; \
   if (i < k) { \
-    std::cout << kv.first << ":" << C0 << kv.second << RESET << " "; \
+    (cout) << kv.first << ":" << C0 << kv.second << RESET << " "; \
   } else { \
     if (kv.second == static_cast<char>(UNDEF_COLOR + 'a')) { \
-      std::cout << kv.first << ":" << RED << kv.second << RESET << " "; \
+      (cout) << kv.first << ":" << RED << kv.second << RESET << " "; \
     } else { \
-      std::cout << kv.first << ":" << C1 << kv.second << RESET << " "; \
+      (cout) << kv.first << ":" << C1 << kv.second << RESET << " "; \
     } \
   } \
 } \
-std::cout << "\n";
+(cout) << "\n";
 
-#define PGC__SHOW_MII(map) \
+#define PGC__SHOW_MII(cout, map) \
 for (const auto& kv : map) { \
-  std::cout << kv.first << ":" << kv.second << " "; \
+  (cout) << kv.first << ":" << kv.second << " "; \
 } \
-std::cout << "\n";
+(cout) << "\n";
 
-#define PGC__SHOW_VVI(vvi) \
+#define PGC__SHOW_VVI(cout, vvi) \
 for (const auto& vi :(vvi)) { \
-  PGC__SHOW_VEC(vi) \
+  PGC__SHOW_VEC(cout, vi) \
 }
 
-#define PGC__SHOW_VVI_WITH_INDEX(vvi) \
+#define PGC__SHOW_VVI_WITH_INDEX(cout, vvi) \
 for (size_t i = 0; i < vvi.size(); ++i) { \
-  std::cout << i << "th: "; \
-  PGC__SHOW_VEC(vvi[i]) \
+  (cout) << i << "th: "; \
+  PGC__SHOW_VEC(cout, vvi[i]) \
 }
 
 #define INFO_VVI_WITH_INDEX(vvi) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
-  PGC__SHOW_VVI_WITH_INDEX(vvi) \
+  PGC__SHOW_VVI_WITH_INDEX(std::cout, vvi) \
 }
 
 #define DEBUG_VVI_WITH_INDEX(vvi) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
-  PGC__SHOW_VVI_WITH_INDEX(vvi) \
+  PGC__SHOW_VVI_WITH_INDEX(std::cout, vvi) \
 }
 
 #define VERBOSE_VVI_WITH_INDEX(vvi) \
 if (PGC__VERBOSE_MODE) { \
-  PGC__SHOW_VVI_WITH_INDEX(vvi) \
+  PGC__SHOW_VVI_WITH_INDEX(std::cout, vvi) \
 }
 
-#define PGC__DEBUG_VVI(vvi) \
+#define PGC__DEBUG_VVI(cout, vvi) \
 if (PGC__DEBUG_MODE) { \
   for (const auto& vi : vvi) { \
-    std::cout << "{ "; \
+    (cout) << "{ "; \
     for (const auto& i : vi) { \
-      std::cout << i << " "; \
+      (cout) << i << " "; \
     } \
-    std::cout << "} "; \
+    (cout) << "} "; \
   } \
-  std::cout << "\n"; \
+  (cout) << "\n"; \
 }
 
-#define PGC__SHOW_MIVI__(map) \
+#define PGC__SHOW_MIVI__(cout, map) \
 for (const auto& kv : map) {\
-  std::cout << kv.first << ": ";\
-  PGC__SHOW_VEC(kv.second) \
+  (cout) << kv.first << ": ";\
+  PGC__SHOW_VEC(cout, kv.second) \
 }
 
 #define PGC__STR_RED(s) \
@@ -461,14 +499,14 @@ PGC__STR_BLUE(PGC__STR(test_##i)) + " " + PGC__STR_GREEN("PASSED") + "!"
 #define PGC__TEST_SEPAR(i) \
 PGC__STR_YELLOW(std::string(26, '-')) + PGC__STR_BLUE(PGC__STR(test_##i)) + PGC__STR_YELLOW(std::string(26, '-'))
 
-#define PGC__SHOW_ENDL(s) \
-std::cout << (s) << "\n";
+#define PGC__SHOW_ENDL(cout, s) \
+(cout) << (s) << "\n";
 
 #define PGC__TEST_RESULT_INFO(res, i) \
 if (res) { \
-  PGC__SHOW_ENDL(PGC__TEST_PASS_INFO(i)) \
+  PGC__SHOW_ENDL(std::cout, PGC__TEST_PASS_INFO(i)) \
 } else { \
-  PGC__SHOW_ENDL(PGC__TEST_FAIL_INFO(i)) \
+  PGC__SHOW_ENDL(std::cout, PGC__TEST_FAIL_INFO(i)) \
 }
 
 #define CHECK_VERBOSE_MODE \
@@ -548,11 +586,11 @@ if (argc > 1) { \
 
 #define TEST_START(i) \
 void test_##i() { \
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(i))
+  PGC__SHOW_ENDL(std::cout, PGC__TEST_SEPAR(i))
 
 #define TEST_END(i) \
   PGC__TEST_RESULT_INFO(res, i) \
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(i)) \
+  PGC__SHOW_ENDL(std::cout, PGC__TEST_SEPAR(i)) \
 }
 
 #define TEST(i) test_##i();
@@ -566,6 +604,27 @@ int main(int argc, char* argv[]) { \
 #define PGC__MAIN_END \
   DEBUG << GREEN << "return from main!\n" << RESET; \
   return 0; \
+}
+
+#define INFO_(var) \
+if (FUNDAMENTAL_TYPE(var)) { \
+  INFO_VAR(var) \
+} else { \
+  INFO_OBJ(var) \
+}
+
+#define DEBUG_(var) \
+if (FUNDAMENTAL_TYPE(var)) { \
+  DEBUG_VAR(var) \
+} else { \
+  DEBUG_OBJ(var) \
+}
+
+#define VERBOSE_(var) \
+if (FUNDAMENTAL_TYPE(var)) { \
+  VERBOSE_VAR(var) \
+} else { \
+  VERBOSE_OBJ(var) \
 }
 
 }/// namespace PlanarGraphColoring

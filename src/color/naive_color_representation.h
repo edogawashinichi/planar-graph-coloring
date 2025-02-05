@@ -34,7 +34,7 @@ public:
   virtual std::vector<size_t> getVector() const override;
   virtual void set(const size_t index, const size_t color) override;
   virtual void reset(const size_t index) override;
-  virtual void show() const override;
+  virtual void show(std::ostream& cout) const override;
   virtual bool valid() const override;
 };/// class NaiveColorRepresentation
 

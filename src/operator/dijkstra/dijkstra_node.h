@@ -13,13 +13,13 @@ struct DijkstraNode {
   DijkstraNode() = delete;
   DijkstraNode(const size_t i) : index_(i), length_(0), prev_(nullptr) {}
   DijkstraNode(const size_t i, const float l, DijkstraNode* p) : index_(i), length_(l), prev_(p) {}
-  void show() const {
+  void show(std::ostream& cout) const {
     TEST_INFO
-    INFO << "index: " << index_ << " length: " << length_;
+    cout << "index: " << index_ << " length: " << length_;
     if (nullptr == prev_) {
-      INFO << " prev: nullptr\n";
+      cout << " prev: nullptr\n";
     } else {
-      INFO << " prev: " << (prev_->index_) << "\n";
+      cout << " prev: " << (prev_->index_) << "\n";
     }
   }/// show
 };/// struct DijkstraNode

@@ -37,12 +37,12 @@ size_t DigraphSearcherResult::getWeakComponent(const size_t i, const size_t j) c
   return weak_components_.getConst(i, j);
 }/// DigraphSearcherResult::weakComponentSize
 
-void DigraphSearcherResult::show() const {
+void DigraphSearcherResult::show(std::ostream& cout) const {
   TEST_INFO
-  PGC__SHOW_ENDL("weak_components_:")
-  weak_components_.show();
-  PGC__SHOW_ENDL("directed_path_result_:")
-  directed_path_result_.show();
+  PGC__SHOW_ENDL(cout, "weak_components_:")
+  weak_components_.show(cout);
+  PGC__SHOW_ENDL(cout, "directed_path_result_:")
+  directed_path_result_.show(cout);
 }/// DigraphSearcherResult::show
 
 }/// namespace PlanarGraphColoring

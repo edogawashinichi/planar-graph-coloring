@@ -5,85 +5,78 @@
 #include "../basic/math.h"
 #include "../basic/notation.h" 
 
+/// TODO: class BirkhoffDiamondColorerColoring : public BirkhoffDiamondColoring
+///       dealing with unused_colors / boundary interior index
+
 namespace PlanarGraphColoring {
 
-void BirkhoffDiamondColorer::run(const Graph& birkhoff_diamond, ColorResult* output) {
-  colorBoundary(birkhoff_diamond, output);
-  colorInterior(birkhoff_diamond, output);
+void BirkhoffDiamondColorer::run(const Graph& birkhoff_diamond, ConfigurationColoringResult<BIRKHOFF_DIAMOND_BOUNDARY_SIZE, BIRKHOFF_DIAMOND_INTERIOR_SIZE>* birkhoff_diamond_coloring_result) {
+  this->colorBoundary(birkhoff_diamond, birkhoff_diamond_coloring_result->getBoundaryColorings());
+  this->colorInterior(birkhoff_diamond, *(birkhoff_diamond_coloring_result->getBoundaryColorings()), birkhoff_diamond_coloring_result->getInteriorColorings());
 }/// BirkhoffDiamondColorer::run
 
-bool BirkhoffDiamondColorer::colorInterior(const Graph& birkhoff_diamond, ColorResult* output) {
-  if (PGC__DEBUG_MODE) {
-    PGC__SHOW_ENDL("start colorInterior")
+void BirkhoffDiamondColorer::colorInterior(const Graph& graph, const ColoringResult<BIRKHOFF_DIAMOND_BOUNDARY_SIZE>& birkhoff_diamond_boundary_colorings, ColoringResult<BIRKHOFF_DIAMOND_INTERIOR_SIZE>* birkhoff_diamond_interior_colorings) {
+  DEBUG_START(BirkhoffDiamondColorer::colorInterior)
+  auto birkhoff_diamond = dynamic_cast<const BirkhoffDiamond&>(graph);
+  const size_t n = birkhoff_diamond_boundary_colorings.size();
+  birkhoff_diamond_interior_colorings->resize(n);
+  for (size_t i = 0; i < n; ++i)
+    this->colorInterior(birkhoff_diamond, birkhoff_diamond_boundary_colorings.getConst(i), &(birkhoff_diamond_interior_colorings->get(i)));
   }
-  const BirkhoffDiamond& derived = dynamic_cast<const BirkhoffDiamond&>(birkhoff_diamond);
-  bool res = false;
-  for (size_t i = 0; i < output->size(); ++i) {
-    ColorRepresentation* color = output->get(i);
-    bool tmp = colorInterior(derived, color);
-    res = res || tmp;
-    /// WARNING: logic operation shortcut
-    //res = res || colorInterior(derived, color);
-  }
-  if (PGC__DEBUG_MODE) {
-    output->show(20);
-    PGC__SHOW_ENDL("end colorInterior")
-  }
+  DEBUG_END(BirkhoffDiamondColorer::colorInterior)
+}/// BirkhoffDiamondColorer::colorInterior
+
+bool BirkhoffDiamondColorer::colorInterior(const BirkhoffDiamond& birkhoff_diamond, const Coloring<BIRKHOFF_DIAMOND_BOUNDARY_SIZE>& birkhoff_diamond_boundary_coloring, Coloring<BIRKHOFF_DIAMOND_INTERIOR_SIZE>* birkhoff_diamond_interior_coloring) {
+  Coloring coloring;
+  splice<Color>(birkhoff_diamond_boundary_coloring.getConst(), birkhoff_diamond_interior_coloring->getConst(), &(coloring.get()));
+  const bool res = this->colorInteriorDFS(birkhoff_diamond, birkhoff_diamond.boundarySize(), birkhoff_diamond.size(), &coloring);
+  birkhoff_diamond_interior_coloring->set(coloring.getCopy(birkhoff_diamond.boundarySize(), birkhoff_diamond.size()));
   return res;
 }/// BirkhoffDiamondColorer::colorInterior
 
-bool BirkhoffDiamondColorer::colorInterior(const BirkhoffDiamond& birkhoff_diamond, ColorRepresentation* color) {
-  return colorInteriorDFS(birkhoff_diamond, birkhoff_diamond.boundarySize(), color);
-}/// BirkhoffDiamondColorer::colorInterior
-
-bool BirkhoffDiamondColorer::colorInteriorDFS(const BirkhoffDiamond& birkhoff_diamond, const size_t cur_index, ColorRepresentation* color) {
-  if (cur_index == birkhoff_diamond.size()) return true;
-  const auto& ibn = birkhoff_diamond.getIBN(cur_index);/// interior backward neighbors
-  std::vector<size_t> used_colors(birkhoff_diamond.size(), UNDEF_COLOR);
-  map<size_t>(ibn, color->getVector(), &used_colors);
-  const std::vector<size_t> all_colors(id<size_t>(COLORS));
-  std::vector<size_t> unused_colors;
-  diff<size_t>(all_colors, used_colors, &unused_colors);
-  for (const auto unused_color : unused_colors) {
-    color->set(cur_index, unused_color);
-    bool res = colorInteriorDFS(birkhoff_diamond, cur_index + 1, color);
+bool BirkhoffDiamondColorer::colorInteriorDFS(const BirkhoffDiamond& birkhoff_diamond, const size_t start_index, const size_t end_index, Coloring<BIRKHOFF_DIAMOND_INTERIOR_SIZE>* coloring) {
+  if (start_index == end_index) return true;
+  VI unused_colors;
+  this->getUnusedColors(birkhoff_diamond, coloring, start_index, &unused_colors);
+  for (size_t unused_color : unused_colors) {
+    coloring->get(start_index) = std::move(Color(unused_color));
+    const bool res = this->colorInteriorDFS(birkhoff_diamond, start_index + 1, end_index, coloring);
     if (res) return true;
-    color->reset(cur_index);
+    coloring->get(start_index) = std::move(Color(UNDEF_COLOR));
   }/// for unused_colors
   return false;
-}/// Colorer::colorInteriorDFS
+}/// BirkhoffDiamondColorer::colorDFS
 
-void BirkhoffDiamondColorer::colorBoundary(const Graph& birkhoff_diamond, ColorResult* output) {
-  if (PGC__DEBUG_MODE) {
-    PGC__SHOW_ENDL("start colorBoundary")
-  }
-  const BirkhoffDiamond& derived = dynamic_cast<const BirkhoffDiamond&>(birkhoff_diamond);
-  std::vector<size_t> state(derived.size(), UNDEF_COLOR);
-  colorBoundaryDFS(derived, state, 0, output);
-  if (PGC__DEBUG_MODE) {
-    PGC__SHOW_ENDL("output:")
-    output->show(20);
-    PGC__SHOW_ENDL("end colorBoundary")
-  }
+void BirkhoffDiamondColorer::getUnusedColors(const BirkhoffDiamond& birkhoff_diamond, const Coloring& coloring, const size_t vertex, Coloring* unused_colors) {
+  const VI& neighbors = birkhoff_diamond.getNeighbors(vertex);
+  VI used_colors;
+  map<size_t>(neighbors, coloring, &used_colors);
+  const VI all_colors(id<size_t>(COLORS.size()))
+  diff<size_t>(all_colors, used_colors, unused_colors);
+}/// BirkhoffDiamondColorer::getUnusedColors
+
+void BirkhoffDiamondColorer::colorBoundary(const Graph& graph, ColoringResult<BIRKHOFF_DIAMOND_BOUNDARY_SIZE>* colorings) {
+  DEBUG_START(BirkhoffDiamondColorer::colorBoundary)
+  auto birkhoff_diamond = dynamic_cast<const BirkhoffDiamond&>(graph);
+  Coloring<BIRKHOFF_DIAMOND_BOUNDARY_SIZE> coloring;
+  this->colorBoundaryDFS(birkhoff_diamond, 0, birkhoff_diamond.boundarySize(), &coloring, &colorings);
+  DEBUG_END(BirkhoffDiamondColorer::colorBoundary)
 }/// BirkhoffDiamondColorer::colorBoundary
 
-void BirkhoffDiamondColorer::colorBoundaryDFS(const BirkhoffDiamond& birkhoff_diamond, std::vector<size_t>& state, const size_t cur_index, ColorResult* output) {
-  DEBUG << "colorBoundaryDFS cur_index: " << cur_index << "\n";
-  if (cur_index == birkhoff_diamond.boundarySize()) {
-    output->append(state);
+void BirkhoffDiamondColorer::colorBoundaryDFS(const BirkhoffDiamond& birkhoff_diamond, const size_t start_index, const size_t end_index, Coloring<BIRKHOFF_DIAMOND_BOUNDARY_SIZE>* coloring , ColoringResult<BIRKHOFF_DIAMOND_BOUNDARY_SIZE>* colorings) {
+  DEBUG_START(BirkhoffDiamondColorer::colorBoundaryDFS)
+  if (start_index == end_index) {
+    colorings->append(*coloring);
     return;
   }
-  const auto& bbn = birkhoff_diamond.getBBN(cur_index);/// boundary_backward_neighbors
-  std::vector<size_t> used_colors(bbn.size(), UNDEF_COLOR);
-  map<size_t>(bbn, state, &used_colors);
-  const std::vector<size_t> all_colors(id<size_t>(COLORS));
-  std::vector<size_t> unused_colors;
-  diff<size_t>(all_colors, used_colors, &unused_colors);
-  for (const auto unused_color : unused_colors) {
-    state[cur_index] = unused_color;
-    colorBoundaryDFS(birkhoff_diamond, state, cur_index + 1, output);
-    state[cur_index] = UNDEF_COLOR;
+  VI unused_colors;
+  this->getUnusedColors(birkhoff_diamond, coloring->getData(), start_index, &unused_colors);
+  for (const size_t unused_color : unused_colors) {
+    coloring->get(start_index) = std::move(Color(unused_color));
+    colorBoundaryDFS(birkhoff_diamond, start_index + 1, end_index, coloring, colorings);
+    coloring->get(start_index) = std::move(Color(UNDEF_COLOR));
   }/// for unused_colors
+  DEBUG_END(BirkhoffDiamondColorer::colorBoundaryDFS)
 }/// BirkhoffDiamondColorer::colorBoundaryDFS
 
 }/// namespace PlanarGraphColoring

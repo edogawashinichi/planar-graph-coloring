@@ -4,6 +4,7 @@
 
 #include "../basic/digraph.h"
 #include <memory>
+#include <ostream>
 
 namespace PlanarGraphColoring {
 
@@ -21,7 +22,7 @@ public:
   Digraph* getVertexColorKempe();
   const Digraph* getVertexColorKempeConst() const;
   void setSize(const size_t n);
-  void show() const;
+  void show(std::ostream& cout) const;
 protected:
   std::unique_ptr<Digraph> vertex_;
   std::unique_ptr<Digraph> color_;

@@ -10,7 +10,7 @@ namespace PlanarGraphColoring {
 
 class GraphSearcherResult : public SearcherResult {
 public:
-  virtual void show() const override;
+  virtual void show(std::ostream& cout) const override;
   const Components& getComponents() const;
   void appendComponent(const std::unordered_set<size_t>& component);
 protected:

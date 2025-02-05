@@ -15,7 +15,7 @@ public:
   inline int n() const {
     return n_;
   }
-  void showParent() const;
+  void showParent(std::ostream& cout) const;
   std::set<int> getRoots();
 protected:
   std::vector<int> parent_;

@@ -19,10 +19,10 @@ public:
     }/// for
   }/// Neighborhood
 
-  inline virtual void show() const override {
+  inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
-    INFO << "neighborhood size: " << k_ << "\n";
-    Ring::show();
+    cout << "neighborhood size: " << k_ << "\n";
+    Ring::show(cout);
   }/// show
   virtual VII getEdges() const override {
     VII res;

@@ -3,6 +3,7 @@
 #pragma once
 
 #include <vector>
+#include <ostream>
 
 namespace PlanarGraphColoring {
 
@@ -11,7 +12,7 @@ public:
   Relation() = default;
   Relation(const Relation& rhs);
   Relation(const size_t from, const size_t to, const size_t type, const std::vector<size_t>& mapper);
-  void show() const;
+  void show(std::ostream& cout) const;
 protected:
   size_t from_;
   size_t to_;

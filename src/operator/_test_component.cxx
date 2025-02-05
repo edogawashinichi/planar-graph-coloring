@@ -6,8 +6,8 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0)) 
+/// test_0
+TEST_START(0)
   const VVI data = {
     {0, 2, 4},
     {1, 3},
@@ -23,9 +23,8 @@ void test_0() {
   INFO << "RESULT:\n";
   INFO_OBJ(components)
   bool res = (data == components.getConst());
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
 PGC__MAIN_START
   test_0();

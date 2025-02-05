@@ -10,7 +10,7 @@ namespace PlanarGraphColoring {
 
 class KempeInterpreter : public Interpreter {
 public:
-  virtual void show() const override;
+  virtual void show(std::ostream& cout) const override;
   inline RoutingInterpreter& getSeparatingRoute() {
     return separating_route_;
   }

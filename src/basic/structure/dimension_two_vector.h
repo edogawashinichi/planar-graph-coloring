@@ -6,6 +6,7 @@
 #include "../math.h"
 #include <vector>
 #include <algorithm>
+#include <ostream>
 
 namespace PlanarGraphColoring {
 
@@ -88,12 +89,10 @@ public:
     /// assuming: i,j valid
     return vvt_[i][j];
   }/// getConst
-  /*  
-  inline virtual void show() const {
+  inline virtual void show(std::ostream& cout) const {
     TEST_INFO
-    PGC__SHOW_VVI(vvt_)
+    PGC__SHOW_VVI(cout, vvt_)
   }/// show
-  */
   inline virtual void sort() {
     dict_sort<T>(vvt_);
   }/// sort

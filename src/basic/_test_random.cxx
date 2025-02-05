@@ -5,8 +5,8 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
+/// test_0
+TEST_START(0)
   float p = 0.001;
   INFO_VAR(p)
   bool res = (bet(p) == false);
@@ -15,12 +15,11 @@ void test_0() {
   INFO_VAR(p)
   res = res && (bet(p) == true);
   INFO_VAR(res)
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
-void test_1() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+/// test_1
+TEST_START(1)
   const size_t n = 8;
   const size_t k = 4;
   const VI choice(randomChoose(n, k));
@@ -39,9 +38,8 @@ void test_1() {
       }/// if
     }/// for j
   }/// for i
-  PGC__TEST_RESULT_INFO(res, 1)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
-}/// test_1
+TEST_END(1)
+/// test_1
 
 PGC__MAIN_START
   test_0();

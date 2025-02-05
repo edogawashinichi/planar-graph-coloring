@@ -44,9 +44,9 @@ public:
   inline size_t get() const {
     return IntegerMod<N>::MOD(i_);
   }/// get
-  inline void show() const {
+  inline void show(std::ostream& cout) const {
     TEST_INFO
-    std::cout << this->get() << "\n";
+    cout << this->get() << "\n";
   }/// show
   inline bool id() const {
     return 0 == this->get();
@@ -70,7 +70,7 @@ public:
     return lhs.get() != rhs.get();
   }/// friend operator!=
   inline friend std::ostream& operator<<(std::ostream& cout, const IntegerMod<N>& obj) {
-    obj.show();
+    obj.show(cout);
     return cout;
   }/// friend operator<<
 protected:

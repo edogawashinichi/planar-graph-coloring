@@ -13,7 +13,7 @@ namespace PlanarGraphColoring {
 class RelationManager {
 public:
   RelationManager();
-  void show() const;
+  void show(std::ostream& cout) const;
   void showColorResult() const;
   void showRelationResult() const;
   void showMapper() const;

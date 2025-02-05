@@ -12,6 +12,13 @@ namespace PlanarGraphColoring {
 
 /// template function assertion and definition must be put together
 
+template <typename T>
+void splice(const std::vector<T>& u, const std::vector<T>& v, std::vector<T>* w) {
+  /// WARNING: unneccessary to locate for w
+  w->insert(w->end(), u.begin(), u.end());
+  w->insert(w->end(), v.begin(), v.end());
+}/// splice
+
 template<typename T>
 int find_index_in_vector(const T& t, const std::vector<T>& vector) {
     auto iter = std::find(vector.begin(), vector.end(), t);

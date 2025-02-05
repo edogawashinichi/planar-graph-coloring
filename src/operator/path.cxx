@@ -26,9 +26,9 @@ void Path::clear() {
   vertices_.clear();
 }/// Path::clear
 
-void Path::show() const {
+void Path::show(std::ostream& cout) const {
   TEST_INFO
-  PGC__SHOW_VEC_WITH_ARROW(vertices_)
+  PGC__SHOW_VEC_WITH_ARROW(cout, vertices_)
 }/// Path::show
 
 }/// namespace PlanarGraphColoring

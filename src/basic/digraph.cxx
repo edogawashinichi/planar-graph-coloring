@@ -56,49 +56,49 @@ size_t Digraph::arcs() const {
   return res;
 }/// Digraph::arcs
 
-void Digraph::show() const {
+void Digraph::show(std::ostream& cout) const {
   TEST_INFO
-  std::cout << "number of vertices: " << n_ << "\n";
-  std::cout << "predecessors:\n";
+  cout << "number of vertices: " << n_ << "\n";
+  cout << "predecessors:\n";
   for (const auto& kv : predecessors_) {
-    std::cout << kv.first << ": { ";
+    cout << kv.first << ": { ";
     for (const auto v : kv.second) {
-      std::cout << v << " ";
+      cout << v << " ";
     }
-    std::cout << "}\n";
+    cout << "}\n";
   }
-  std::cout << "successors:\n";
+  cout << "successors:\n";
   for (const auto& kv : successors_) {
-    std::cout << kv.first << ": { ";
+    cout << kv.first << ": { ";
     for (const auto v : kv.second) {
-      std::cout << v << " ";
+      cout << v << " ";
     }
-    std::cout << "}\n";
+    cout << "}\n";
   }
 }/// Digraph::show
 
-void Digraph::show(const size_t n) const {
+void Digraph::show(std::ostream& cout, const size_t n) const {
   TEST_INFO
-  std::cout << "number of vertices: " << n_ << "\n";
-  std::cout << "predecessors:\n";
+  cout << "number of vertices: " << n_ << "\n";
+  cout << "predecessors:\n";
   size_t i = 0;
   for (const auto& kv : predecessors_) {
     if (i++ >= n) break;
-    std::cout << kv.first << ": { ";
+    cout << kv.first << ": { ";
     for (const auto v : kv.second) {
-      std::cout << v << " ";
+      cout << v << " ";
     }
-    std::cout << "}\n";
+    cout << "}\n";
   }
-  std::cout << "successors:\n";
+  cout << "successors:\n";
   i = 0;
   for (const auto& kv : successors_) {
     if (i++ >= n) break;
-    std::cout << kv.first << ": { ";
+    cout << kv.first << ": { ";
     for (const auto v : kv.second) {
-      std::cout << v << " ";
+      cout << v << " ";
     }
-    std::cout << "}\n";
+    cout << "}\n";
   }
 }/// Digraph::show
 

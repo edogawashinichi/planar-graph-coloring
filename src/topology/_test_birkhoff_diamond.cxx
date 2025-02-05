@@ -6,10 +6,10 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
+/// test_0
+TEST_START(0)
   BirkhoffDiamond bd;
-  bd.show();
+  INFO_OBJ(bd)
   const std::unordered_map<size_t, std::vector<size_t>> boundary_backward_neighbors = {
     {1, {0}},
     {2, {1}},
@@ -92,27 +92,23 @@ void test_0() {
   const auto& pairs = bd.getBoundarySeparatedVertexPairs(0, 4);
   DEBUG_VAR(pairs.size())
   res = res && (pairs.size() == 3);
-  PGC__DEBUG_VII(pairs)
+  PGC__DEBUG_VII(std::cout, pairs)
   const auto& qairs = bd.getBoundarySeparatedVertexPairs(1, 4);
   DEBUG_VAR(qairs.size())
   res = res && (qairs.size() == 4);
-  PGC__DEBUG_VII(qairs)
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+  PGC__DEBUG_VII(std::cout, qairs)
+TEST_END(0)
+/// test_0
 
-void test_1() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+/// test_1
+TEST_START(1)
   BirkhoffDiamond diamond;
-  DEBUG << "diamond:\n";
   DEBUG_OBJ(diamond);
   auto ring = diamond.shrinkToRing();
-  INFO << "RESULT:\n";
   INFO_OBJ(ring)
   bool res = (ring.size() == 6);
-  PGC__TEST_RESULT_INFO(res, 1)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
-}/// test_1
+TEST_END(1)
+/// test_1
 
 PGC__MAIN_START
   test_0();

@@ -8,15 +8,15 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
+/// test_0
+TEST_START(0)
   const size_t k = 4; /// boundary size
   const size_t n = 5; /// total
   const std::vector<std::vector<size_t>> edges = {
     {0, 1}, {1, 2}, {2, 3}, {3, 0}, {4, 1}, {4, 3}
   };
   Ring ring(k, n, edges);
-  ring.show();
+  ring.show(std::cout);
   bool res = true;
   const std::vector<std::vector<size_t>> neighbors = {
     {1, 3}, {0, 2, 4}, {1, 3}, {0, 2, 4}, {1, 3}
@@ -26,9 +26,9 @@ void test_0() {
     std::sort(neis.begin(), neis.end());
     if (neis != neighbors[i]) {
       DEBUG << "neis:\n";
-      PGC__SHOW_VEC(neis)
+      PGC__SHOW_VEC(std::cout, neis)
       DEBUG << "neighbors[i]:\n";
-      PGC__SHOW_VEC(neighbors[i])
+      PGC__SHOW_VEC(std::cout, neighbors[i])
       DEBUG << "getNeighbors(" << i << ") failed!\n";
       res = false;
       break;
@@ -40,19 +40,17 @@ void test_0() {
   DEBUG_VAR(pairs.size())
   res = res && (pairs.size() == 1);
   res = res && (pairs[0] == std::pair<size_t, size_t>({1, 3}));
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
-void test_1() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+/// test_1
+TEST_START(1)
   Ring ring(6);
   const VII pairs(ring.getBoundaryNonadjacentVertexPairs());
   INFO_VII(pairs)
   bool res = (9 == pairs.size());
-  PGC__TEST_RESULT_INFO(res, 1)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
-}/// test_0
+TEST_END(1)
+/// test_1
 
 PGC__MAIN_START
   test_0();

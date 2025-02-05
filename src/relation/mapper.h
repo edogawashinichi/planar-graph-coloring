@@ -4,6 +4,7 @@
 
 #include "../basic/hash.h"
 #include <unordered_map>
+#include <ostream>
 
 namespace PlanarGraphColoring {
 
@@ -11,7 +12,7 @@ class Mapper {
 public:
   void insert(const size_t i, const size_t j, const size_t k);
   void insert(const size_t i, const std::pair<size_t, size_t>& p);
-  void show(const size_t n) const;
+  void show(std::ostream& cout, const size_t n) const;
   inline size_t size() const {
     return plane2line_.size();
   }

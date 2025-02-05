@@ -16,11 +16,11 @@ DisjointSet::DisjointSet(const int n) {
   n_ = n;
 }/// DisjointSet::DisjointSet
 
-void DisjointSet::showParent() const {
+void DisjointSet::showParent(std::ostream& cout) const {
   for (int i = 0; i < parent_.size(); ++i) {
-    std::cout << i << ":" << parent_[i] << " ";
+    cout << i << ":" << parent_[i] << " ";
   }
-  std::cout << "\n";
+  cout << "\n";
 }/// DisjointSet::showParent
 
 std::set<int> DisjointSet::getRoots() {

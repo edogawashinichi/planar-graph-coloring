@@ -3,6 +3,7 @@
 #pragma once
 
 #include <vector>
+#include <ostream>
 
 namespace PlanarGraphColoring {
 
@@ -29,7 +30,7 @@ public:
   inline size_t size() const {
     return mappers_.size();
   }
-  void show() const;
+  void show(std::ostream& cout) const;
 };/// class VertexSymmetry
 
 }/// PlanarGraphColoring

@@ -10,12 +10,12 @@ Relation RelationResult::get(const size_t index) const {
   return relations_[index];
 }/// RelationResult::get
 
-void RelationResult::show(const size_t n) const {
+void RelationResult::show(std::ostream& cout, const size_t n) const {
   TEST_INFO
-  std::cout << "size: " << n << "/" << relations_.size() << "\n";
+  cout << "size: " << n << "/" << relations_.size() << "\n";
   for (size_t i = 0; i < n && i < relations_.size(); ++i) {
-    std::cout << i << "th: ";
-    relations_[i].show();
+    cout << i << "th: ";
+    relations_[i].show(cout);
     VERBOSE << " after relation i show\n";
   }
 }/// RelationResult::show

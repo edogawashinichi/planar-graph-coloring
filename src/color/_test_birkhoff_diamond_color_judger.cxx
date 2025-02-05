@@ -7,8 +7,8 @@
 
 using namespace PlanarGraphColoring;
 
-void test_0() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
+/// test_0
+TEST_START(0)
   BirkhoffDiamondColorJudger bdcj;
   const std::vector<size_t> l0 = {0, 1, 2, 3, 0, 1};
   const std::vector<size_t> r0 = {3, 2, 1, 0, 1, 0};
@@ -20,12 +20,11 @@ void test_0() {
   const NaiveColorRepresentation lhs1(l1);
   const NaiveColorRepresentation rhs1(r1);
   res = res && (false == bdcj.isIsomorphismByVertexSymmetry(lhs1, rhs1));
-  PGC__TEST_RESULT_INFO(res, 0)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(0))
-}/// test_0
+TEST_END(0)
+/// test_0
 
-void test_1() {
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
+/// test_1
+TEST_START(1)
   BirkhoffDiamondColorJudger bdcj;
   const std::vector<size_t> l0 = {0, 1, 2, 3, 0, 1};
   const std::vector<size_t> r0 = {3, 2, 0, 1, 3, 2};
@@ -37,9 +36,8 @@ void test_1() {
   const NaiveColorRepresentation lhs1(l1);
   const NaiveColorRepresentation rhs1(r1);
   res = res && (false == bdcj.isIsomorphismByColorSymmetry(lhs1, rhs1));
-  PGC__TEST_RESULT_INFO(res, 1)
-  PGC__SHOW_ENDL(PGC__TEST_SEPAR(1))
-}/// test_1
+TEST_END(1)
+/// test_1
 
 /// test_2
 TEST_START(2)

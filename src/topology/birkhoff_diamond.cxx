@@ -67,20 +67,20 @@ BirkhoffDiamond::BirkhoffDiamond() {
     {3, 2, 1, 0, 5, 4}, /* horizontal flip */
     {3, 4, 5, 0, 1, 2}, /* (counter)clockwise 180 degrees rotation */
   };
-  vertex_symmetry_.set(mappers);
+  //vertex_symmetry_.set(mappers);
 }/// BirkhoffDiamond::BirkhoffDiamond
 
-void BirkhoffDiamond::show() const {
+void BirkhoffDiamond::show(std::ostream& cout) const {
   TEST_INFO
-  PGC__SHOW_ENDL("boundary backward neighbors:")
-  PGC__SHOW_MIVI__(boundary_backward_neighbors_)
-  PGC__SHOW_ENDL("interior backward neighbors:")
-  PGC__SHOW_MIVI__(interior_backward_neighbors_)
-  PGC__SHOW_ENDL("boundary nonadjacent vertices:")
-  PGC__SHOW_VII(boundary_nonadjacent_vertices_)
-  PGC__SHOW_ENDL("vertex symmetry:")
-  vertex_symmetry_.show();
-  Ring::show();
+  PGC__SHOW_ENDL(cout, "boundary backward neighbors:")
+  PGC__SHOW_MIVI__(cout, boundary_backward_neighbors_)
+  PGC__SHOW_ENDL(cout, "interior backward neighbors:")
+  PGC__SHOW_MIVI__(cout, interior_backward_neighbors_)
+  PGC__SHOW_ENDL(cout, "boundary nonadjacent vertices:")
+  PGC__SHOW_VII(cout, boundary_nonadjacent_vertices_)
+  PGC__SHOW_ENDL(cout, "vertex symmetry:")
+  //vertex_symmetry_.show(cout);
+  Ring::show(cout);
 }/// BirkhoffDiamond::show
 
 }/// namespace PlanarGraphColoring

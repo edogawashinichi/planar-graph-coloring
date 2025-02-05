@@ -21,11 +21,11 @@ PlanarGraph::PlanarGraph(const std::vector<std::vector<size_t>>& edges) : Graph(
 PlanarGraph::PlanarGraph(const size_t n, const std::vector<std::vector<size_t>>& edges) : Graph(n, edges) {
 }/// PlanarGraph::PlanarGraph
 
-void PlanarGraph::show() const {
+void PlanarGraph::show(std::ostream& cout) const {
   TEST_INFO
   const bool is_planar = Graph::isPlanarGraph();
   INFO_VAR(is_planar)
-  Graph::show();
+  Graph::show(cout);
 }/// PlanarGraph::show
 
 }/// namespace PlanarGraphColoring

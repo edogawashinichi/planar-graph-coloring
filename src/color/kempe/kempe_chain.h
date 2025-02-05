@@ -35,7 +35,7 @@ public:
     }
     return *this;
   }/// assignment movecopy
-  inline void show() const {
+  inline void show(std::ostream& cout) const {
     TEST_INFO
     INFO_PAIR(vertex_pair_)
     INFO_PAIR(color_pair_)
@@ -47,7 +47,7 @@ public:
   II color_pair_;
   KempeChainConnector dual_;
   NaiveColorRepresentation interchange_;
-  inline void show() const {
+  inline void show(std::ostream& cout) const {
     TEST_INFO
     INFO_PAIR(color_pair_)
     INFO_OBJ(dual_)
@@ -60,7 +60,7 @@ public:
   II vertex_pair_;
   KempeChainInfo separating_;
   KempeChainInfo separated_;
-  inline void show() const {
+  inline void show(std::ostream& cout) const {
     TEST_INFO
     INFO_PAIR(vertex_pair_)
     INFO_OBJ(separating_)
@@ -71,7 +71,7 @@ public:
 class KempeChain : public DimensionTwoVector<size_t> {
 public:
   DERIVE_CLASS_5_FUNCTIONS(KempeChain, DimensionTwoVector<size_t>)
-  virtual void show() const override;
+  virtual void show(std::ostream& cout) const override;
   void sort(const size_t ring_size);
   const VII getSeparatedVertexPairs(const size_t ring_size) const;
   size_t getMaxValue() const;

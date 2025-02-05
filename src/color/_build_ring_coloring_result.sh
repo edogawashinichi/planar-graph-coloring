@@ -8,7 +8,7 @@ if [ ! -d ${obj_path} ]; then
   mkdir ${obj_path}
 fi
 
-test_file="_test_birkhoff_diamond_colorer.cxx"
+test_file="_test_ring_coloring_result.cxx"
 parameter=""
 if [ $# -ge 1 ]; then
   parameter=$1
@@ -25,13 +25,11 @@ if [ -f ${obj_file} ]; then
 fi
 
 src_path="./"
-topology_src_path="../topology/"
-algebra_src_path="../algebra/"
 basic_src_path="../basic/"
 # gtest requires at least C++14
 # O2 optmization may modify primary output, turn off for debug purpose
 # -Wall : force to give an error when forgetting to return a value
-g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${src_path}birkhoff_diamond_colorer.cxx ${src_path}color_result.cxx ${src_path}naive_color_representation.cxx ${topology_src_path}birkhoff_diamond.cxx ${topology_src_path}ring.cxx ${basic_src_path}graph.cxx ${algebra_src_path}symmetry.cxx ${basic_src_path}math.cxx ${basic_src_path}global.cxx ${topology_src_path}planar_graph.cxx
+g++ -Wall -std=c++17 -o ${obj_file} -cpp ${test_file} ${basic_src_path}global.cxx
 
 if [ -f ${obj_file} ]; then
   echo "${obj_file} generated!"

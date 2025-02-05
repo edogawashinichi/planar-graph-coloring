@@ -22,9 +22,9 @@ public:
   inline size_t size(const size_t index) const {
     return color_class_[index].size();
   }
-  void show() const;
-  void show(const size_t index) const;
-  void showWithRepresentative(const size_t i, const size_t n) const;
+  void show(std::ostream& cout) const;
+  void show(std::ostream& cout, const size_t index) const;
+  void showWithRepresentative(std::ostream& cout, const size_t i, const size_t n) const;
   std::vector<size_t> representative(const std::vector<size_t>& color) const;
   size_t getClass(const std::vector<size_t>& color) const;
   const ColorResult& getConst(const size_t index) const;
