@@ -33,6 +33,20 @@ typeid(var) == typeid(char32_t) || \
 typeid(var) == typeid(bool) \
 )
 
+/// singleton pattern
+
+#define SINGLETON_ASSERTION(Class) \
+private: \
+  inline Class() = default; \
+public: \
+  inline ~Class() = default; \
+  inline Class(const Class&) = delete; \
+  inline Class& operator=(const Class&) = delete; \
+  inline static Class& getInstance() { \
+    static Class instance; \
+    return instance; \
+  }
+
 /// macro for a class Class with container member mem_
 
 #define CLASS_CONSTRUCTOR_DEFAULT(Class, mem_) \
@@ -140,6 +154,7 @@ DERIVE_CLASS_4_FUNCTIONS(Derived, Base)
 
 #define TAB "  "
 
+/// WARNING: stack empty
 #define CUR_COLOR \
 (PGC__COLOR_STACK.empty() ? CYAN : (PGC__COLOR_STACK.top() == 0 ? RED : (PGC__COLOR_STACK.top() == 1 ? GREEN : (PGC__COLOR_STACK.top() == 2 ? BLUE : YELLOW))))
 

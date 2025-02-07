@@ -9,7 +9,7 @@ namespace PlanarGraphColoring {
 
 class BirkhoffDiamondColoringGroup : public ColoringGroup<BirkhoffDiamondVertexSymmetryGroup> {
 public:
-  inline BirkhoffDiamondColoringGroup() : ColoringGroup<BirkhoffDiamondVertexSymmetryGroup>(COLORS) {}
+  inline BirkhoffDiamondColoringGroup() : ColoringGroup<BirkhoffDiamondVertexSymmetryGroup>(COLORS.size()) {}
 };/// class BirkhoffDiamondColoringGroup
 
 }/// namespace PlanarGraphColoring

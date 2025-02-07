@@ -38,12 +38,12 @@ public:
     }
     return *this;
   }
-  inline void get(const size_t index, size_t* r, size_t* c) {
+  inline void transformIndex(const size_t index, size_t* r, size_t* c) const {
     /// assuming: index valid
     const size_t col = vvt_.front().size();
     *r = index / col;
     *c = index % col;
-  }/// get
+  }/// transformIndex
   inline void set(const size_t row, const size_t col) {
     for (size_t r = 0; r < row; ++r) {
       std::vector<T> vt(col);/// col Ts of type T default value

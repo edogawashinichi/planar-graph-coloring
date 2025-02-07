@@ -37,10 +37,10 @@ public:
     h_->show(cout);
     INFO_3VAR(this->size(), this->sizeVertexSymmetryGroup(), this->sizeColorSymmetryGroup())
   }/// show
-  inline II get(const size_t index) {
+  inline II transformIndex(const size_t index) const {
     /// assuming: index valid
     II res;
-    DimensionTwoVector<size_t>::get(index, &(res.first), &(res.second));
+    DimensionTwoVector<size_t>::transformIndex(index, &(res.first), &(res.second));
     return res;
   }/// get
   inline const Permutation& constVertexPermutation(const size_t index) const {
