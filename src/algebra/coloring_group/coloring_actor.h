@@ -15,14 +15,33 @@ template<typename VertexSymmetryGroup>
 class ColoringActor {
 SINGLETON_ASSERTION(ColoringActor)
 public:
-  inline void run(const RingColoring& coloring, const RingColoringResult& table, const ColoringGroup<VertexSymmetryGroup>& group, VI* orbit) {
-    DEBUG_START(ColoringActor::run VI)
+  inline void run(const RingColoringResult& table, const ColoringGroup<VertexSymmetryGroup>& group, VSI* orbits) {
+    DEBUG_START(ColoringActor::run VSI)
+    VI visited(table.size(), 0);
+    for (size_t i = 0; i < table.size(); ++i) {
+      INFO_VAR(i)
+      INFO_OBJ(table.getConst(i))
+      if (1 == visited[i]) continue;
+      visited[i] = 1;
+      SI orbit;
+      this->run(table.getConst(i), table, group, &orbit);
+      for (size_t index : orbit) {
+        visited[index] = 1;
+      }
+      INFO_SET(orbit)
+      orbits->emplace_back(orbit);
+    }
+    DEBUG_END(ColoringActor::run VSI)
+  }/// run
+protected:
+  inline void run(const RingColoring& coloring, const RingColoringResult& table, const ColoringGroup<VertexSymmetryGroup>& group, SI* orbit) {
+    DEBUG_START(ColoringActor::run SI)
     DEBUG_OBJ(coloring)
     ColoringResult boundary_colorings;
     this->run(coloring.constBoundaryColoring(), group, &boundary_colorings);
     table.findBoundaryColoring(boundary_colorings, orbit);
     DEBUG_VEC(*orbit)
-    DEBUG_END(ColoringActor::run VI)
+    DEBUG_END(ColoringActor::run SI)
   }/// run
   inline void run(const Coloring& coloring, const ColoringGroup<VertexSymmetryGroup>& group, ColoringResult* orbit) {
     DEBUG_START(ColoringActor::run ColoringResult)
@@ -36,25 +55,6 @@ public:
     }
     DEBUG_END(ColoringActor::run ColoringResult)
   }/// run
-  inline void run(const RingColoringResult& table, const ColoringGroup<VertexSymmetryGroup>& group, VVI* orbits) {
-    DEBUG_START(ColoringActor::run VVI)
-    VI visited(table.size(), 0);
-    for (size_t i = 0; i < table.size(); ++i) {
-      INFO_VAR(i)
-      INFO_OBJ(table.getConst(i))
-      if (1 == visited[i]) continue;
-      visited[i] = 1;
-      VI orbit;
-      this->run(table.getConst(i), table, group, &orbit);
-      for (size_t index : orbit) {
-        visited[index] = 1;
-      }
-      INFO_VEC(orbit)
-      orbits->emplace_back(orbit);
-    }
-    DEBUG_END(ColoringActor::run VVI)
-  }/// run
-protected:
   inline void run(const Coloring& coloring, const ColoringGroup<VertexSymmetryGroup>& group, const size_t index, Coloring* transformed_coloring) {
     DEBUG_START(ColoringActor::run index)
     const II& pair = group.transformIndex(index);

@@ -121,11 +121,11 @@ public:
     }
     return colorings;
   }/// copyBoundaryColoringResult
-  inline void findBoundaryColoring(const ColoringResult& boundary_colorings, VI* indices) const {
+  inline void findBoundaryColoring(const ColoringResult& boundary_colorings, SI* indices) const {
     AccColoringResult acc(this->copyBoundaryColoringResult());
     for (size_t i = 0; i < boundary_colorings.size(); ++i) {
       const int index = acc.find(boundary_colorings.getConst(i));
-      indices->emplace_back(index);
+      indices->insert(index);
     }
   }/// findBoundaryColoring
   inline void show(std::ostream& cout, const size_t n) const {

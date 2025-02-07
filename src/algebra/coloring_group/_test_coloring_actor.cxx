@@ -17,11 +17,13 @@ TEST_START(0)
   Colorer colorer;
   colorer.run(diamond, &ring_colorings);
   res = res && (ring_colorings.size() == 732);
-  VVI orbits;
+  VSI orbits;
   ColoringActor<BirkhoffDiamondVertexSymmetryGroup>::getInstance().run(ring_colorings, G, &orbits);
   res = res && (orbits.size() == 15);
-  INFO_VVI_WITH_INDEX(orbits)
-  INFO_VAR(orbits.size())
+  for (size_t i = 0; i < orbits.size(); ++i) {
+    INFO << i << "th size: " << orbits[i].size() << "\n";
+    INFO_SET(orbits[i])
+  }
 TEST_END(0)
 /// test_0
 

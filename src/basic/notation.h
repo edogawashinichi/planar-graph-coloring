@@ -7,6 +7,7 @@
 #include "global.h"
 #include <iostream>
 #include <vector>
+#include <unordered_set>
 
 namespace PlanarGraphColoring {
 
@@ -322,8 +323,10 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE ) { \
 #define II std::pair<size_t, size_t>
 #define VC std::vector<char>
 #define VI std::vector<size_t>
+#define SI std::unordered_set<size_t>
 #define VII std::vector<std::pair<size_t, size_t>>
 #define VVI std::vector<std::vector<size_t>>
+#define VSI std::vector<std::unordered_set<size_t>>
 
 #define PGC__SHOW_VEC(cout, vec) \
 for (const auto& a : vec) { \
@@ -346,6 +349,17 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
 #define VERBOSE_VEC(vec) \
 if (PGC__VERBOSE_MODE) { \
   PGC__SHOW_VEC(std::cout, vec) \
+}
+
+#define SHOW_SET(cout, set) \
+for (const auto& a : set) { \
+  (cout) << a << " "; \
+} \
+(cout) << "\n";
+
+#define INFO_SET(set) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  SHOW_SET(std::cout, set) \
 }
 
 #define PGC__SHOW_VEC_WITH_ARROW(cout, vec) \
