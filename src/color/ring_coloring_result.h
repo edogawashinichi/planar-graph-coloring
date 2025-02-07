@@ -3,6 +3,7 @@
 #pragma once
 
 #include "coloring_result.h"
+#include "acc_coloring_result.h"
 
 namespace PlanarGraphColoring {
 
@@ -43,19 +44,21 @@ public:
   }/// getConst
   inline Color& get(const size_t index) {
     /// assuming: index valid
-    if (index < boundary_coloring_.size()) {
-      return boundary_coloring_.get(index);
-    } else {
-      return interior_coloring_.get(index - boundary_coloring_.size());
-    }
+    return index < boundary_coloring_.size() ? boundary_coloring_.get(index) : interior_coloring_.get(index - boundary_coloring_.size());
   }/// get
   inline const Color& constBoundaryColoring(const size_t index) const {
-    /// assuming: 0 <= index < BOUNDARY_SIZE
+    /// assuming: index valid
     return boundary_coloring_.getConst(index);
   }/// constBoundaryColoring
   inline const Color& constInteriorColoring(const size_t index) const {
-    /// assuming: 0 <= index < INTERIOR_SIZE
+    /// assuming: index valid
     return interior_coloring_.getConst(index);
+  }/// constInteriorColoring
+  inline const Coloring& constBoundaryColoring() const {
+    return boundary_coloring_;
+  }/// constBoundaryColoring
+  inline const Coloring& constInteriorColoring() const {
+    return interior_coloring_;
   }/// constInteriorColoring
   inline Coloring& getBoundaryColoring() {
     return boundary_coloring_;
@@ -106,6 +109,25 @@ public:
       this->get(i) = std::move(RingColoring(boundary[i], interior[i]));
     }
   }/// constructor
+  inline const Coloring& constBoundaryColoring(const size_t index) const {
+    /// assuming: index valid
+    return this->getConst(index).constBoundaryColoring();
+  }/// constBoundaryColoring
+  inline ColoringResult copyBoundaryColoringResult() const {
+    /// TODO: C++20 view
+    ColoringResult colorings;
+    for (size_t i = 0; i < this->size(); ++i) {
+      colorings.append(this->getConst(i).constBoundaryColoring());
+    }
+    return colorings;
+  }/// copyBoundaryColoringResult
+  inline void findBoundaryColoring(const ColoringResult& boundary_colorings, VI* indices) const {
+    AccColoringResult acc(this->copyBoundaryColoringResult());
+    for (size_t i = 0; i < boundary_colorings.size(); ++i) {
+      const int index = acc.find(boundary_colorings.getConst(i));
+      indices->emplace_back(index);
+    }
+  }/// findBoundaryColoring
   inline void show(std::ostream& cout, const size_t n) const {
     TEST_INFO
     for (size_t i = 0; i < this->size() && i < n; ++i) {

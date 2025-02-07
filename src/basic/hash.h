@@ -18,13 +18,13 @@ struct pair_hash {
   }
 };/// struct pair_hash 
 
-struct vector_hash {
+struct vi_hash {
   size_t N() const {
     return COLORS.size();
   }
   size_t operator() (const std::vector<size_t>& v) const {
     size_t res = 0;
-    for (const auto a : v) {
+    for (size_t a : v) {
       res = res * this->N() + a;
     }
     return res;

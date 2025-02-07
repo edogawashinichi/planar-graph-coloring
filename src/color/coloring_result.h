@@ -85,7 +85,7 @@ public:
     return res;
   }/// getData
   inline bool valid() const {
-    return this->find(Color('X')) == -1;
+    return this->find(Color(UNDEF_COLOR)) == -1;
   }/// vaild
   inline virtual void show(std::ostream& cout) const {
     TEST_INFO
