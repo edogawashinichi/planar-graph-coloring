@@ -7,6 +7,7 @@
 #include <functional>
 #include <algorithm>
 #include <unordered_map>
+#include <numeric>
 
 namespace PlanarGraphColoring {
 
@@ -211,5 +212,10 @@ template<typename T>
 T max(const T& a, const T& b, const T& c) {
   return a > b ? (a > c ? a : c) : (b > c ? b : c);
 }
+
+template<typename T>
+T sum(const std::vector<T>& v) {
+  return std::accumulate(v.begin(), v.end(), 0);
+}///sum
 
 }/// namespace PlanarGraphColoring

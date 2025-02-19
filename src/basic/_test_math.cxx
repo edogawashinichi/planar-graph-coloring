@@ -116,6 +116,14 @@ TEST_START(6)
 TEST_END(6)
 /// test_6
 
+/// test_7
+TEST_START(7)
+  bool res = (sum<size_t>({1, 2, 3}) == 6);
+  res = res && (sum<int>({-1, 8, -8}) == -1);
+  res = res && (sum(id<size_t>(101)) == 5050);
+TEST_END(7)
+/// test_7
+
 PGC__MAIN_START
   test_0();
   test_1();
@@ -124,4 +132,5 @@ PGC__MAIN_START
   test_4();
   test_5();
   TEST(6)
+  TEST(7)
 PGC__MAIN_END

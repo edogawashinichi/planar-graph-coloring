@@ -80,8 +80,8 @@ protected:
       VERBOSE_OBJ(inter_coloring)
       VERBOSE_OBJ(transformed_coloring)
       VERBOSE_VAR(index)
-      if (orbit->count(index)) continue;
-      VERBOSE << "uncount!\n";
+      /*if (orbit->count(index)) continue;
+      VERBOSE << "uncount!\n";*/
       orbit->insert(index);
       const size_t j = group.inverse(i);
       this->append({index, table_index, i, j}, orbits);

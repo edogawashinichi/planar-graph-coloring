@@ -77,9 +77,9 @@ public:
   }/// operator<
   inline friend bool operator==(const ColoringInfo& lhs, const ColoringInfo& rhs) {
     JNEQ_RET_F(lhs, rhs, index_)
-    JNEQ_RET_F(lhs, rhs, representative_)
+    /*JNEQ_RET_F(lhs, rhs, representative_)
     JNEQ_RET_F(lhs, rhs, group_index_)
-    JNEQ_RET_F(lhs, rhs, inverse_group_index_)
+    JNEQ_RET_F(lhs, rhs, inverse_group_index_)*/
     return true;
   }/// friend operator==
 protected:
@@ -91,7 +91,7 @@ protected:
 class ColoringInfoHasher : public vi_hash {
 public:
   inline size_t operator()(const ColoringInfo& obj) const {
-    return vi_hash::operator()(obj.getVector());
+    return vi_hash::operator()({obj.getVector()[0]});
   }/// operator()
 };/// class ColoringInfoHasher
 class ColoringInfoEqual {
@@ -109,9 +109,10 @@ public:
   }/// constructor
   inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
+    cout << "size=" << this->size() << "\n";
     for (size_t i = 0; i < this->size(); ++i) {
-      cout << i << "th:  ";
-      this->getConst(i).show(cout);
+      DEBUG << i << "th:  ";
+      if (PGC__VERBOSE_MODE) this->getConst(i).show(cout);
     }
   }/// show
   inline VI getIndexVector() const {
@@ -141,11 +142,32 @@ public:
     /* assuming: this not empty */
     this->get().back().append(back_back);
   }/// extend
+  inline VI getOriginalSizeVector() const {
+    VI res;
+    for (const auto& orbit : this->getConst()) {
+      res.emplace_back(orbit.size());
+    }
+    return res;
+  }/// getOriginalSizeVector
+  inline VI getReducedSizeVector() const {
+    VI res;
+    for (const auto& orbit : this->getConst()) {
+      ColoringOrbit reduced;
+      orbit.removeDuplicate(&reduced);
+      res.emplace_back(reduced.size());
+    }
+    return res;
+  }/// getReducedSizeVector
   inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
     for (size_t i = 0; i < this->size(); ++i) {
       cout << i << "th orbit:\n";
+      cout << "original:\n";
       this->getConst(i).show(cout);
+      ColoringOrbit reduced;
+      this->getConst(i).removeDuplicate(&reduced);
+      cout << "reduced:\n";
+      reduced.show(cout);
     }
   }/// show
 };/// class ColoringOrbitResult
