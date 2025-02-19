@@ -8,9 +8,9 @@ using namespace PlanarGraphColoring;
 TEST_START(0)
   BirkhoffDiamondColoringGroup G;
   INFO_OBJ(G)
-  bool res = (G.size() == 4 * fact(COLORS));
+  bool res = (G.size() == 4 * fact(COLORS.size()));
   for (size_t i = 0; i < G.size(); ++i) {
-    const II& pair = G.get(i);
+    const II& pair = G.transformIndex(i);
     auto vertex_permutation = G.constVertexPermutation(pair.first);
     auto color_permutation = G.constColorPermutation(pair.second);
     if (78 == i) {

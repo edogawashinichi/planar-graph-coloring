@@ -18,6 +18,10 @@ TEST_START(0)
   res = res && (obj.find(0) != -1);
   res = res && (obj.find(2) != -1);
   res = res && (obj.find(3) == -1);
+  obj.sort();
+  INFO_(obj)
+  res = res && (obj.getConst(0) == 0);
+  res = res && (obj.getConst(4) == 2);
 TEST_END(0)
 /// test_0
 
@@ -33,6 +37,10 @@ TEST_START(1)
   DEBUG_(sub)
   VERBOSE_(sub)
   bool res = (sub.size() == 2);
+  DimensionOneVector<size_t> test_set;
+  test_set.set(obj.getCopy(2,5));
+  INFO_(test_set)
+  res = res && (test_set.size() == 3);
 TEST_END(1)
 /// test_1
 

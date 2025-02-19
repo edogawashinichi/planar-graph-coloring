@@ -22,6 +22,22 @@ public:
     h_ = std::make_unique<SymmetryGroup>(color_order);/// h: color symmetry group
     DimensionTwoVector<size_t>::set(g_->size(), h_->size());
   }/// constructor
+  inline size_t inverse(const size_t index) const {
+    const II& pair = this->transformIndex(index);
+    const Permutation& vertex_permutation = this->constVertexPermutation(pair.first);
+    const Permutation& color_permutation = this->constColorPermutation(pair.second);
+    const Permutation& vid = g_->unit();
+    const Permutation& cid = h_->unit();
+    size_t i = 0;
+    for (; i < this->size(); ++i) {
+      const II& i_pair = this->transformIndex(index);
+      const Permutation& i_vp = this->constVertexPermutation(i_pair.first);
+      if (i_vp * vertex_permutation != vid) continue;
+      const Permutation& i_cp = this->constColorPermutation(i_pair.second);
+      if (i_cp * color_permutation == cid) break;
+    }
+    return i;
+  }/// inverse
   inline virtual size_t size() const override {
     return DirectProduct<Permutation, Permutation>::size();
   }/// size

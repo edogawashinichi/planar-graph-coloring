@@ -10,6 +10,7 @@ namespace PlanarGraphColoring {
   extern const std::vector<char> COLORS;
   extern const char UNDEF_COLOR;
   extern const size_t UNDEF_VERTEX;
+  extern const size_t UNDEF_INDEX;
 
   /* topology */
   inline constexpr size_t BIRKHOFF_DIAMOND_BOUNDARY_SIZE = 6;

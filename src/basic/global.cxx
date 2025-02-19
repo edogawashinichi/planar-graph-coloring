@@ -6,6 +6,7 @@ namespace PlanarGraphColoring {
   const std::vector<char> COLORS = {'R', 'G', 'B', 'Y'};
   const char UNDEF_COLOR = 'X';
   const size_t UNDEF_VERTEX = 10000;
+  const size_t UNDEF_INDEX = 2100000000;
 
   ///const size_t BIRKHOFF_DIAMOND_BOUNDARY_SIZE = 6;
   ///const size_t BIRKHOFF_DIAMOND_INTERIOR_SIZE = 4;

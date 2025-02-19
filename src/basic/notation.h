@@ -2,6 +2,9 @@
 
 /// notations for simplification
 
+/// TODO: use C++11 feature typename... Args
+/// TODO:   instead of VAR 2VAR 3VAR
+
 #pragma once
 
 #include "global.h"
@@ -58,11 +61,19 @@ inline Class() { \
 #define CLASS_CONSTRUCTOR_DELETE(Class, mem_) \
 inline Class() = delete;
 
+#define INNER_CLASS_SET_DEEPCOPY(rhs, mem_) \
+if (this != &rhs) { \
+  mem_ = rhs.mem_; \
+}
+
+#define CLASS_SET_DEEPCOPY(Class, mem_) \
+inline void set(const Class& rhs) { \
+  INNER_CLASS_SET_DEEPCOPY(rhs, mem_) \
+}
+
 #define CLASS_CONSTRUCTOR_DEEPCOPY(Class, mem_) \
 inline Class(const Class& rhs) { \
-  if (this != &rhs) { \
-    mem_ = rhs.mem_; \
-  } \
+  INNER_CLASS_SET_DEEPCOPY(rhs, mem_) \
 }
 
 #define CLASS_CONSTRUCTOR_MOVECOPY(Class, mem_) \
@@ -90,6 +101,7 @@ inline Class& operator=(Class&& rhs) { \
 
 #define CLASS_4_FUNCTIONS(Class, mem_) \
 CLASS_CONSTRUCTOR_DEEPCOPY(Class, mem_) \
+CLASS_SET_DEEPCOPY(Class, mem_) \
 CLASS_CONSTRUCTOR_MOVECOPY(Class, mem_) \
 CLASS_ASSIGNMENT_DEEPCOPY(Class, mem_) \
 CLASS_ASSIGNMENT_MOVECOPY(Class, mem_)
@@ -305,6 +317,23 @@ if (PGC__VERBOSE_MODE) { \
 #define VERBOSE_PAIR(pair) \
 VERBOSE << PGC__STR(pair) << "={" << (pair).first << "," << (pair).second << "}\n";
 
+#define SHOW_SPACE(k) \
+std::cout << std::string(k, ' ');
+
+#define SHOW_ENDL \
+std::cout << "\n";
+
+#define SHOW_VAR(var) \
+std::cout << PGC__STR(var) << "=" << (var);
+
+#define SHOW_VAR_SPC(var, k) \
+SHOW_VAR(var) \
+SHOW_SPACE(k)
+
+#define SHOW_VAR_NDL(var) \
+SHOW_VAR(var) \
+SHOW_ENDL
+
 #define PGC__SHOW_VAR(var) \
 std::cout << PGC__STR(var) << "=" << (var) << "\n";
 
@@ -314,9 +343,30 @@ std::cout << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (wa
 #define PGC__SHOW_3VAR(uar, var, war) \
 std::cout << PGC__STR(uar) << "=" << (uar) << "," << PGC__STR(var) << "=" << (var) << "," << PGC__STR(war) << "=" << (war) << "\n";
 
+#define PGC__SHOW_4VAR(a, b, c, d) \
+SHOW_VAR_SPC(a, 2) \
+SHOW_VAR_SPC(b, 2) \
+SHOW_VAR_SPC(c, 2) \
+SHOW_VAR_NDL(d)
+
 #define INFO_3VAR(uar, var, war) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE ) { \
   PGC__SHOW_3VAR(uar, var, war) \
+}
+
+#define DEBUG_3VAR(uar, var, war) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  PGC__SHOW_3VAR(uar, var, war) \
+}
+
+#define VERBOSE_3VAR(uar, var, war) \
+if (PGC__VERBOSE_MODE) { \
+  PGC__SHOW_3VAR(uar, var, war) \
+}
+
+#define VERBOSE_4VAR(a, b, c, d) \
+if (PGC__VERBOSE_MODE) { \
+  PGC__SHOW_4VAR(a, b, c, d) \
 }
 
 #define LL long long
@@ -359,6 +409,16 @@ for (const auto& a : set) { \
 
 #define INFO_SET(set) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
+  SHOW_SET(std::cout, set) \
+}
+
+#define DEBUG_SET(set) \
+if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
+  SHOW_SET(std::cout, set) \
+}
+
+#define VERBOSE_SET(set) \
+if (PGC__VERBOSE_MODE) { \
   SHOW_SET(std::cout, set) \
 }
 

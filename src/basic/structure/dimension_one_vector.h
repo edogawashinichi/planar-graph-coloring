@@ -8,6 +8,7 @@
 #include "../notation.h"
 #include "../math.h"
 #include <ostream>
+#include <algorithm>
 
 namespace PlanarGraphColoring {
 
@@ -62,6 +63,10 @@ public:
   inline int find(const T& t) const {
     return find_index_in_vector<T>(t, vt_);
   }/// find
+  inline void sort() {
+    /* warning: type T must define operator< */
+    std::sort(this->get().begin(), this->get().end());
+  }/// sort
 protected:
   std::vector<T> vt_;
 };/// class DimensionOneVector
