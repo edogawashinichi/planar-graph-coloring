@@ -23,19 +23,32 @@ public:
     DimensionTwoVector<size_t>::set(g_->size(), h_->size());
   }/// constructor
   inline size_t inverse(const size_t index) const {
+    DEBUG_START(ColoringGroup::inverse)
     const II& pair = this->transformIndex(index);
     const Permutation& vertex_permutation = this->constVertexPermutation(pair.first);
     const Permutation& color_permutation = this->constColorPermutation(pair.second);
     const Permutation& vid = g_->unit();
     const Permutation& cid = h_->unit();
+    DEBUG_OBJ(vertex_permutation)
+    DEBUG_OBJ(color_permutation)
+    DEBUG_OBJ(vid)
+    DEBUG_OBJ(cid)
     size_t i = 0;
     for (; i < this->size(); ++i) {
-      const II& i_pair = this->transformIndex(index);
+      DEBUG_VAR(i)
+      const II& i_pair = this->transformIndex(i);/// WARNING: index-->i
       const Permutation& i_vp = this->constVertexPermutation(i_pair.first);
-      if (i_vp * vertex_permutation != vid) continue;
+      DEBUG_OBJ(i_vp)
+      const Permutation v_prod(i_vp * vertex_permutation);
+      DEBUG_OBJ(v_prod)
+      if (v_prod != vid) continue;
       const Permutation& i_cp = this->constColorPermutation(i_pair.second);
-      if (i_cp * color_permutation == cid) break;
+      DEBUG_OBJ(i_cp)
+      const Permutation c_prod(i_cp * color_permutation);
+      DEBUG_OBJ(c_prod)
+      if (c_prod == cid) break;
     }
+    DEBUG_END(ColoringGroup::inverse)
     return i;
   }/// inverse
   inline virtual size_t size() const override {
@@ -49,7 +62,9 @@ public:
   }/// sizeColorSymmetryGroup
   inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
+    cout << "vertex symmetry group:\n";
     g_->show(cout);
+    cout << "color symmetry group:\n";
     h_->show(cout);
     INFO_3VAR(this->size(), this->sizeVertexSymmetryGroup(), this->sizeColorSymmetryGroup())
   }/// show
