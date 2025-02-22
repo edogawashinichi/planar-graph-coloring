@@ -23,6 +23,7 @@ public:
     DimensionTwoVector<size_t>::set(g_->size(), h_->size());
   }/// constructor
   inline size_t inverse(const size_t index) const {
+    /// TODO: simple/elegant approach to fetch vertex_permutation/color_permutation
     DEBUG_START(ColoringGroup::inverse)
     const II& pair = this->transformIndex(index);
     const Permutation& vertex_permutation = this->constVertexPermutation(pair.first);

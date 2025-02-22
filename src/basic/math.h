@@ -143,6 +143,20 @@ std::vector<T> id(const size_t n) {
 }/// id
 
 template<typename T>
+bool symmetry(const std::vector<std::pair<T, T>>& vtt) {
+  /* assuming: type T has implemented hash function */
+  std::unordered_map<T, T> map;
+  for (const auto& tt : vtt) {
+    map[tt.first] = tt.second;
+  }/// for
+  for (const auto& kv : map) {
+    if (!map.count(kv.second)) return false;
+    if (map.at(kv.second) != kv.first) return false;
+  }/// for
+  return true;
+}/// symmetry
+
+template<typename T>
 void dict_sort(std::vector<std::pair<T, T>>& vtt, const bool ascend = true) {
   auto cmp = [&](const std::pair<T, T>& lhs, const std::pair<T, T>& rhs) -> bool {
     if (lhs.first != rhs.first) return (lhs.first < rhs.first) == ascend;
