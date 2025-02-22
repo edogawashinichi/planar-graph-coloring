@@ -68,7 +68,7 @@ public:
     obj.show(cout);
     return cout;
   }/// friend operator<<
-  inline bool operator<(const ColoringInfo& rhs) {
+  inline bool operator<(const ColoringInfo& rhs) const {
     JNEQ_RET_LT(index_)
     JNEQ_RET_LT(representative_)
     JNEQ_RET_LT(group_index_)
@@ -123,21 +123,40 @@ public:
     return res;
   }/// getIndexVector
   inline void removeDuplicate(ColoringOrbit* rhs) const {
+    rhs->clear();
     std::unordered_set<ColoringInfo, ColoringInfoHasher, ColoringInfoEqual> set(this->getConst().begin(), this->getConst().end());
     for (const ColoringInfo& ele : set) {
       rhs->append(ele);
-    }
+    }/// for
     rhs->sort();
   }/// removeDuplicate
+  inline bool operator<(const ColoringOrbit& rhs) const {
+    size_t i = 0;
+    while (i < this->size() && i < rhs.size()) {
+      if (this->getConst(i) < rhs.getConst(i)) return true;
+      else if (rhs.getConst(i) < this->getConst(i)) return false;
+      ++i;
+    }/// while
+    return i == rhs.size();
+  }/// operator<
 };/// class ColoringOrbit
 
 /* utilize member function of ColoringOrbit rather than using DimensionTwoVector<ColoringInfo> */
 class ColoringOrbitResult : public DimensionOneVector<ColoringOrbit> {
 public:
   DERIVE_CLASS_5_FUNCTIONS(ColoringOrbitResult, DimensionOneVector<ColoringOrbit>)
-  inline void append(const ColoringInfo& back_front) {
+  inline void removeDuplicate(ColoringOrbitResult* rhs) const {
+    rhs->clear();
+    for (size_t i = 0; i < this->size(); ++i) {
+      ColoringOrbit reduced;
+      this->getConst(i).removeDuplicate(&reduced);
+      rhs->append(reduced);
+    }/// for 
+    rhs->sort();
+  }/// removeDuplicate
+  inline void appendNew(const ColoringInfo& back_front) {
     this->get().emplace_back(ColoringOrbit(back_front));
-  }/// append 
+  }/// appendNew 
   inline void extend(const ColoringInfo& back_back) {
     /* assuming: this not empty */
     this->get().back().append(back_back);
@@ -161,15 +180,14 @@ public:
   inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
     for (size_t i = 0; i < this->size(); ++i) {
-      cout << i << "th orbit:\n";
-      cout << "original:\n";
+      cout << i << "th orbit:  ";
       this->getConst(i).show(cout);
-      ColoringOrbit reduced;
-      this->getConst(i).removeDuplicate(&reduced);
-      cout << "reduced:\n";
-      reduced.show(cout);
     }
   }/// show
+  inline friend std::ostream& operator<<(std::ostream& cout, const ColoringOrbitResult& obj) {
+    obj.show(cout);
+    return cout;
+  }/// friend operator<<
 };/// class ColoringOrbitResult
 
 }/// namespace PlanarGraphColoring

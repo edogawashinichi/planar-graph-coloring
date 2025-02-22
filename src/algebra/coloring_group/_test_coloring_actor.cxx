@@ -39,13 +39,15 @@ TEST_START(1)
   const size_t EXP_RING_COLORINGS_SIZE = 732;
   res = res && (ring_colorings.size() == EXP_RING_COLORINGS_SIZE);
   ColoringOrbitResult orbits;
-  const size_t orbits_init_length = orbits.size();
   ColoringActor<BirkhoffDiamondVertexSymmetryGroup>::getInstance().run(ring_colorings, G, &orbits);
-  const size_t orbits_res_length = orbits.size();
-  INFO_2VAR(orbits_init_length, orbits_res_length)
-  res = res && (orbits.size() == 15);
+  INFO_VAR(orbits.size())
+  const size_t EXP_ORBITS_SIZE = 15;
+  res = res && (orbits.size() == EXP_ORBITS_SIZE);
   INFO_OBJ(orbits)
-  const VI original_orbits_size_vec(15, 96);
+  ColoringOrbitResult reduced_orbits;
+  orbits.removeDuplicate(&reduced_orbits);
+  INFO_OBJ(reduced_orbits)
+  const VI original_orbits_size_vec(EXP_ORBITS_SIZE, 96);
   const VI reduced_orbits_size_vec = {
     12, /* 0 */
     96, /* 1 */
@@ -63,12 +65,12 @@ TEST_START(1)
     24, /* 13 */
     24, /* 14 */
   };
-  INFO_VEC(orbits.getOriginalSizeVector())
-  INFO_VEC(orbits.getReducedSizeVector())
+  //DEBUG_VEC(orbits.getOriginalSizeVector())
+  //DEBUG_VEC(orbits.getReducedSizeVector())
   res = res && (orbits.getOriginalSizeVector() == original_orbits_size_vec);
   res = res && (orbits.getReducedSizeVector() == reduced_orbits_size_vec);
   const size_t number = sum<size_t>(reduced_orbits_size_vec);
-  INFO_VAR(number)
+  //DEBUG_VAR(number)
   res = res && (number == EXP_RING_COLORINGS_SIZE);
 TEST_END(1)
 /// test_1

@@ -92,7 +92,8 @@ protected:
   inline void append(const VI& quadruple, ColoringOrbitResult* orbits) {
     /* assuming: quadruple size == 4 */
     if (quadruple[2] == 0) {
-      orbits->append(ColoringInfo(quadruple));
+      orbits->appendNew(ColoringInfo(quadruple));
+      /* orbits->append({ColoringInfo(quadruple)}) */
       INFO << "append:  ";
     } else {
       orbits->extend(ColoringInfo(quadruple));

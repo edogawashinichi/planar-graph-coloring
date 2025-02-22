@@ -25,6 +25,9 @@ public:
   inline DimensionOneVector(const size_t n) {
     vt_.resize(n);
   }/// DimensionOneVector constructor
+  inline void clear() {
+    vt_.clear();
+  }/// clear
   inline void resize(const size_t n) {
     vt_.resize(n);
   }/// resize
