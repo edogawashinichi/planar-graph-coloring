@@ -4,10 +4,12 @@
 
 #include "../topology/ring.h"
 #include "ring_coloring_result.h"
+#include "../basic/notation.h"
 
 namespace PlanarGraphColoring {
 
 class Colorer {
+SINGLETON_ASSERTION(Colorer)
 public:
   inline void run(const Ring& ring, RingColoringResult* colorings) {
     this->colorBoundary(ring, colorings);

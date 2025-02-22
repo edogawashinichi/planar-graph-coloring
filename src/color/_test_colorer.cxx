@@ -13,8 +13,7 @@ TEST_START(0)
   };
   RingColoring coloring(diamond.boundarySize(), diamond.interiorSize());
   coloring.getBoundaryColoring().set(boundary_coloring_data);
-  Colorer colorer;
-  bool res = colorer.colorInterior(diamond, &coloring);
+  bool res = Colorer::getInstance().colorInterior(diamond, &coloring);
   INFO_(coloring)
 TEST_END(0)
 /// test_0
@@ -23,8 +22,7 @@ TEST_END(0)
 TEST_START(1)
   BirkhoffDiamond diamond;
   RingColoringResult colorings;
-  Colorer colorer;
-  colorer.run(diamond, &colorings);
+  Colorer::getInstance().run(diamond, &colorings);
   bool res = (colorings.size() == 732);
   colorings.show(std::cout, 20);
   INFO_VAR(colorings.size())

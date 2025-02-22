@@ -87,6 +87,9 @@ public:
   inline bool valid() const {
     return this->find(Color(UNDEF_COLOR)) == -1;
   }/// vaild
+  inline friend bool operator==(const Coloring& lhs, const Coloring& rhs) {
+    return lhs.getData() == rhs.getData();
+  }/// friend operator==
   inline virtual void show(std::ostream& cout) const {
     TEST_INFO
     SHOW_COLORING_WITH_INDEX(cout, this->getConst(), this->valid())
