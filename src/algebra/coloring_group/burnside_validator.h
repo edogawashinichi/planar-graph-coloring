@@ -20,11 +20,12 @@ public:
   inline size_t run(const ColoringGroup<VertexSymmetryGroup>& coloring_group, const RingColoringResult& colorings) {
     DEBUG_START(BurnsideValidator::run)
     size_t res = 0;
-    for (size_t i = 0; i < coloring_group.size(); ++i) {
+    for (size_t group_index = 0; group_index < coloring_group.size(); ++group_index) {
       VI fixed_colorings;
-      const size_t cnt = this->invariant(coloring_group, i, colorings, &fixed_colorings);
+      const size_t cnt = this->invariant(coloring_group, group_index, colorings, &fixed_colorings);
+      DEBUG_VEC_HINT(fixed_colorings)
       res += cnt;
-      DEBUG_2VAR(i, res)
+      DEBUG_2VAR(group_index, res)
     }/// for
     res /= coloring_group.size();
     INFO_VAR(res)
@@ -38,17 +39,17 @@ public:
     const II& pair = coloring_group.transformIndex(index);
     const Permutation& vertex_permutation = coloring_group.constVertexPermutation(pair.first);
     const Permutation& color_permutation = coloring_group.constColorPermutation(pair.second);
-    for (size_t i = 0; i < colorings.size(); ++i) {
-      const RingColoring& coloring = colorings.getConst(i);
+    for (size_t colorings_index = 0; colorings_index < colorings.size(); ++colorings_index) {
+      const RingColoring& coloring = colorings.getConst(colorings_index);
       Coloring intermediate_coloring;
       VertexSymmetryColoringActor::getInstance().run(coloring.constBoundaryColoring(), vertex_permutation, &intermediate_coloring);
       Coloring transformed_coloring;
       ColorSymmetryColoringActor::getInstance().run(intermediate_coloring, color_permutation, &transformed_coloring);
       if (coloring.constBoundaryColoring() == transformed_coloring) {
         ++res;
-        fixed_colorings->emplace_back(i);
+        fixed_colorings->emplace_back(colorings_index);
       }/// if
-      DEBUG_2VAR(i, res)
+      DEBUG_2VAR(colorings_index, res)
     }/// for
     DEBUG_END(BurnsideValidator::invariant)
     return res;

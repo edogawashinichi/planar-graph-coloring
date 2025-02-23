@@ -391,6 +391,10 @@ if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE) { \
 
 #define DEBUG_VEC(vec) PGC__DEBUG_VEC(std::cout, vec)
 
+#define DEBUG_VEC_HINT(vec) \
+std::cout << PGC__STR(vec) << ":  "; \
+DEBUG_VEC(vec)
+
 #define INFO_VEC(vec) \
 if (PGC__VERBOSE_MODE || PGC__DEBUG_MODE || PGC__INFO_MODE) { \
   PGC__SHOW_VEC(std::cout, vec) \
