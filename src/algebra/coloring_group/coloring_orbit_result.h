@@ -23,6 +23,7 @@ namespace PlanarGraphColoring {
 
 class ColoringInfo {
 public:
+  /// TODO: macro for multiple members
   inline ColoringInfo() {
     index_ = UNDEF_INDEX;
     representative_ = UNDEF_INDEX;
