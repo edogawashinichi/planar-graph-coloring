@@ -61,6 +61,17 @@ public:
   inline size_t sizeColorSymmetryGroup() const {
     return h_->size();
   }/// sizeColorSymmetryGroup
+  inline virtual void show(std::ostream& cout, const size_t index) const {
+    TEST_INFO
+    /* assuming: index valid */
+    const II& pair = this->transformIndex(index);
+    const Permutation& vertex_permutation = this->constVertexPermutation(pair.first);
+    const Permutation& color_permutation = this->constColorPermutation(pair.second);
+    cout << "vertex_permutation:  ";
+    vertex_permutation.show(cout);
+    cout << "color_permutation:  ";
+    color_permutation.show(cout);
+  }/// show
   inline virtual void show(std::ostream& cout) const override {
     TEST_INFO
     cout << "vertex symmetry group:\n";

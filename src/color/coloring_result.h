@@ -90,6 +90,10 @@ public:
   inline friend bool operator==(const Coloring& lhs, const Coloring& rhs) {
     return lhs.getData() == rhs.getData();
   }/// friend operator==
+  inline void showData(std::ostream& cout) const {
+    TEST_INFO
+    SHOW_COLORING_DATA_WITH_INDEX_COLOR(cout, this->getData())
+  }/// showData
   inline virtual void show(std::ostream& cout) const {
     TEST_INFO
     SHOW_COLORING_WITH_INDEX(cout, this->getConst(), this->valid())

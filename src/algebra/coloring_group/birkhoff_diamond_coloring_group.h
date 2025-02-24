@@ -8,7 +8,8 @@
 namespace PlanarGraphColoring {
 
 class BirkhoffDiamondColoringGroup : public ColoringGroup<BirkhoffDiamondVertexSymmetryGroup> {
-public:
+SINGLETON_ASSERTION_WITHOUT_PRIVATE(BirkhoffDiamondColoringGroup)
+private:
   inline BirkhoffDiamondColoringGroup() : ColoringGroup<BirkhoffDiamondVertexSymmetryGroup>(COLORS.size()) {}
 };/// class BirkhoffDiamondColoringGroup
 

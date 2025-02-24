@@ -39,9 +39,7 @@ typeid(var) == typeid(bool) \
 
 /// singleton pattern
 
-#define SINGLETON_ASSERTION(Class) \
-private: \
-  inline Class() = default; \
+#define SINGLETON_ASSERTION_WITHOUT_PRIVATE(Class) \
 public: \
   inline ~Class() = default; \
   inline Class(const Class&) = delete; \
@@ -50,6 +48,11 @@ public: \
     static Class instance; \
     return instance; \
   }
+
+#define SINGLETON_ASSERTION(Class) \
+SINGLETON_ASSERTION_WITHOUT_PRIVATE(Class) \
+private: \
+  inline Class() = default;
 
 /// macro for a class Class with container member mem_
 
@@ -457,6 +460,19 @@ if ('r' == (c) || 'R' == (c)) { \
   (cout) << WHITE << (c) << RESET; \
 }
 
+#define SHOW_I_WITH_COLOR(cout, i) \
+if (0 == i) { \
+  (cout) << RED << i << RESET; \
+} else if (1 == i) { \
+  (cout) << GREEN << i << RESET; \
+} else if (2 == i) { \
+  (cout) << BLUE << i << RESET; \
+} else if (3 == i) { \
+  (cout) << YELLOW << i << RESET; \
+} else { \
+  (cout) << WHITE << i << RESET; \
+}
+
 #define SHOW_COLORING_WITH_INDEX(cout, coloring, not_white_flag) \
 for (size_t i = 0; i < (coloring).size(); ++i) { \
   (cout) << i << ":"; \
@@ -469,10 +485,18 @@ for (size_t i = 0; i < (coloring).size(); ++i) { \
 } \
 (cout) << "\n";
 
+#define SHOW_COLORING_DATA_WITH_INDEX_COLOR(cout, data) \
+for (size_t i = 0; i < (data).size(); ++i) { \
+  (cout) << i << ":"; \
+  SHOW_I_WITH_COLOR(cout, (data)[i]) \
+  (cout) << " "; \
+} \
+(cout) << "\n";
+
 #define PGC__SHOW_VEC_WITH_INDEX(cout, vec) \
-for (size_t i = 0; i < vec.size(); ++i) {\
-  (cout) << i << "th:" << vec[i] << " ";\
-}\
+for (size_t i = 0; i < vec.size(); ++i) { \
+  (cout) << i << "th:" << vec[i] << " "; \
+} \
 (cout) << "\n";
 
 #define PGC__SHOW_VII(cout, vii) \

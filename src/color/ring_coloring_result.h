@@ -83,6 +83,10 @@ public:
   inline size_t interiorSize() const {
     return interior_coloring_.size();
   }/// interiorSize
+  inline void showData(std::ostream& cout) const {
+    TEST_INFO
+    this->copyColoring().showData(cout);
+  }/// showData
   inline void show(std::ostream& cout) const {
     TEST_INFO
     this->copyColoring().show(cout);
