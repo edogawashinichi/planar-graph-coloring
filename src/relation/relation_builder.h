@@ -4,8 +4,6 @@
 
 #include "relation_manager.h"
 
-/// TODO: introduce Burnside Lemma to build relation
-
 namespace PlanarGraphColoring {
 
 class RelationBuilder {

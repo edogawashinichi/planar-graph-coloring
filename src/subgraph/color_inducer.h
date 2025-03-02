@@ -6,7 +6,6 @@
 #include "../color/color_representation.h"
 #include "../topology/ring.h"
 #include "../color/kempe/kempe_chain.h"
-/// TODO: kempe_chain_pair.h
 
 namespace PlanarGraphColoring {
 

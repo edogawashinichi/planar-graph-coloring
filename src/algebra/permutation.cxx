@@ -5,7 +5,6 @@
 namespace PlanarGraphColoring {
 
 std::ostream& operator<<(std::ostream& cout, const Permutation& obj) {
-  /// TODO: how to pass cout to obj.show()
   obj.show(cout);
   return cout;
 }/// friend operator<<

@@ -3,8 +3,6 @@
 #include "gray_code_combinator.h"
 #include "../../basic/global.h"
 
-/// TODO: solve non-constant-expression bug of COMBINATION_MAX_N
-
 namespace PlanarGraphColoring {
 
 VVI GrayCodeCombinator::run(const size_t n, const size_t k) {
