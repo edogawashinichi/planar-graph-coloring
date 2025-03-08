@@ -54,7 +54,7 @@ SINGLETON_ASSERTION_WITHOUT_PRIVATE(Class) \
 private: \
   inline Class() = default;
 
-/// macro for a CLASS Class with variable length parameter member_,... of basic type
+/// macro for a CLASS Class with variable length parameter member_,... of basic type or customized type
 /// max supporting parameter number 5
 /// WARNING: macro not supporting recursive call
 
