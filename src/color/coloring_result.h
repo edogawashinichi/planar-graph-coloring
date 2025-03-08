@@ -1,5 +1,9 @@
 /// coloring.h
 
+/// Class Color: char c_
+/// Class Coloring: DimensionOneVector<Color>
+/// Class ColoringResult: DimensionOneVector<Coloring>
+
 #pragma once
 
 #include "../basic/structure/dimension_one_vector.h"
